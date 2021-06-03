@@ -4,7 +4,8 @@
   "description": "A RESTful API for managing information about Wizard101 such as worlds, areas, and spells.",
   "main": "App.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node App.js",
+    "test": "echo \"no test specified\""
   },
   "repository": {
     "type": "git",
