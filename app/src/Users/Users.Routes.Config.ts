@@ -20,7 +20,6 @@ export class UsersRoutes extends CommonRoutesConfig {
 
     public ConfigureRoutes(): Application {
         this.App.route("/worlds")
-            .all((_, $, next) => next())
             .get((_, res) => res.status(this.ResponseCode.SUCCESS)
                 .send(JSON.stringify(new APIResponse(true, Worlds))));
 
