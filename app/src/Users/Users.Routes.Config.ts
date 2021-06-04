@@ -1,8 +1,8 @@
 import { Application } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { World } from "../Data/Types/World";
-import { APIResponse } from "../Data/Types/Response";
-import { APIError } from "../Data/Types/Error";
+import { APIResponse } from "../Data/Types/API/Response";
+import { APIError } from "../Data/Types/API/Error";
 import Worlds = require("../Data/Worlds.json");
 
 export class UsersRoutes extends CommonRoutesConfig {
@@ -31,10 +31,12 @@ export class UsersRoutes extends CommonRoutesConfig {
                     .join("")
                     .toLowerCase() as (
                         "wizardcity" |
-                        "krokotopia"
+                        "krokotopia" |
+                        "marleybone" |
+                        "mooshu"
                     );
 
-                const obj = Worlds[worldName];
+                const obj: World = Worlds[worldName];
                 let world: World = obj;
                 
                 if (!obj) {

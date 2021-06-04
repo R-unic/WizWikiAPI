@@ -5,3 +5,6 @@ tsconfig.json
 /node_modules
 .env
 npm-debug.log
+
+## Stuff
+quoteutil.txt
