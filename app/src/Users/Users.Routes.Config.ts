@@ -19,17 +19,12 @@ export class UsersRoutes extends CommonRoutesConfig {
     }
 
     public ConfigureRoutes(): Application {
-        this.App.route("/v1")
-            .all((_, $, next) => next())
-            .get((_, res) => res.status(this.ResponseCode.WRONG_PATH)
-                .send(JSON.stringify(new APIError(this.ResponseCode.WRONG_PATH, "See documentation for how to use API."))));
-
-        this.App.route("/v1/worlds")
+        this.App.route("/worlds")
             .all((_, $, next) => next())
             .get((_, res) => res.status(this.ResponseCode.SUCCESS)
                 .send(JSON.stringify(new APIResponse(true, Worlds))));
 
-        this.App.route("/v1/worlds/:worldName")
+        this.App.route("/worlds/:worldName")
             .all((_, $, next) => next())
             .get((req, res) => {
                 const worldName = req.params.worldName
