@@ -1,8 +1,10 @@
-import { Application } from "express";
+import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { ToTitleCase } from "../Util";
-import Worlds = require("../Data/Worlds.json");
 import { World } from "../Data/Types/World";
+import { APIResponse } from "../Data/Types/Response";
+import Worlds = require("../Data/Worlds.json");
+import { APIError } from "../Data/Types/Error";
 
 export class UsersRoutes extends CommonRoutesConfig {
     public constructor(
@@ -30,7 +32,7 @@ export class UsersRoutes extends CommonRoutesConfig {
                 let world: World = obj;
                 
                 if (!obj) {
-                    const map = new Map<string, any>(Object.entries(obj));
+                    const map = new Map<string, World>(Object.entries(obj));
                     map.forEach(w => {
                         if (w.Abbreviation ===
                             ToTitleCase(req.params.worldName
@@ -41,7 +43,23 @@ export class UsersRoutes extends CommonRoutesConfig {
                     })
                 }
                 
-                return res.status(200).send(JSON.stringify(world));
+                if (!world) {
+                    const err: APIError = {
+                        code: 404,
+                        message: "World not found."
+                    }
+                    const response: APIResponse = {
+                        success: false,
+                        results: err
+                    }
+                    return res.status(err.code).send(JSON.stringify(response))
+                } else {
+                    const response: APIResponse = {
+                        success: true,
+                        results: world
+                    }
+                    return res.status(200).send(response);
+                }
             });
 
         return this.App;
