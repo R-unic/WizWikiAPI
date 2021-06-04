@@ -1,11 +1,12 @@
 import { logger, LoggerOptions } from "express-winston";
-import { format, transports } from "winston";
+import { error, format, transports } from "winston";
 import { env } from "process";
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { UsersRoutes } from "./Users/Users.Routes.Config";
 import express, { Application } from "express";
 import debug, { IDebugger } from "debug";
 import cors from "cors";
+import { readFileSync } from "fs";
 
 const app: Application = express();
 const port = env.PORT || 3000;
@@ -31,8 +32,10 @@ if (!process.env.DEBUG)
 app.use(logger(loggerOptions));
 routes.push(new UsersRoutes(app));
 
+const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
+
 app
-    .get("/", (req, res) => res.status(200).send(running))
+    .get("/", (req, res) => res.status(200).send(homepageHTML))
     .listen(port, () => {
         routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
         console.log(running);
