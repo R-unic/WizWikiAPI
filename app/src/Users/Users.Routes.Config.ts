@@ -1,10 +1,9 @@
-import { Application, Response } from "express";
+import { Application } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { ToTitleCase } from "../Util";
 import { World } from "../Data/Types/World";
 import { APIResponse } from "../Data/Types/Response";
-import Worlds = require("../Data/Worlds.json");
 import { APIError } from "../Data/Types/Error";
+import Worlds = require("../Data/Worlds.json");
 
 export class UsersRoutes extends CommonRoutesConfig {
     public constructor(
@@ -15,7 +14,14 @@ export class UsersRoutes extends CommonRoutesConfig {
 
     public ConfigureRoutes(): Application {
         this.App.route("/worlds")
-            .get((req, res) => res.status(200).send(JSON.stringify(Worlds)));
+            .get((req, res) => {
+                const response: APIResponse = {
+                    success: true,
+                    results: Worlds
+                }
+
+                return res.status(200).send(JSON.stringify(response))
+            });
 
         this.App.route("/worlds/:worldName")
             .all((req, res, next) => next())
@@ -48,16 +54,19 @@ export class UsersRoutes extends CommonRoutesConfig {
                         code: 404,
                         message: "World not found."
                     }
+
                     const response: APIResponse = {
                         success: false,
                         results: err
                     }
+
                     return res.status(err.code).send(JSON.stringify(response))
                 } else {
                     const response: APIResponse = {
                         success: true,
                         results: world
                     }
+
                     return res.status(200).send(response);
                 }
             });
