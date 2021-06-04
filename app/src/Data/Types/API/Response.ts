@@ -1,8 +1,15 @@
-import { APIError } from "./Error";
+import { IAPIError } from "./Error";
 import { World } from "../World";
 import Worlds = require("../../Worlds.json");
 
-export interface APIResponse {
-    success: boolean;
-    results: World | typeof Worlds | APIError;
+export interface IAPIResponse {
+    Success: boolean;
+    Results: World | typeof Worlds | IAPIError;
+}
+
+export class APIResponse implements IAPIResponse {
+    public constructor(
+        public readonly Success: boolean,
+        public readonly Results: World | typeof Worlds | IAPIError
+    ) {}
 }

@@ -1,20 +1,19 @@
 import { logger, LoggerOptions } from "express-winston";
 import { error, format, transports } from "winston";
+import { readFileSync } from "fs";
 import { env } from "process";
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { UsersRoutes } from "./Users/Users.Routes.Config";
-import express, { Application } from "express";
+import express, { Application, json } from "express";
 import debug, { IDebugger } from "debug";
 import cors from "cors";
-import { readFileSync } from "fs";
 
-const app: Application = express();
-const port = env.PORT || 3000;
-const running = `<i>Italic text</i>`;
+const app: Application = express(); // Create express app
+const port = env.PORT || 3000; // 
 const routes: CommonRoutesConfig[] = [];
 const debugLog: IDebugger = debug("App");
 
-app.use(express.json());
+app.use(json());
 app.use(cors());
 
 const loggerOptions: LoggerOptions = {
@@ -30,17 +29,20 @@ if (!process.env.DEBUG)
     loggerOptions.meta = false;
 
 app.use(logger(loggerOptions));
-routes.push(new UsersRoutes(app));
+
+const usersRoutes = new UsersRoutes(app);
+routes.push(usersRoutes);
 
 try {
     const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
 
-    app
-        .get("/", (req, res) => res.status(200).send(homepageHTML))
-        .listen(port, () => {
-            routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
-            console.log(running);
-        });
+    app.get("/", (req, res) => 
+        res.status(usersRoutes.ResponseCode.SUCCESS)
+            .send(homepageHTML)
+    ).listen(port, () => {
+        routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
+        console.log(`Server is listening @https://wizard101-api.herokuapp.com`);
+    });
 } catch (err) {
     error(err);
 }

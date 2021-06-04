@@ -6,6 +6,11 @@ import { APIError } from "../Data/Types/API/Error";
 import Worlds = require("../Data/Worlds.json");
 
 export class UsersRoutes extends CommonRoutesConfig {
+    public readonly ResponseCode = {
+        SUCCESS: 200,
+        NOT_FOUND: 404
+    }
+
     public constructor(
         App: Application
     ) {
@@ -14,17 +19,11 @@ export class UsersRoutes extends CommonRoutesConfig {
 
     public ConfigureRoutes(): Application {
         this.App.route("/worlds")
-            .get((req, res) => {
-                const response: APIResponse = {
-                    success: true,
-                    results: Worlds
-                }
-
-                return res.status(200).send(JSON.stringify(response))
-            });
+            .get((_, res) => res.status(this.ResponseCode.SUCCESS)
+                .send(JSON.stringify(new APIResponse(true, Worlds))));
 
         this.App.route("/worlds/:worldName")
-            .all((req, res, next) => next())
+            .all((_, $, next) => next())
             .get((req, res) => {
                 const worldName = req.params.worldName
                     .split(" ")
@@ -33,7 +32,17 @@ export class UsersRoutes extends CommonRoutesConfig {
                         "wizardcity" |
                         "krokotopia" |
                         "marleybone" |
-                        "mooshu"
+                        "mooshu" |
+                        "dragonspyre" |
+                        "celestia" |
+                        "zafaria" |
+                        "avalon" |
+                        "azteca" |
+                        "khrysalis" |
+                        "polaris" |
+                        "mirage" |
+                        "empyrea" |
+                        "karamelle"
                     );
 
                 const obj: World = Worlds[worldName];
@@ -52,25 +61,12 @@ export class UsersRoutes extends CommonRoutesConfig {
                 }
                 
                 if (!world) {
-                    const err: APIError = {
-                        code: 404,
-                        message: "World not found."
-                    }
-
-                    const response: APIResponse = {
-                        success: false,
-                        results: err
-                    }
-
-                    return res.status(err.code).send(JSON.stringify(response))
-                } else {
-                    const response: APIResponse = {
-                        success: true,
-                        results: world
-                    }
-
-                    return res.status(200).send(response);
-                }
+                    const err = new APIError(this.ResponseCode.NOT_FOUND, "World not found.");
+                    return res.status(err.Code)
+                        .send(JSON.stringify(new APIResponse(false, err)))
+                } else
+                    return res.status(this.ResponseCode.SUCCESS)
+                        .send(new APIResponse(true, world));
             });
 
         return this.App;
