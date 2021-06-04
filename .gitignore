@@ -1,5 +1,5 @@
-## Folders
-dist
-
 ## Files
 tsconfig.json
+
+## Heroku
+node_modules
