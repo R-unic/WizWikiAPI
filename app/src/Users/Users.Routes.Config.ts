@@ -32,7 +32,7 @@ export class UsersRoutes extends CommonRoutesConfig {
                 let world: World = obj;
                 
                 if (!obj) {
-                    const map = new Map<string, World>(Object.entries(obj));
+                    const map = new Map<string, World>(Object.entries(Worlds));
                     map.forEach(w => {
                         if (w.Abbreviation ===
                             ToTitleCase(req.params.worldName
