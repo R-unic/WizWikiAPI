@@ -10,7 +10,7 @@ import cors from "cors";
 const app: Application = express();
 const server: Server = createServer();
 const port = 3000;
-const running = `Server running https://localhost:${port}`;
+const running = `Server running http://localhost:${port}`;
 const routes: CommonRoutesConfig[] = [];
 const debugLog: IDebugger = debug("App");
 
@@ -33,9 +33,8 @@ app.use(logger(loggerOptions));
 routes.push(new UsersRoutes(app));
 
 app
-    .get("/", (req, res) => res.status(200).send(running));
-
-server.listen(port, () => {
-    routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
-    console.log(running);
-});
+    .get("/", (req, res) => res.status(200).send(running))
+    .listen(port, () => {
+        routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
+        console.log(running);
+    });
