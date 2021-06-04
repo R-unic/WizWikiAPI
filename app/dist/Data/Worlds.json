@@ -1,5 +1,6 @@
 {
     "wizardcity": {
+        "Name": "Wizard City",
         "Quests": 39,
         "LevelRange": {
             "First": 0,
@@ -14,6 +15,7 @@
         ]
     },
     "krokotopia": {
+        "Name": "Krokotopia",
         "Quests": 65,
         "LevelRange": {
             "First": 5,

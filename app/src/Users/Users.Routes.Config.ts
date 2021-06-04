@@ -1,6 +1,8 @@
-import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { Application } from "express";
+import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
+import { ToTitleCase } from "../Util";
 import Worlds = require("../Data/Worlds.json");
+import { World } from "../Data/Types/World";
 
 export class UsersRoutes extends CommonRoutesConfig {
     public constructor(
@@ -25,7 +27,21 @@ export class UsersRoutes extends CommonRoutesConfig {
                     );
 
                 const obj = Worlds[worldName];
-                return res.status(200).send(JSON.stringify(obj));
+                let world: World = obj;
+                
+                if (!obj) {
+                    const map = new Map<string, any>(Object.entries(obj));
+                    map.forEach(w => {
+                        if (w.Abbreviation ===
+                            ToTitleCase(req.params.worldName
+                                .toLowerCase())
+                                .split(" ")
+                                .join("")
+                        ) world = w;
+                    })
+                }
+                
+                return res.status(200).send(JSON.stringify(world));
             });
 
         return this.App;
