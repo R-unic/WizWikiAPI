@@ -35,8 +35,8 @@ export class UsersRoutes extends CommonRoutesConfig {
                     const map = new Map<string, World>(Object.entries(Worlds));
                     map.forEach(w => {
                         if (w.Abbreviation ===
-                            ToTitleCase(req.params.worldName
-                                .toLowerCase())
+                            req.params.worldName
+                                .toLowerCase()
                                 .split(" ")
                                 .join("")
                         ) world = w;
