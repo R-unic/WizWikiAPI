@@ -1,5 +1,6 @@
 import { logger, LoggerOptions } from "express-winston";
 import { format, transports } from "winston";
+import { env } from "process";
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { UsersRoutes } from "./Users/Users.Routes.Config";
 import express, { Application } from "express";
@@ -7,7 +8,7 @@ import debug, { IDebugger } from "debug";
 import cors from "cors";
 
 const app: Application = express();
-const port = 3000;
+const port = env.PORT || 3000;
 const running = `Server running http://localhost:${port}`;
 const routes: CommonRoutesConfig[] = [];
 const debugLog: IDebugger = debug("App");
