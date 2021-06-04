@@ -32,11 +32,15 @@ if (!process.env.DEBUG)
 app.use(logger(loggerOptions));
 routes.push(new UsersRoutes(app));
 
-const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
+try {
+    const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
 
-app
-    .get("/", (req, res) => res.status(200).send(homepageHTML))
-    .listen(port, () => {
-        routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
-        console.log(running);
-    });
+    app
+        .get("/", (req, res) => res.status(200).send(homepageHTML))
+        .listen(port, () => {
+            routes.forEach(route => debugLog(`Routes configured for ${route.Name}`));
+            console.log(running);
+        });
+} catch (err) {
+    error(err);
+}
