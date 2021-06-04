@@ -35,7 +35,6 @@ routes.push(usersRoutes);
 
 try {
     const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
-
     app.get("/", (req, res) => 
         res.status(usersRoutes.ResponseCode.SUCCESS)
             .send(homepageHTML)
