@@ -9,7 +9,7 @@ import cors from "cors";
 
 const app: Application = express();
 const port = env.PORT || 3000;
-const running = `Server running http://localhost:${port}`;
+const running = `<i>Italic text</i>`;
 const routes: CommonRoutesConfig[] = [];
 const debugLog: IDebugger = debug("App");
 
