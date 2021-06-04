@@ -1,5 +1,5 @@
 {
-    "WizardCity": {
+    "wizardcity": {
         "Quests": 39,
         "LevelRange": {
             "First": 0,
@@ -11,6 +11,23 @@
             "Cyclops Lane",
             "Firecat Alley",
             "Triton Avenue"
+        ]
+    },
+    "krokotopia": {
+        "Quests": 65,
+        "LevelRange": {
+            "First": 5,
+            "Second": 15
+        },
+        "Abbreviation": "kt",
+        "Areas": [
+            "Royal Hall",
+            "Chamber of Fire",
+            "Palace of Fire",
+            "Hall of Champions",
+            "Grand Arena",
+            "Entrance Hall",
+            "Tomb of Storms"
         ]
     }
 }

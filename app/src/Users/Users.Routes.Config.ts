@@ -1,5 +1,5 @@
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Application, json } from "express";
+import { Application } from "express";
 import Worlds = require("../Data/Worlds.json");
 
 export class UsersRoutes extends CommonRoutesConfig {
@@ -15,7 +15,18 @@ export class UsersRoutes extends CommonRoutesConfig {
 
         this.App.route("/worlds/:worldName")
             .all((req, res, next) => next())
-            .get((req, res) => res.status(200).send(`GET requested for world ${req.params.worldName}`));
+            .get((req, res) => {
+                const worldName = req.params.worldName
+                    .split(" ")
+                    .join("")
+                    .toLowerCase() as (
+                        "wizardcity" |
+                        "krokotopia"
+                    );
+
+                const obj = Worlds[worldName];
+                return res.status(200).send(JSON.stringify(obj));
+            });
 
         return this.App;
     }
