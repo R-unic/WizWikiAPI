@@ -4,7 +4,7 @@
   "description": "A RESTful API for managing information about Wizard101 such as worlds, areas, and spells.",
   "main": "App.js",
   "scripts": {
-    "start": "node --unhandled-rejections=strict dist/App.js",
+    "start": "node --unhandled-rejections=strict app/dist/App.js",
     "debug": "export DEBUG=* && npm run start",
     "test": "echo \"no test specified\""
   },
