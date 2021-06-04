@@ -1,5 +1,3 @@
-import { Area } from "./Area";
-
 export interface World {
     Name: string;
     Quests: number;

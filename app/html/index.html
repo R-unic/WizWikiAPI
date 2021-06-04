@@ -1,79 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <link rel="icon" type="image/png" href="assets/favicon.png"/>
+        <link rel="favicon" type="image/png" href="assets/favicon.png"/>
+        <link rel="stylesheet", href="styles.css">
         <title>The Wizard101 API</title>
-        <style>
-            body {
-                padding: 0;
-                margin: 0;
-                background: #212121;
-            }
-            
-            code {
-                font-family: 'Roboto Mono', monospace;
-                background: #404040;
-                color: #fff;
-                border-radius: 8px;
-                padding-left: 4px;
-                padding-right: 4px;
-                margin: 30px;
-            }
-            
-            pre {
-                overflow: auto;
-                word-wrap: normal;
-                white-space: pre;
-                border-radius: 8px;
-                background: #404040;
-            }
-            
-            h1,
-            h2,
-            h3,
-            h4,
-            h5 {
-                font-family: 'Roboto', sans-serif;
-                font-weight: 500;
-                color: #fff;
-                margin: 30px;
-                text-shadow: 1px 2px 2px #1a1a1a;
-            }
-            
-            p,
-            li {
-                font-family: 'Roboto', sans-serif;
-                font-weight: 400;
-                color: #fff;
-                margin: 30px;
-            }
-            
-            a {
-                color: #638ac7;
-                -webkit-transition: color 0.5s;
-                transition: color 0.5s;
-                text-decoration: none;
-            }
-            
-            a:hover {
-                color: #214c91;
-            }
-            
-            .top {
-                background: #151515;
-                padding-top: 4px;
-                padding-bottom: 4px;
-                padding-left: 16px;
-            }
-            
-            li {
-                margin-bottom: 4px;
-                color: #fff;
-            }
-        </style>
     </head>
     <body>
-        <div class="top" title="header">
+        <div class="top" title="Header">
+            <a href="https://wizard101.com">
+                <img 
+                    src="assets/header.png"
+                    alt="Wizard101 Logo; Image lost"
+                    height="225"
+                    width="475"
+                    title="Wizard101 Logo"
+                />
+            </a>
             <h1>The Wizard101 API (Unofficial)</h1>
             <h3>Made by 
                 <a href="https://github.com/AlphaRunic/">AlphaRunic</a>,
@@ -81,24 +23,30 @@
                 <a href="https://github.com/AlphaRunic/Wizard101-API">here</a>.
             </h3>
         </div>
-        <div class="links" title="link-refs">
+        <div class="links" title="Linked Buttons">
             <hr>
-            <h3>
+            <h4>
                 <a href="#endpoints">Endpoints</a>
                 •
                 <a href="#docs">Documentation</a>
                 •
                 <a href="#client-libraries">Client Libraries</a>
-            </h3>
+            </h4>
             <hr>
         </div>
-        <div class="endpoint-list" title="endpoints">
+        <div class="endpoint-list" title="Endpoints">
             <h2 id="endpoints">
                 <b>
                     Endpoints
                 </b>
             </h2>
-            <p>The following is a list of endpoints that are all prefixed with this base URL: </p><code>https://wizard101-api.herokuapp.com/</code>
+            <div style="margin-inline:30px;margin-block:-40px;" class="endpoint-base-url-info" title="Base URL">
+                <p style="margin-block:10px;">The following is a list of endpoints that are all prefixed with this base URL: </p>
+                <code style="margin-block:5px;margin-inline:20px;">https://wizard101-api.herokuapp.com/</code>
+            </div>
+            <br>
+            <br>
+            <br>
             <ul>
                 <li>
                     <h3>
@@ -107,7 +55,7 @@
                     </h3>
                     <ul>
                         <li>
-                            <i>Returns a set of worlds</i>
+                            <i>Returns the entire dataset of worlds</i>
                         </li>
                     </ul>
                 </li>
@@ -123,26 +71,182 @@
                     </ul>
                 </li>
             </ul>
-            <hr>
+            <hr style="margin-top:50px;">
         </div>        
-        <div class="docs-class" title="documentation">
+        <div class="docs-class" title="Documentation">
             <h2 id="docs">
                 <b>
                     Documentation
                 </b>
             </h2>
-            <hr>
+            <div class="row">
+                <div class="api-object-table" title="API Objects">
+                    <table>
+                        <caption>
+                            <h3>
+                                <b>API Response Object</b>
+                            </h3>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <b>Name</b>
+                                </th>
+                                <th colspan="2">
+                                    <b>Type</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Success</td>
+                                <td>
+                                    <code>boolean</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Results</td>
+                                <td>
+                                    <code>World | Worlds | Error</code>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="api-object-table" title="API Objects">
+                    <table>
+                        <caption>
+                            <h3>
+                                <b>API Error Object</b>
+                            </h3>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <b>Name</b>
+                                </th>
+                                <th colspan="2">
+                                    <b>Type</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Code</td>
+                                <td>
+                                    <code>number</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Message</td>
+                                <td>
+                                    <code>string</code>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="api-object-table" title="API Objects">
+                    <table>
+                        <caption>
+                            <h3>
+                                <b>World Object</b>
+                            </h3>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <b>Name</b>
+                                </th>
+                                <th colspan="2">
+                                    <b>Type</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>
+                                    <code>string</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quests</td>
+                                <td>
+                                    <code>number</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Abbreviation</td>
+                                <td>
+                                    <code>string</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Areas</td>
+                                <td>
+                                    <code>Array&lt;string&gt;</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>LevelRange</td>
+                                <td>
+                                    <code>Pair&lt;number&gt;</code>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="api-object-table" title="API Objects">
+                    <table>
+                        <caption>
+                            <h3>
+                                <b>Pair&lt;T&gt; Object</b>
+                            </h3>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <b>Name</b>
+                                </th>
+                                <th colspan="2">
+                                    <b>Type</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>First</td>
+                                <td>
+                                    <code>T</code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second</td>
+                                <td>
+                                    <code>T</code>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr style="margin-top:50px;">
         </div>
-        <div class="client-libraries-refs" title="client-libraries">
+        <div class="client-libraries-refs" title="Client Libraries">
             <h2 id="client-libraries">
                 <b>
                     Client Libraries
                 </b>
             </h2>
             <h3>
-                <a href="https://www.npmjs.com/package/wizard101-api">TypeScript</a>
+                <a href="https://www.npmjs.com/package/wizard101-api" title="TypeScript client library NPM package">TypeScript library</a>
+                made by
+                <a href="https://github.com/AlphaRunic/" title="AlphaRunic">me</a>
             </h3>
-
+            <hr>
         </div>
     </body>
 </html>
