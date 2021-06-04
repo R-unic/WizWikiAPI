@@ -1,0 +1,16 @@
+{
+    "WizardCity": {
+        "Quests": 39,
+        "LevelRange": {
+            "First": 0,
+            "Second": 5
+        },
+        "Abbreviation": "wc",
+        "Areas": [
+            "Unicorn Way",
+            "Cyclops Lane",
+            "Firecat Alley",
+            "Triton Avenue"
+        ]
+    }
+}
