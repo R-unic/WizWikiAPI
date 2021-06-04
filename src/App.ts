@@ -8,7 +8,6 @@ import debug, { IDebugger } from "debug";
 import cors from "cors";
 
 const app: Application = express();
-const server: Server = createServer();
 const port = 3000;
 const running = `Server running http://localhost:${port}`;
 const routes: CommonRoutesConfig[] = [];
