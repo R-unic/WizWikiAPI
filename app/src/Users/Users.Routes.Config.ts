@@ -20,6 +20,7 @@ export class UsersRoutes extends CommonRoutesConfig {
 
     public ConfigureRoutes(): Application {
         this.App.route("/v1")
+            .all((_, $, next) => next())
             .get((_, res) => res.status(this.ResponseCode.WRONG_PATH)
                 .send(JSON.stringify(new APIError(this.ResponseCode.WRONG_PATH, "Use api/v1"))));
 
