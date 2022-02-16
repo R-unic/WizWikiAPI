@@ -43,7 +43,8 @@ export class UsersRoutes extends CommonRoutesConfig {
                         "polaris" |
                         "mirage" |
                         "empyrea" |
-                        "karamelle"
+                        "karamelle" |
+                        "lemuria"
                     );
 
                 const obj: World = Worlds[worldName];

@@ -293,5 +293,24 @@
             "Licorice Forest",
             "Cavity Chamber"
         ]
+    },
+    "lemuria": {
+        "Name": "Lemuria",
+        "Quests": 101,
+        "LevelRange": {
+            "First": 140,
+            "Second": 150
+        },
+        "Abbreviation": "la",
+        "Areas": [
+            "Telos",
+            "Wildlands",
+            "Ursai Village",
+            "Night Forest",
+            "Badlands",
+            "Mandoria",
+            "Sky City",
+            "Heap"
+        ]
     }
 }
