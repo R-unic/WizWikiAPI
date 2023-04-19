@@ -28,5 +28,5 @@ jobs:
         tsc
 
     - name: Test
-      run: /
+      run:
         npm run test
