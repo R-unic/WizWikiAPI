@@ -1,8 +1,3 @@
-interface QuestGiver {
-  readonly Name: string;
-  readonly World: string;
-  readonly Location: string;
-}
 
 interface SchoolBasedQuestRewards {
   readonly Balance: [Maybe<string>, Maybe<string>];
@@ -14,7 +9,7 @@ interface SchoolBasedQuestRewards {
   readonly Myth: [Maybe<string>, Maybe<string>];
 }
 
-interface QuestReward {
+interface CustomQuestReward {
   readonly Type: string;
   readonly Value: string;
 }
@@ -29,16 +24,36 @@ interface QuestGoal {
   readonly SubGoals: string[];
 }
 
+interface QuestRewards {
+  readonly Gold?: number;
+  readonly XP?: number;
+  readonly TrainingPoints?: number;
+  readonly SchoolBased: SchoolBasedQuestRewards;
+  readonly Custom: [
+    Maybe<CustomQuestReward>,
+    Maybe<CustomQuestReward>,
+    Maybe<CustomQuestReward>,
+    Maybe<CustomQuestReward>
+  ];
+}
+
+interface QuestGiver {
+  readonly Name: string;
+  readonly World: string;
+  readonly Location: string;
+}
+
 export default interface Quest {
   readonly PreQuests: [Maybe<string>, Maybe<string>, Maybe<string>];
   readonly PostQuests: [Maybe<PostQuest>, Maybe<PostQuest>, Maybe<PostQuest>];
   readonly HandIn: string;
-  readonly Giver: QuestGiver;
   readonly Storyline: boolean;
   readonly Fishing: boolean;
   readonly Crafting: boolean;
   readonly Instance: boolean;
   readonly Dialogue?: string;
+  readonly Rewards: QuestRewards
+  readonly Giver: QuestGiver;
   readonly Goals: [
     QuestGoal,
     Maybe<QuestGoal>,
@@ -47,16 +62,4 @@ export default interface Quest {
     Maybe<QuestGoal>,
     Maybe<QuestGoal>
   ];
-  readonly Rewards: {
-    readonly Gold?: number;
-    readonly XP?: number;
-    readonly TrainingPoints?: number;
-    readonly SchoolBased: SchoolBasedQuestRewards
-    readonly Custom: [
-      Maybe<QuestReward>,
-      Maybe<QuestReward>,
-      Maybe<QuestReward>,
-      Maybe<QuestReward>
-    ];
-  }
 }

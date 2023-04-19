@@ -13,8 +13,7 @@ code
   border-radius: 8px
   padding-left: 8px
   padding-right: 8px
-  margin-block: 20px
-  margin-inline: 5px
+  margin-inline: 18px
 
 pre
   overflow: auto
@@ -67,6 +66,10 @@ li
   color: #fff
   margin-inline: 20px
   margin-bottom: 5px
+  margin-block: 10px
+
+li.big-bullet::marker
+  font-size: 2.5em
 
 a
   color: #638ac7
@@ -87,35 +90,8 @@ li
   margin-bottom: 4px
   color: #fff
 
-.row
-  margin-left: -5px
-  margin-right: 50px
-
-.row::after
-  content: ""
-  clear: both
-  display: table
-
-.api-object-table
-  float: left
-  width: 35%
-
-th,
-td
-  text-align: left
-  padding: 16px
-
-tr:nth-child(even)
-  background-color: #1a1a1a
-
-thead,
-tbody,
-table
-  margin-inline: 25px
-  margin-block: 5px
-  border: 2px double rgb(66, 66, 66)
-  border-spacing: 0px
-  width: 90%
-
 hr
   margin: 0px
+
+.url-block
+  margin-block: 10px

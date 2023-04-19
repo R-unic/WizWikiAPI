@@ -25,13 +25,15 @@ const loggerOptions: LoggerOptions = {
 if (!env.DEBUG)
   loggerOptions.meta = false;
 
-function compileSass(_: express.Request, res: express.Response) {
-  const css = sass.renderSync({
-    file: path.join(__dirname, "..", "public", "styles.sass")
-  }).css;
-
-  res.type("text/css");
-  res.send(css);
+function addStyles(...styleNames: string[]): void {
+  for (const style of styleNames)
+    app.get(`/${style}.css`, (_, res) => {
+      const css = sass.renderSync({
+        file: path.join(__dirname, "..", "public", style + ".sass")
+      }).css;
+      res.type("text/css");
+      res.send(css);
+    });
 }
 
 app.use(express.json());
@@ -51,7 +53,9 @@ try {
 
 try {
   const homepageHTML = readFileSync(__dirname + "/../index.html", { encoding: "utf8" });
-  app.get("/styles.css", compileSass);
+  const docsHTML = readFileSync(__dirname + "/../docs.html", { encoding: "utf8" });
+  addStyles("main", "docs");
+  app.get("/docs", (_, res) =>res.status(ResponseCode.SUCCESS).send(docsHTML))
   app.get("/", (_, res) =>
     res.status(ResponseCode.SUCCESS).send(homepageHTML)
   ).listen(port, () => {

@@ -3,8 +3,8 @@
 
 <head>
   <link rel="favicon" type="image/png" href="https://media.codeweavers.com/pub/crossover/website/htmlimages/Wizard101-Icon.png" />
-  <link rel="stylesheet" href="/styles.css">
-  <title>The Wizard101 API</title>
+  <link rel="stylesheet" href="/main.css">
+  <title>Wizard101 Wiki API</title>
 </head>
 
 <body>
@@ -18,15 +18,16 @@
       and open-sourced for public use
       <a href="https://github.com/R-unic/WizWikiAPI">here</a>.
     </h3>
+    <h3>All information retrieved from
+      <a href="https://www.wizard101central.com/wiki/Wizard101_Wiki">the unofficial Wizard101 Wiki</a>.
+    </h3>
   </div>
   <div class="links" title="Linked Buttons">
     <hr>
     <h4>
       <a href="#endpoints">Endpoints</a>
       •
-      <a href="#types">Types</a>
-      •
-      <a href="#client-libraries">Client Libraries</a>
+      <a href="/docs">Types</a>
     </h4>
     <hr>
   </div>
@@ -37,16 +38,15 @@
       </b>
     </h2>
     <div style="margin-inline:30px;margin-block:-40px;" class="endpoint-base-url-info" title="Base URL">
-      <p style="margin-block:10px;">The following is a list of endpoints that are all prefixed with this base URL: </p>
-      <code id="page-url"></code>
+      <p>The following is a list of endpoints that are all prefixed with this base URL: </p>
+      <code id="page-url" class="url-block"></code>
+      <p>All of these are GET unless otherwise specified.</p>
     </div>
     <br>
     <br>
-    <br>
     <ul>
-      <li>
+      <li class="big-bullet">
         <h3>
-          <b>GET</b>
           <code>/worlds</code>
         </h3>
         <ul>
@@ -55,9 +55,8 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li class="big-bullet">
         <h3>
-          <b>GET</b>
           <code>/worlds/:worldName</code>
         </h3>
         <ul>
@@ -66,9 +65,8 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li class="big-bullet">
         <h3>
-          <b>GET</b>
           <code>/creatures/:creatureName</code>
         </h3>
         <ul>
@@ -77,9 +75,8 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li class="big-bullet">
         <h3>
-          <b>GET</b>
           <code>/npcs/:npcName</code>
         </h3>
         <ul>
@@ -88,896 +85,53 @@
           </li>
         </ul>
       </li>
+      <li class="big-bullet">
+        <h3>
+          <code>/spells/:spellName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about a spell.</i>
+          </li>
+          <li>
+            <i>
+              This does not apply to item cards or treasure cards, they are a separate category.
+            </i>
+          </li>
+        </ul>
+      </li>
+      <li class="big-bullet">
+        <h3>
+          <code>/quests/:questName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about a quest.</i>
+          </li>
+        </ul>
+      </li>
+      <li class="big-bullet">
+        <h3>
+          <code>/mounts/:mountName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about a mount: speed, prices, temporary versions, etc.</i>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h3>
+          <code>/jewels/:jewelName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about a jewel.</i>
+          </li>
+        </ul>
+      </li>
     </ul>
     <hr style="margin-top:50px;">
-  </div>
-  <div class="docs-class" title="Types">
-    <h2 id="types">
-      <b>
-        Types
-      </b>
-    </h2>
-    <div class="row">
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>API Response</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Success</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Results</td>
-              <td>
-                <code>World | Worlds | NPC[] | Creature[] | Error</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>API Error</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Code</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Message</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>World</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Quests</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Abbreviation</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Areas</td>
-              <td>
-                <code>Array&lt;string&gt;</code>
-              </td>
-            </tr>
-            <tr>
-              <td>LevelRange</td>
-              <td>
-                <code>Pair&lt;number&gt;</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>Pair&lt;T&gt;</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>First</td>
-              <td>
-                <code>T</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Second</td>
-              <td>
-                <code>T</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>NPC</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Title</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Description</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Locations</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>GivesQuests</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>QuestGoals</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>EndsQuests</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>Creature</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Type</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Rank</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Health</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Classification</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>School</td>
-              <td>
-                <code>School</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Masteries</td>
-              <td>
-                <code>School[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Cheats</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>StartPips</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>PowerPips</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>OutPierce</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>OutBoost</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>IncBoost</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>IncResist</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>OutHealing</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>IncHealing</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ShadowPipSlots</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Stunable</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Beguilable</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>World</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Location</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Sublocation</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Description</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Speech</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>MonstrotomeDescription</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>SummonAnimus</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>SummonGold</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>GuestAnimus</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>GuestGold</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>CanExpel</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ExpelAnimus</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ExpelGold</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>SpellNotes</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Casts</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>GoldRange</td>
-              <td>
-                <code>[number, number]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Drops</td>
-              <td>
-                <code>CreatureDrops</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>CreatureDrops</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Hats</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Robes</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Boots</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Athames</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Amulets</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Rings</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Wands</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Decks</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>HousingItems</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Spellements</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Reagents</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>TreasureCards</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Snacks</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Jewels</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Pets</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Mounts</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Elixirs</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Recipes</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Seeds</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Spells</td>
-              <td>
-                <code>string[]</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="api-object-table" title="API Objects">
-        <table>
-          <caption>
-            <h3>
-              <b>Spell</b>
-            </h3>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                <b>Name</b>
-              </th>
-              <th colspan="2">
-                <b>Type</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>School</td>
-              <td>
-                <code>School</code>
-              </td>
-            </tr>
-            <tr>
-              <td>PipCost</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ShadowPipCost</td>
-              <td>
-                <code>number</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ShadowEnhanced</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Accuracy</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Description</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>NoEnchant</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Type</td>
-              <td>
-                <code>string</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Type2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Subtype</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Enchantment1</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Enchantment2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Enchantment3</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Enchantable</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>CreatureOnly</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Polymorph</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Trainer1</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Trainer2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ReqSpell1</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ReqSpell2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ReqSpell3</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>PreSpell1</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>PreSpell2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>PreSpell3</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>ReqTrainingPoint</td>
-              <td>
-                <code>boolean</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion1</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion1Pips</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion1Look</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion1Rank</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion1Health</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2Pips</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2Look</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2Rank</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion2Health</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion3</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion3Pips</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion3Look</td>
-              <td>
-                <code>string?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion3Rank</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-            <tr>
-              <td>Minion3Health</td>
-              <td>
-                <code>number?</code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <hr style="margin-top:50px;">
-  </div>
-  <div class="client-libraries-refs" title="Client Libraries">
-    <h2 id="client-libraries">
-      <b>
-        Client Libraries
-      </b>
-    </h2>
-    <h3>
-      <a href="https://www.npmjs.com/package/wizard101-api" title="TypeScript client library NPM package">TypeScript
-        library</a>
-      made by
-      <a href="https://github.com/AlphaRunic/" title="AlphaRunic">me</a>
-    </h3>
-    <hr>
   </div>
   <script>
     document.getElementById("page-url").innerHTML = window.location.href;
