@@ -1,4 +1,4 @@
-type School = "Fire" | "Ice" | "Storm" | "Life" | "Death" | "Myth" | "Balance";
+type School = "Fire" | "Ice" | "Storm" | "Life" | "Death" | "Myth" | "Balance" | "Sun" | "Moon" | "Star" | "Shadow";
 const enum ResponseCode {
   SUCCESS = 200,
   NOT_FOUND = 404,

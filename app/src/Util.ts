@@ -20,7 +20,12 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
   const object: { [key: string]: string | number | boolean | undefined } = {};
   for (const pair of pairs) {
     let [key, value] = pair.split(" =");
-    value = value.replace(/\;/, "").replace(/\'\'/, "").replace(/\:/, "").trim();
+    value = value
+      .replace(/\;/g, "")
+      .replace(/\'\'/g, "")
+      .replace(/\:/g, "")
+      .replace(/\<\!\-\-Recipes which Craft this Spell automatically list from the Recipe pages\-\-\>/, "")
+      .trim();
 
     let trueValue: string | number | boolean | undefined = value.trim();
     if (value === "" || value === "None")

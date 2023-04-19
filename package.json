@@ -5,7 +5,7 @@
   "main": "App.js",
   "scripts": {
     "start": "tsc && node app/dist/App.js",
-    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,json,html,sass,css"
+    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,html,sass"
   },
   "repository": {
     "type": "git",
