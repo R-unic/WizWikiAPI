@@ -312,5 +312,23 @@
             "Sky City",
             "Heap"
         ]
+    },
+    "novus": {
+        "Name": "Novus",
+        "Quests": 88,
+        "LevelRange": {
+            "First": 150,
+            "Second": 160
+        },
+        "Abbreviation": "nv",
+        "Areas": [
+            "Catmandu",
+            "Conatus",
+            "Puerto Nuovo",
+            "New Vicorgia",
+            "Stone of Heaven",
+            "La Ville Rose",
+            "Nucleus Gallery"
+        ]
     }
 }
