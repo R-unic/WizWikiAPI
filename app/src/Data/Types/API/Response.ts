@@ -1,15 +1,11 @@
-import { IAPIError } from "./Error";
-import { World } from "../World";
+import World from "../World";
+import Creature from "../Creature";
+import APIError from "./Error";
 import Worlds = require("../../Worlds.json");
 
-export interface IAPIResponse {
-  Success: boolean;
-  Results: World | typeof Worlds | IAPIError;
-}
-
-export class APIResponse implements IAPIResponse {
+export default class APIResponse {
   public constructor(
     public readonly Success: boolean,
-    public readonly Results: World | typeof Worlds | IAPIError
+    public readonly Results: World | typeof Worlds | Creature | APIError
   ) {}
 }

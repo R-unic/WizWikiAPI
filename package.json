@@ -1,11 +1,11 @@
 {
-  "name": "wizard101api",
+  "name": "wizwikiapi",
   "version": "1.0.0",
-  "description": "A RESTful API for managing information about Wizard101 such as worlds, areas, and spells.",
+  "description": "A RESTful API for retrieving information about Wizard101 from the public wiki.",
   "main": "App.js",
   "scripts": {
     "start": "tsc && node app/dist/App.js",
-    "dev": "tsc && nodemon app/dist/App.js -e js,json,html,sass,css"
+    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,json,html,sass,css"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,8 @@
     "express": "^4.17.2",
     "express-winston": "^4.1.0",
     "fs": "0.0.1-security",
+    "puppeteer": "^19.9.1",
+    "puppeteer-core": "^19.9.1",
     "tslib": "^1.14.1",
     "winston": "^3.3.3"
   },

@@ -1,9 +1,4 @@
-export interface IAPIError {
-  Code: number;
-  Message: string;
-}
-
-export class APIError implements IAPIError {
+export default class APIError {
   public constructor(
     public readonly Code: number,
     public readonly Message: string

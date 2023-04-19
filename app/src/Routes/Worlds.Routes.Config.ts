@@ -1,9 +1,9 @@
 import { Application } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { World } from "../Data/Types/World";
-import { APIResponse } from "../Data/Types/API/Response";
-import { APIError } from "../Data/Types/API/Error";
 import Worlds = require("../Data/Worlds.json");
+import World from "../Data/Types/World";
+import APIResponse from "../Data/Types/API/Response";
+import APIError from "../Data/Types/API/Error";
 
 type WorldName =
   "wizardcity"
@@ -25,7 +25,7 @@ type WorldName =
 
 export class WorldRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
-    super(App, "UsersRoutes");
+    super(App, "Worlds");
   }
 
   protected ConfigureRoutes(): Application {
@@ -34,7 +34,7 @@ export class WorldRoutes extends CommonRoutesConfig {
         .send(JSON.stringify(new APIResponse(true, Worlds))));
 
     this.App.route("/worlds/:worldName")
-      .all((_, $, next) => next())
+      .all((_, __, next) => next())
       .get((req, res) => {
         const worldName = req.params.worldName
           .split(" ")

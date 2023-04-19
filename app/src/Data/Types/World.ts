@@ -1,4 +1,4 @@
-export interface World {
+export default interface World {
   Name: string;
   Quests: number;
   LevelRange: {

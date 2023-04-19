@@ -2,8 +2,10 @@ import { logger, LoggerOptions } from "express-winston";
 import { format, transports } from "winston";
 import { readFileSync } from "fs";
 import { env } from "process";
+
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { WorldRoutes } from "./Routes/Worlds.Routes.Config";
+import { CreatureRoutes } from "./Routes/Creatures.Routes.Config";
 import { Logger } from "./Util";
 import express from "express";
 import cors from "cors";
@@ -37,9 +39,10 @@ function compileSass(_: express.Request, res: express.Response) {
 app.use(express.json());
 app.use(cors());
 app.use(logger(loggerOptions));
-
-const usersRoutes = new WorldRoutes(app);
-routes.push(usersRoutes);
+routes.push(
+  new WorldRoutes(app),
+  new CreatureRoutes(app)
+);
 
 try {
   const homepageHTML = readFileSync(__dirname + "/../index.html", { encoding: "utf8" });
