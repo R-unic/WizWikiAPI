@@ -10,14 +10,13 @@
 <body>
   <div class="top" title="Header">
     <a href="https://wizard101.com">
-      <img src="https://edgecast.wizard101.com/image/free/Wizard/Landing-Pages/Networks/ExplorePlay_logo.png?v=1"
-        alt="Wizard101 Logo; Image lost" height="225" width="475" title="Wizard101 Logo" />
+      <img src="https://edgecast.wizard101.com/image/free/Wizard/Landing-Pages/Networks/ExplorePlay_logo.png?v=1" alt="Wizard101 Logo; Image lost" height="225" width="475" title="Wizard101 Logo" />
     </a>
-    <h1>The Wizard101 API (Unofficial)</h1>
+    <h1>The Wizard101 Wiki API (Unofficial)</h1>
     <h3>Made by
-      <a href="https://github.com/AlphaRunic/">AlphaRunic</a>,
+      <a href="https://github.com/R-unic/">Runic</a>,
       and open-sourced for public use
-      <a href="https://github.com/AlphaRunic/Wizard101-API">here</a>.
+      <a href="https://github.com/R-unic/WizWikiAPI">here</a>.
     </h3>
   </div>
   <div class="links" title="Linked Buttons">
@@ -25,7 +24,7 @@
     <h4>
       <a href="#endpoints">Endpoints</a>
       •
-      <a href="#docs">Documentation</a>
+      <a href="#types">Types</a>
       •
       <a href="#client-libraries">Client Libraries</a>
     </h4>
@@ -39,7 +38,7 @@
     </h2>
     <div style="margin-inline:30px;margin-block:-40px;" class="endpoint-base-url-info" title="Base URL">
       <p style="margin-block:10px;">The following is a list of endpoints that are all prefixed with this base URL: </p>
-      <code style="margin-block:5px;margin-inline:20px;">https://wizard101-api.herokuapp.com/</code>
+      <code id="page-url"></code>
     </div>
     <br>
     <br>
@@ -67,13 +66,35 @@
           </li>
         </ul>
       </li>
+      <li>
+        <h3>
+          <b>GET</b>
+          <code>/creatures/:creatureName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about a creature: health, type, classification, etc.</i>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h3>
+          <b>GET</b>
+          <code>/npcs/:npcName</code>
+        </h3>
+        <ul>
+          <li>
+            <i>Returns information about an NPC: locations, quests it gives, etc.</i>
+          </li>
+        </ul>
+      </li>
     </ul>
     <hr style="margin-top:50px;">
   </div>
-  <div class="docs-class" title="Documentation">
-    <h2 id="docs">
+  <div class="docs-class" title="Types">
+    <h2 id="types">
       <b>
-        Documentation
+        Types
       </b>
     </h2>
     <div class="row">
@@ -81,7 +102,7 @@
         <table>
           <caption>
             <h3>
-              <b>API Response Object</b>
+              <b>API Response</b>
             </h3>
           </caption>
           <thead>
@@ -104,7 +125,7 @@
             <tr>
               <td>Results</td>
               <td>
-                <code>World | Worlds | Error</code>
+                <code>World | Worlds | NPC[] | Creature[] | Error</code>
               </td>
             </tr>
           </tbody>
@@ -114,7 +135,7 @@
         <table>
           <caption>
             <h3>
-              <b>API Error Object</b>
+              <b>API Error</b>
             </h3>
           </caption>
           <thead>
@@ -149,7 +170,7 @@
         <table>
           <caption>
             <h3>
-              <b>World Object</b>
+              <b>World</b>
             </h3>
           </caption>
           <thead>
@@ -200,7 +221,7 @@
         <table>
           <caption>
             <h3>
-              <b>Pair&lt;T&gt; Object</b>
+              <b>Pair&lt;T&gt;</b>
             </h3>
           </caption>
           <thead>
@@ -229,6 +250,447 @@
           </tbody>
         </table>
       </div>
+      <div class="api-object-table" title="API Objects">
+        <table>
+          <caption>
+            <h3>
+              <b>NPC</b>
+            </h3>
+          </caption>
+          <thead>
+            <tr>
+              <th>
+                <b>Name</b>
+              </th>
+              <th colspan="2">
+                <b>Type</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Locations</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>GivesQuests</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>QuestGoals</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>EndsQuests</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="api-object-table" title="API Objects">
+        <table>
+          <caption>
+            <h3>
+              <b>Creature</b>
+            </h3>
+          </caption>
+          <thead>
+            <tr>
+              <th>
+                <b>Name</b>
+              </th>
+              <th colspan="2">
+                <b>Type</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Type</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Rank</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Health</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Classification</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>School</td>
+              <td>
+                <code>School</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Masteries</td>
+              <td>
+                <code>School[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Cheats</td>
+              <td>
+                <code>boolean</code>
+              </td>
+            </tr>
+            <tr>
+              <td>StartPips</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>PowerPips</td>
+              <td>
+                <code>boolean</code>
+              </td>
+            </tr>
+            <tr>
+              <td>OutPierce</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>OutBoost</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>IncBoost</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>IncResist</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>OutHealing</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>IncHealing</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>ShadowPipSlots</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Stunable</td>
+              <td>
+                <code>boolean</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Beguilable</td>
+              <td>
+                <code>boolean</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Minion</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Minion2</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>World</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Location</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Sublocation</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Speech</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>MonstrotomeDescription</td>
+              <td>
+                <code>string</code>
+              </td>
+            </tr>
+            <tr>
+              <td>SummonAnimus</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>SummonGold</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>GuestAnimus</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>GuestGold</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>CanExpel</td>
+              <td>
+                <code>boolean</code>
+              </td>
+            </tr>
+            <tr>
+              <td>ExpelAnimus</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>ExpelGold</td>
+              <td>
+                <code>number</code>
+              </td>
+            </tr>
+            <tr>
+              <td>SpellNotes</td>
+              <td>
+                <code>string?</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Casts</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>GoldRange</td>
+              <td>
+                <code>[number, number]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Drops</td>
+              <td>
+                <code>CreatureDrops</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="api-object-table" title="API Objects">
+        <table>
+          <caption>
+            <h3>
+              <b>CreatureDrops</b>
+            </h3>
+          </caption>
+          <thead>
+            <tr>
+              <th>
+                <b>Name</b>
+              </th>
+              <th colspan="2">
+                <b>Type</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hats</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Robes</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Boots</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Athames</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Amulets</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Rings</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Wands</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Decks</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>HousingItems</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Spellements</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Reagents</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>TreasureCards</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Snacks</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Jewels</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Pets</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Mounts</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Elixirs</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Recipes</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Seeds</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Spells</td>
+              <td>
+                <code>string[]</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <hr style="margin-top:50px;">
   </div>
@@ -246,6 +708,9 @@
     </h3>
     <hr>
   </div>
+  <script>
+    document.getElementById("page-url").innerHTML = window.location.href;
+  </script>
 </body>
 
 </html>
