@@ -23,7 +23,7 @@ type WorldName =
   | "lemuria"
   | "novus";
 
-export class WorldRoutes extends CommonRoutesConfig {
+export default class WorldRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
     super(App, "Worlds");
   }

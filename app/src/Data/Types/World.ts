@@ -1,10 +1,12 @@
-export default interface World {
-  Name: string;
-  Quests: number;
-  LevelRange: {
-    First: number;
-    Second: number;
+import APIResult from "./API/Result";
+
+export default interface World extends APIResult {
+  readonly Name: string;
+  readonly Quests: number;
+  readonly LevelRange: {
+    readonly First: number;
+    readonly Second: number;
   };
-  Abbreviation: string;
-  Areas: string[];
+  readonly Abbreviation: string;
+  readonly Areas: string[];
 }

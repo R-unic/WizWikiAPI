@@ -1,4 +1,6 @@
-import { Application } from "express";
+import { Application, Response } from "express";
+import APIError from "../Data/Types/API/Error";
+import APIResponse from "../Data/Types/API/Response";
 
 export abstract class CommonRoutesConfig {
   public constructor(
@@ -7,4 +9,10 @@ export abstract class CommonRoutesConfig {
   ) { this.ConfigureRoutes(); }
 
   protected abstract ConfigureRoutes(): Application;
+
+  protected NotFound(res: Response): Response {
+    const err = new APIError(ResponseCode.NOT_FOUND, "Creature not found.");
+    return res.status(err.Code)
+      .send(JSON.stringify(new APIResponse(false, err)));
+  }
 }

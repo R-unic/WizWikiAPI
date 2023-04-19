@@ -1,5 +1,15 @@
 import { format } from "winston";
 
+export const Arrayify = (s?: string) => (s ?? "")
+  .split("\n")
+  .map(s =>
+    s.replace(/\;/, "")
+      .replace(/\*F\d+/g, "")
+      .replace(/\*WMV/, "")
+      .replace(/\*CR/, "")
+      .trim()
+  ).filter(s => s !== "");
+
 export const ToTitleCase = (item: string): string => item.toLowerCase()
   .replace(/_/g, " ")
   .replace(/\b[a-z]/g, t => t.toUpperCase());

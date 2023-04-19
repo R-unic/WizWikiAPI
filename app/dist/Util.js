@@ -1,7 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Logger = exports.DeserializeWikiData = exports.ToTitleCase = void 0;
+exports.Logger = exports.DeserializeWikiData = exports.ToTitleCase = exports.Arrayify = void 0;
 const winston_1 = require("winston");
+const Arrayify = (s) => (s !== null && s !== void 0 ? s : "")
+    .split("\n")
+    .map(s => s.replace(/\;/, "")
+    .replace(/\*F\d+/g, "")
+    .replace(/\*WMV/, "")
+    .replace(/\*CR/, "")
+    .trim()).filter(s => s !== "");
+exports.Arrayify = Arrayify;
 const ToTitleCase = (item) => item.toLowerCase()
     .replace(/_/g, " ")
     .replace(/\b[a-z]/g, t => t.toUpperCase());

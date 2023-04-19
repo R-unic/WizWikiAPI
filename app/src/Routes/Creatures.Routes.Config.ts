@@ -1,96 +1,69 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { DeserializeWikiData } from "../Util";
+import { Arrayify, DeserializeWikiData } from "../Util";
 import Creature from "../Data/Types/Creature";
 import APIResponse from "../Data/Types/API/Response";
-import APIError from "../Data/Types/API/Error";
-
-interface SearchResponse {
-  query: {
-    search: {
-      ns: number;
-      title: string;
-      snippet: string;
-      size: number;
-      wordcount: number;
-      timestamp: string;
-    }[];
-  };
-}
-
-interface Revision {
-  pageid: number;
-  ns: number;
-  title: string;
-  revisions: { "*": string; }[];
-}
-
-interface PageResponse {
-  query: {
-    pages: { [key: string]: Revision };
-  };
-}
 
 interface CreatureInternal {
-  cretype: string;
-  rank: number;
-  heal: number;
-  crecla: string;
-  school: School;
-  masteries?: string;
-  cheats?: boolean;
-  shadowslots?: number;
-  startpips: number;
-  powerpips?: boolean;
-  outpierce?: string;
-  outboost: string;
-  incboost?: string;
-  incresist?: string;
-  outhealing?: string;
-  inchealing?: string;
-  stunable: boolean;
-  beguilable: boolean;
-  minion?: string;
-  minion2?: string;
-  world: string;
-  location: string;
-  subloc1?: string;
-  descrip: string;
-  speech?: string;
-  monstrotomedescrip: string;
-  summon_animus: number;
-  summon_gold: number;
-  guest_animus: number;
-  guest_gold: number;
-  can_expel: boolean;
-  expel_animus: number;
-  expel_gold: number;
-  spellnotes?: string;
-  casts?: string;
-  gold: string;
-  hats?: string;
-  robes?: string;
-  boots?: string;
-  athames?: string;
-  amulets?: string;
-  rings?: string;
-  wands?: string;
-  decks?: string;
-  items?: string;
-  spellements?: string;
-  reagents?: string;
-  cards?: string;
-  snacks?: string;
-  jewels?: string;
-  pets?: string;
-  seeds?: string;
-  spells?: string;
-  mounts?: string;
-  elixirs?: string;
-  recipes?: string;
+  readonly cretype: string;
+  readonly rank: number;
+  readonly heal: number;
+  readonly crecla: string;
+  readonly school: School;
+  readonly masteries?: string;
+  readonly cheats?: boolean;
+  readonly shadowslots?: number;
+  readonly startpips: number;
+  readonly powerpips?: boolean;
+  readonly outpierce?: string;
+  readonly outboost: string;
+  readonly incboost?: string;
+  readonly incresist?: string;
+  readonly outhealing?: string;
+  readonly inchealing?: string;
+  readonly stunable: boolean;
+  readonly beguilable: boolean;
+  readonly minion?: string;
+  readonly minion2?: string;
+  readonly world: string;
+  readonly location: string;
+  readonly subloc1?: string;
+  readonly descrip: string;
+  readonly speech?: string;
+  readonly monstrotomedescrip: string;
+  readonly summon_animus: number;
+  readonly summon_gold: number;
+  readonly guest_animus: number;
+  readonly guest_gold: number;
+  readonly can_expel: boolean;
+  readonly expel_animus: number;
+  readonly expel_gold: number;
+  readonly spellnotes?: string;
+  readonly casts?: string;
+  readonly gold: string;
+  readonly hats?: string;
+  readonly robes?: string;
+  readonly boots?: string;
+  readonly athames?: string;
+  readonly amulets?: string;
+  readonly rings?: string;
+  readonly wands?: string;
+  readonly decks?: string;
+  readonly items?: string;
+  readonly spellements?: string;
+  readonly reagents?: string;
+  readonly cards?: string;
+  readonly snacks?: string;
+  readonly jewels?: string;
+  readonly pets?: string;
+  readonly seeds?: string;
+  readonly spells?: string;
+  readonly mounts?: string;
+  readonly elixirs?: string;
+  readonly recipes?: string;
 }
 
-export class CreatureRoutes extends CommonRoutesConfig {
+export default class CreatureRoutes extends CommonRoutesConfig {
   private readonly baseURL = "https://www.wizard101central.com/wiki/api.php?";
 
   public constructor(App: Application) {
@@ -103,10 +76,11 @@ export class CreatureRoutes extends CommonRoutesConfig {
       .all((_, __, next) => next())
       .get((req, res) => {
         const { creatureName } = req.params;
+        const { resultCount } = req.query;
         const searchEndpoint = this.baseURL + new URLSearchParams({
           action: "query",
           list: "search",
-          srlimit: "4",
+          srlimit: (resultCount ?? 1).toString(),
           srsearch: `Creature:${creatureName}`,
           format: "json"
         });
@@ -115,7 +89,7 @@ export class CreatureRoutes extends CommonRoutesConfig {
         fetch(searchEndpoint)
           .then(res => res.json())
           .then((res: SearchResponse) => res.query.search)
-          .then(results => results.map(async page => {
+          .then(results => results.map<Promise<Creature>>(async page => {
             const pageEndpoint = this.baseURL + new URLSearchParams({
               action: "query",
               prop: "revisions",
@@ -130,32 +104,16 @@ export class CreatureRoutes extends CommonRoutesConfig {
               .then(page => page.revisions[0]["*"])
               .then(DeserializeWikiData<CreatureInternal>);
 
-            if (!base) {
-              const err = new APIError(ResponseCode.NOT_FOUND, "Creature not found.");
-              response = res.status(err.Code)
-                .send(JSON.stringify(new APIResponse(false, err)));
-            }
+            if (!base)
+              response = this.NotFound(res);
 
-            const split = (s?: string) => {
-              return (s ?? "")
-              .split("\n")
-              .map(s =>
-                s.replace(/\;/, "")
-                  .replace(/\*F\d+/g, "")
-                  .replace(/\*WMV/, "")
-                  .replace(/\*CR/, "")
-                  .trim()
-              )
-              .filter(s => s !== "");
-            }
-
-            const creature: Creature = {
+            return {
               Type: base.cretype,
               Rank: base.rank,
               Health: base.heal,
               Classification: base.crecla,
               School: base.school,
-              Masteries: <School[]>split(base.masteries),
+              Masteries: <School[]>Arrayify(base.masteries),
               Cheats: base.cheats ?? false,
               StartPips: base.startpips,
               PowerPips: base.powerpips ?? false,
@@ -184,41 +142,40 @@ export class CreatureRoutes extends CommonRoutesConfig {
               ExpelAnimus: base.expel_animus,
               ExpelGold: base.expel_gold,
               SpellNotes: base.spellnotes,
-              Casts: split(base.casts),
+              Casts: Arrayify(base.casts),
               GoldRange: [Number(base.gold.split(" - ")[0]), Number(base.gold.split(" - ")[1])],
               Drops: {
-                Hats: split(base.hats),
-                Robes: split(base.robes),
-                Boots: split(base.boots),
-                Athames: split(base.athames),
-                Amulets: split(base.amulets),
-                Rings: split(base.rings),
-                Wands: split(base.wands),
-                Decks: split(base.decks),
-                HousingItems: split(base.items),
-                Spellements: split(base.spellements),
-                Reagents: split(base.reagents),
-                TreasureCards: split(base.cards),
-                Snacks: split(base.snacks),
-                Jewels: split(base.jewels),
-                Pets: split(base.pets),
-                Mounts: split(base.mounts),
-                Elixirs: split(base.elixirs),
-                Recipes: split(base.recipes),
-                Seeds: split(base.seeds),
-                Spells: split(base.spells),
+                Hats: Arrayify(base.hats),
+                Robes: Arrayify(base.robes),
+                Boots: Arrayify(base.boots),
+                Athames: Arrayify(base.athames),
+                Amulets: Arrayify(base.amulets),
+                Rings: Arrayify(base.rings),
+                Wands: Arrayify(base.wands),
+                Decks: Arrayify(base.decks),
+                HousingItems: Arrayify(base.items),
+                Spellements: Arrayify(base.spellements),
+                Reagents: Arrayify(base.reagents),
+                TreasureCards: Arrayify(base.cards),
+                Snacks: Arrayify(base.snacks),
+                Jewels: Arrayify(base.jewels),
+                Pets: Arrayify(base.pets),
+                Mounts: Arrayify(base.mounts),
+                Elixirs: Arrayify(base.elixirs),
+                Recipes: Arrayify(base.recipes),
+                Seeds: Arrayify(base.seeds),
+                Spells: Arrayify(base.spells),
               }
             };
-
+          }))
+          .then(async results => {
             if (response) return;
             response = res.status(ResponseCode.SUCCESS)
-              .send(new APIResponse(true, creature));
-          }))
+              .send(new APIResponse(true, await Promise.all(results)));
+          })
           .catch(e => {
             if (response) return;
-            const err = new APIError(ResponseCode.NOT_FOUND, e);
-            response = res.status(err.Code)
-              .send(JSON.stringify(new APIResponse(false, err)));
+            response = this.NotFound(res);
           });
 
         return response!;

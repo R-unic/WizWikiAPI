@@ -1,18 +1,16 @@
 import { logger, LoggerOptions } from "express-winston";
 import { format, transports } from "winston";
-import { readFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 import { env } from "process";
 
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
-import { WorldRoutes } from "./Routes/Worlds.Routes.Config";
-import { CreatureRoutes } from "./Routes/Creatures.Routes.Config";
 import { Logger } from "./Util";
 import express from "express";
 import cors from "cors";
 import sass from "node-sass";
 import path from "path";
 
-const app = express(); // Create express app
+const app = express();
 const port = env.PORT || 3000; //
 const routes: CommonRoutesConfig[] = [];
 const loggerOptions: LoggerOptions = {
@@ -39,10 +37,17 @@ function compileSass(_: express.Request, res: express.Response) {
 app.use(express.json());
 app.use(cors());
 app.use(logger(loggerOptions));
-routes.push(
-  new WorldRoutes(app),
-  new CreatureRoutes(app)
-);
+
+try {
+  const routesPath = path.join(__dirname, "..", "dist", "Routes");
+  const routeFiles = readdirSync(routesPath).filter(file => file.endsWith(".js"));
+  for (const file of routeFiles) {
+    const RouteClass = require(`${routesPath}/${file}`).default;
+    routes.push(new RouteClass(app));
+  }
+} catch (e) {
+  throw new Error(<string | undefined>e);
+}
 
 try {
   const homepageHTML = readFileSync(__dirname + "/../index.html", { encoding: "utf8" });
@@ -53,6 +58,6 @@ try {
     routes.forEach(route => Logger.Log(`Routes configured for ${route.Name}`));
     Logger.Log(`Server is listening @http://localhost:${port}`);
   });
-} catch (err) {
-  throw new Error(<string | undefined>err);
+} catch (e) {
+  throw new Error(<string | undefined>e);
 }
