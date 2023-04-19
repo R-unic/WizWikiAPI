@@ -1,10 +1,4 @@
-## Files
-tsconfig.json
-
-## Heroku
-/node_modules
+app/dist
+app/.tsbuildinfo
+node_modules
 .env
-npm-debug.log
-
-## Stuff
-quoteutil.txt
