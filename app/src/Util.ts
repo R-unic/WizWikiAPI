@@ -1,6 +1,6 @@
-import { Response } from "express";
 import { format } from "winston";
 
+export const WikiBaseURL = "https://www.wizard101central.com/wiki/api.php?";
 export const Arrayify = (s?: string) => (s ?? "")
   .split("\n")
   .map(s =>
@@ -20,11 +20,11 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
   pairs.shift();
   const object: { [key: string]: Maybe<string | number | boolean> } = {};
   for (const pair of pairs) {
-    let [key, value] = pair.split(" =");
+    let [key, value] = pair.split("=");
     value = value
       .replace(/\;/g, "")
       .replace(/\'\'/g, "")
-      .replace(/\:/g, "")
+      .replace(/\:\'\'/, "")
       .replace(/\<\!\-\-Recipes which Craft this Spell automatically list from the Recipe pages\-\-\>/, "")
       .trim();
 
@@ -35,9 +35,9 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
       trueValue = Number(value);
     else if (!isNaN(Number(value.replace(/\,/, ""))))
       trueValue = Number(value.replace(/\,/, ""));
-    else if (value === "No")
+    else if (value.toLowerCase() === "no")
       trueValue = false;
-    else if (value === "Yes")
+    else if (value.toLowerCase() === "yes")
       trueValue = true;
 
     object[key.trim()] = trueValue;

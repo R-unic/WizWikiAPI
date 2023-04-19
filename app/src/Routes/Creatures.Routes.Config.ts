@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Arrayify, DeserializeWikiData, SearchWiki } from "../Util";
+import { Arrayify, DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
 import Creature from "../Data/Types/Creature";
 import APIResponse from "../Data/Types/API/Response";
 
@@ -77,7 +77,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
         let response: Response;
 
-        SearchWiki("Creature", creatureName, Number(resultCount))
+        SearchWiki("Creature", creatureName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Creature>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
@@ -95,7 +95,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<CreatureInternal>);
 
             if (!base)
-              response = this.NotFound(res);
+              response = this.NotFound(res, "Creature");
 
             return {
               Type: base.cretype,
@@ -164,8 +164,9 @@ export default class CreatureRoutes extends CommonRoutesConfig {
               .send(new APIResponse(true, await Promise.all(results)));
           })
           .catch(e => {
+            Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res);
+            response = this.NotFound(res, "Creature");
           });
 
         return response!;

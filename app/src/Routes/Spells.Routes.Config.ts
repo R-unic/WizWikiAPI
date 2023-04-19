@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { DeserializeWikiData, SearchWiki } from "../Util";
+import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
 import APIResponse from "../Data/Types/API/Response";
 import Spell from "../Data/Types/Spell";
 
@@ -89,7 +89,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<SpellInternal>);
 
             if (!base)
-              response = this.NotFound(res);
+              response = this.NotFound(res, "Spell");
 
             const descrip = [base.descrip1, base.dimage1, base.descrip2, base.dimage2, base.descrip3, base.dimage3, base.descrip4, base.dimage4, base.descrip5, base.dimage5];
             return {
@@ -142,8 +142,9 @@ export default class SpellRoutes extends CommonRoutesConfig {
               .send(new APIResponse(true, await Promise.all(results)));
           })
           .catch(e => {
+            Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res);
+            response = this.NotFound(res, "Spell");
           });
 
         return response!;

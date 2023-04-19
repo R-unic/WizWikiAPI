@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Arrayify, DeserializeWikiData, SearchWiki } from "../Util";
+import { Arrayify, DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
 import NPC from "../Data/Types/NPC";
 import APIResponse from "../Data/Types/API/Response";
 
@@ -45,7 +45,7 @@ export default class NpcRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<NpcInternal>);
 
             if (!base)
-              response = this.NotFound(res);
+              response = this.NotFound(res, "NPC");
 
             return {
               Title: base.titles,
@@ -62,8 +62,9 @@ export default class NpcRoutes extends CommonRoutesConfig {
               .send(new APIResponse(true, await Promise.all(results)));
           })
           .catch(e => {
+            Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res);
+            response = this.NotFound(res, "NPC");
           });
 
         return response!;

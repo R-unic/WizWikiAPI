@@ -16,8 +16,10 @@ interface Revision {
 
 interface PageResponse {
   query: {
+    normalized: {
+      from: string;
+      to: string;
+    }[];
     pages: { [key: string]: Revision };
   };
 }
-
-const WikiBaseURL = "https://www.wizard101central.com/wiki/api.php?";
