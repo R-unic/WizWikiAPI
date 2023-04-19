@@ -1,6 +1,6 @@
 {
   "name": "wizwikiapi",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A RESTful API for retrieving information about Wizard101 from the public wiki.",
   "main": "App.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlphaRunic/Wizard101-API.git"
+    "url": "git+https://github.com/R-unic/WizWikiAPI.git"
   },
   "keywords": [
     "typescript",
@@ -18,14 +18,15 @@
     "api",
     "restful-api",
     "wizard101",
+    "wiki",
     "ts"
   ],
-  "author": "AlphaRunic",
+  "author": "R-unic",
   "license": "GPL-2.0-only",
   "bugs": {
-    "url": "https://github.com/AlphaRunic/Wizard101-API/issues"
+    "url": "https://github.com/R-unic/WizWikiAPI/issues"
   },
-  "homepage": "https://github.com/AlphaRunic/Wizard101-API#readme",
+  "homepage": "https://github.com/R-unic/WizWikiAPI#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "debug": "^4.3.1",
