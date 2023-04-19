@@ -1,35 +1,30 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { Arrayify, DeserializeWikiData, SearchWiki } from "../Util";
-import NPC from "../Data/Types/NPC";
 import APIResponse from "../Data/Types/API/Response";
+import Quest from "../Data/Types/Quest";
 
-interface NpcInternal {
-  readonly titles: string;
-  readonly locations: string;
-  readonly descrip: string;
-  readonly givequests: string;
-  readonly questgoals: string;
-  readonly endquests: string;
+interface QuestInternal {
+
 }
 
-export default class NpcRoutes extends CommonRoutesConfig {
+export default class SpellRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
-    super(App, "NPCs");
+    super(App, "Spells");
   }
 
   protected ConfigureRoutes(): Application {
-    this.App.route("/npcs");
-    this.App.route("/npcs/:npcName")
+    this.App.route("/quests");
+    this.App.route("/quests/:questName")
       .all((_, __, next) => next())
       .get((req, res) => {
-        const { npcName } = req.params;
+        const { questName } = req.params;
         const { resultCount } = req.query;
-
         let response: Response;
-        SearchWiki("NPC", npcName, Number(resultCount))
+
+        SearchWiki("Quest", questName, Number(resultCount))
           .then(res => res.query.search)
-          .then(results => results.map<Promise<NPC>>(async page => {
+          .then(results => results.map<Promise<Quest>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
               action: "query",
               prop: "revisions",
@@ -42,18 +37,13 @@ export default class NpcRoutes extends CommonRoutesConfig {
               .then(res => res.json())
               .then((res: PageResponse) => Object.values(res.query.pages)[0])
               .then(page => page.revisions[0]["*"])
-              .then(DeserializeWikiData<NpcInternal>);
+              .then(DeserializeWikiData<QuestInternal>);
 
             if (!base)
               response = this.NotFound(res);
 
             return {
-              Title: base.titles,
-              Locations: Arrayify(base.locations),
-              Description: base.descrip,
-              GivesQuests: Arrayify(base.givequests),
-              QuestGoals: Arrayify(base.questgoals),
-              EndsQuests: Arrayify(base.endquests)
+
             };
           }))
           .then(async results => {

@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Arrayify, DeserializeWikiData } from "../Util";
+import { Arrayify, DeserializeWikiData, SearchWiki } from "../Util";
 import Creature from "../Data/Types/Creature";
 import APIResponse from "../Data/Types/API/Response";
 
@@ -64,8 +64,6 @@ interface CreatureInternal {
 }
 
 export default class CreatureRoutes extends CommonRoutesConfig {
-  private readonly baseURL = "https://www.wizard101central.com/wiki/api.php?";
-
   public constructor(App: Application) {
     super(App, "Creatures");
   }
@@ -77,20 +75,12 @@ export default class CreatureRoutes extends CommonRoutesConfig {
       .get((req, res) => {
         const { creatureName } = req.params;
         const { resultCount } = req.query;
-        const searchEndpoint = this.baseURL + new URLSearchParams({
-          action: "query",
-          list: "search",
-          srlimit: (resultCount ?? 1).toString(),
-          srsearch: `Creature:${creatureName}`,
-          format: "json"
-        });
-
         let response: Response;
-        fetch(searchEndpoint)
-          .then(res => res.json())
-          .then((res: SearchResponse) => res.query.search)
+
+        SearchWiki("Creature", creatureName, Number(resultCount))
+          .then(res => res.query.search)
           .then(results => results.map<Promise<Creature>>(async page => {
-            const pageEndpoint = this.baseURL + new URLSearchParams({
+            const pageEndpoint = WikiBaseURL + new URLSearchParams({
               action: "query",
               prop: "revisions",
               rvprop: "content",

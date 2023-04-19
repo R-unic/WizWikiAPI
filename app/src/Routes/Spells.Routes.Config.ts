@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Arrayify, DeserializeWikiData } from "../Util";
+import { DeserializeWikiData, SearchWiki } from "../Util";
 import APIResponse from "../Data/Types/API/Response";
 import Spell from "../Data/Types/Spell";
 
@@ -58,8 +58,6 @@ interface SpellInternal {
 }
 
 export default class SpellRoutes extends CommonRoutesConfig {
-  private readonly baseURL = "https://www.wizard101central.com/wiki/api.php?";
-
   public constructor(App: Application) {
     super(App, "Spells");
   }
@@ -71,20 +69,12 @@ export default class SpellRoutes extends CommonRoutesConfig {
       .get((req, res) => {
         const { spellName } = req.params;
         const { resultCount } = req.query;
-        const searchEndpoint = this.baseURL + new URLSearchParams({
-          action: "query",
-          list: "search",
-          srlimit: (resultCount ?? 1).toString(),
-          srsearch: `Spell:${spellName}`,
-          format: "json"
-        });
-
         let response: Response;
-        fetch(searchEndpoint)
-          .then(res => res.json())
-          .then((res: SearchResponse) => res.query.search)
+
+        SearchWiki("Spell", spellName, Number(resultCount))
+          .then(res => res.query.search)
           .then(results => results.map<Promise<Spell>>(async page => {
-            const pageEndpoint = this.baseURL + new URLSearchParams({
+            const pageEndpoint = WikiBaseURL + new URLSearchParams({
               action: "query",
               prop: "revisions",
               rvprop: "content",

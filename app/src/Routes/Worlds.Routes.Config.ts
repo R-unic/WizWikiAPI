@@ -36,31 +36,28 @@ export default class WorldRoutes extends CommonRoutesConfig {
     this.App.route("/worlds/:worldName")
       .all((_, __, next) => next())
       .get((req, res) => {
-        const worldName = req.params.worldName
+        const worldName = <WorldName>req.params.worldName
           .split(" ")
           .join("")
-          .toLowerCase() as WorldName;
+          .toLowerCase();
 
-        let world: World | undefined = Worlds[worldName];
-        if (!world) {
-          const map = new Map<string, World>(Object.entries(Worlds));
-          map.forEach(w => {
+        let world: Maybe<World> = Worlds[worldName];
+        if (!world)
+          for (const w of Object.values(Worlds)) {
             if (w.Abbreviation ===
               req.params.worldName
                 .toLowerCase()
                 .split(" ")
                 .join("")
             ) world = w;
-          });
-        }
+          }
 
         if (!world) {
           const err = new APIError(ResponseCode.NOT_FOUND, "World not found.");
           return res.status(err.Code)
             .send(JSON.stringify(new APIResponse(false, err)));
         } else
-          return res.status(ResponseCode.SUCCESS)
-            .send(new APIResponse(true, world));
+          return res.status(ResponseCode.SUCCESS).send(new APIResponse(true, world));
       });
 
     return this.App;
