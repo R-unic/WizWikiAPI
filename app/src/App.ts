@@ -7,6 +7,8 @@ import { WorldRoutes } from "./Routes/Worlds.Routes.Config";
 import { Logger } from "./Util";
 import express from "express";
 import cors from "cors";
+import sass from "node-sass";
+import path from "path";
 
 const app = express(); // Create express app
 const port = env.PORT || 3000; //
@@ -23,6 +25,15 @@ const loggerOptions: LoggerOptions = {
 if (!env.DEBUG)
   loggerOptions.meta = false;
 
+function compileSass(_: express.Request, res: express.Response) {
+  const css = sass.renderSync({
+    file: path.join(__dirname, "..", "public", "styles.sass")
+  }).css;
+
+  res.type("text/css");
+  res.send(css);
+}
+
 app.use(express.json());
 app.use(cors());
 app.use(logger(loggerOptions));
@@ -31,7 +42,8 @@ const usersRoutes = new WorldRoutes(app);
 routes.push(usersRoutes);
 
 try {
-  const homepageHTML = readFileSync(__dirname + "/../html/index.html", { encoding: "utf8" });
+  const homepageHTML = readFileSync(__dirname + "/../index.html", { encoding: "utf8" });
+  app.get("/styles.css", compileSass);
   app.get("/", (_, res) =>
     res.status(ResponseCode.SUCCESS).send(homepageHTML)
   ).listen(port, () => {
