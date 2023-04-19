@@ -26,7 +26,7 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
       .replace(/\;/g, "")
       .replace(/\'\'/g, "")
       .replace(/\:\'\'/, "")
-      .replace(/\<\!\-\-Recipes which Craft this Spell automatically list from the Recipe pages\-\-\>/, "")
+      .replace(/<!\-\-.*?\-\->/g, "")
       .trim();
 
     let trueValue: Maybe<string | number | boolean> = value.trim();
@@ -64,7 +64,7 @@ export async function SearchWiki(wikiType: string, searchQuery: string, resultCo
     action: "query",
     list: "search",
     srlimit: !isNaN(resultCount) ? resultCount.toString() : "1",
-    srsearch: `${wikiType}:${searchQuery}`,
+    srsearch: `${wikiType}:${searchQuery.replace(/\_/g, " ")}`,
     format: "json"
   });
 
