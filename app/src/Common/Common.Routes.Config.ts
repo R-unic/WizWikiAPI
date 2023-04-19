@@ -10,8 +10,8 @@ export abstract class CommonRoutesConfig {
 
   protected abstract ConfigureRoutes(): Application;
 
-  protected NotFound(res: Response, what: string): Response {
-    const err = new APIError(ResponseCode.NOT_FOUND, `${what} not found.`);
+  protected NotFound(res: Response): Response {
+    const err = new APIError(ResponseCode.NOT_FOUND, `${this.Name.slice(0, -1)} not found.`);
     return res.status(err.Code)
       .send(JSON.stringify(new APIResponse(false, err)));
   }

@@ -27,7 +27,7 @@ export default class NpcRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
 
         let response: Response;
-        SearchWiki("NPC", npcName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount))
           .then(res => res.query.search)
           .then(results => results.map<Promise<NPC>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
@@ -45,7 +45,7 @@ export default class NpcRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<NpcInternal>);
 
             if (!base)
-              response = this.NotFound(res, "NPC");
+              response = this.NotFound(res);
 
             return {
               Title: base.titles,
@@ -64,7 +64,7 @@ export default class NpcRoutes extends CommonRoutesConfig {
           .catch(e => {
             Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res, "NPC");
+            response = this.NotFound(res);
           });
 
         return response!;

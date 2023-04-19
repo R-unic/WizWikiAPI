@@ -71,7 +71,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
         let response: Response;
 
-        SearchWiki("Spell", spellName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), spellName, Number(resultCount))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Spell>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
@@ -89,7 +89,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<SpellInternal>);
 
             if (!base)
-              response = this.NotFound(res, "Spell");
+              response = this.NotFound(res);
 
             const descrip = [base.descrip1, base.dimage1, base.descrip2, base.dimage2, base.descrip3, base.dimage3, base.descrip4, base.dimage4, base.descrip5, base.dimage5];
             return {
@@ -144,7 +144,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
           .catch(e => {
             Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res, "Spell");
+            response = this.NotFound(res);
           });
 
         return response!;

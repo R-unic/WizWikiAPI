@@ -115,9 +115,9 @@ interface QuestInternal {
 
 type OneToNine = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
-export default class SpellRoutes extends CommonRoutesConfig {
+export default class QuestRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
-    super(App, "Spells");
+    super(App, "Quests");
   }
 
   protected ConfigureRoutes(): Application {
@@ -129,7 +129,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
         let response: Response;
 
-        SearchWiki("Quest", questName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), questName, Number(resultCount))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Quest>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
@@ -147,7 +147,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<QuestInternal>);
 
             if (!base)
-              response = this.NotFound(res, "Quest");
+              response = this.NotFound(res);
 
             const GetSubGoals = (n: OneToNine): string[] => {
               const goalKey = <keyof typeof base>("goal" + n);
@@ -260,7 +260,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
           .catch(e => {
             Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res, "Quest");
+            response = this.NotFound(res);
           });
 
         return response!;

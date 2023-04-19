@@ -77,7 +77,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
         let response: Response;
 
-        SearchWiki("Creature", creatureName, Number(resultCount ?? 1))
+        SearchWiki(this.Name.slice(0, -1), creatureName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Creature>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
@@ -95,7 +95,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
               .then(DeserializeWikiData<CreatureInternal>);
 
             if (!base)
-              response = this.NotFound(res, "Creature");
+              response = this.NotFound(res);
 
             return {
               Type: base.cretype,
@@ -166,7 +166,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
           .catch(e => {
             Logger.Error(e.stack);
             if (response) return;
-            response = this.NotFound(res, "Creature");
+            response = this.NotFound(res);
           });
 
         return response!;
