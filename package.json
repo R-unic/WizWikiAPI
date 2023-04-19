@@ -4,8 +4,9 @@
   "description": "A RESTful API for retrieving information about Wizard101 from the public wiki.",
   "main": "App.js",
   "scripts": {
-    "start": "tsc && node app/dist/App.js",
-    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,html,sass"
+    "start": "node app/dist/App.js",
+    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,html,sass",
+    "test": "npm run start & sleep 5 && curl http://localhost:3000"
   },
   "repository": {
     "type": "git",

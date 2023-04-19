@@ -129,7 +129,7 @@ export default class QuestRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
         let response: Response;
 
-        SearchWiki(this.Name.slice(0, -1), questName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), questName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Quest>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({

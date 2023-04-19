@@ -32,7 +32,7 @@ export default class JewelRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
 
         let response: Response;
-        SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Jewel>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({

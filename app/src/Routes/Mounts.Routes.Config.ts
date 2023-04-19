@@ -42,7 +42,7 @@ export default class MountRoutes extends CommonRoutesConfig {
         const { resultCount } = req.query;
 
         let response: Response;
-        SearchWiki(this.Name.slice(0, -1), mountName, Number(resultCount))
+        SearchWiki(this.Name.slice(0, -1), mountName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Mount>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({

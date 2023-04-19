@@ -17,8 +17,7 @@ export const ToTitleCase = (item: string): string => item.toLowerCase()
   .replace(/\b[a-z]/g, t => t.toUpperCase());
 
 export function DeserializeWikiData<R extends object = object>(data: string): R {
-  const pairs = data.replace(/^\{\{/, "").replace(/\}\}$/, "").split("\n| ");
-  pairs.shift();
+  const pairs = data.replace(/^\{\{/, "").replace(/\}\}$/, "").split("\n| ").filter(p => p.includes("="));
   const object: { [key: string]: Maybe<string | number | boolean> } = {};
   for (const pair of pairs) {
     let [key, value] = pair.split("=");
@@ -67,7 +66,6 @@ export async function SearchWiki(wikiType: string, searchQuery: string, resultCo
     srsearch: `${wikiType}:${searchQuery.replace(/\_/g, " ")}`,
     format: "json"
   });
-
   return fetch(searchEndpoint).then(res => res.json());
 }
 
