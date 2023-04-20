@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run docs -s && node app/dist/App.js",
     "dev": "nodemon --exec \"tsc && npm run docs -s && node app/dist/App.js\" -e ts,html,sass",
-    "test": "npm run start & sleep 5 && curl http://localhost:3000",
+    "test": "npm run start & sleep 10 && curl http://localhost:3000",
     "docs": "typedoc --options typedoc.config.json"
   },
   "repository": {
