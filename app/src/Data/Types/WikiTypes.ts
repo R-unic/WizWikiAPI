@@ -334,7 +334,7 @@ export interface RequiredCraftingItem {
   readonly Amount: number;
 }
 
-export interface Recipe {
+export interface Recipe extends WikiObject {
   readonly Type: string;
   readonly MainItem: string;
   readonly SecondaryItem?: string;
