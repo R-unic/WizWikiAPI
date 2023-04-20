@@ -2,12 +2,12 @@
   "name": "wizwikiapi",
   "version": "1.2.0",
   "description": "A RESTful API for retrieving information about Wizard101 from the public wiki.",
-  "main": "App.js",
+  "main": "app/dist/App.js",
   "scripts": {
-    "start": "node app/dist/App.js",
-    "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,html,sass",
+    "start": "npm run docs -s && node app/dist/App.js",
+    "dev": "nodemon --exec \"tsc && npm run docs -s && node app/dist/App.js\" -e ts,html,sass",
     "test": "npm run start & sleep 5 && curl http://localhost:3000",
-    "docs": "typedoc --entryPointStrategy expand app/src/Data/Types app/src/types --out app/docs"
+    "docs": "typedoc --options typedoc.config.json"
   },
   "repository": {
     "type": "git",

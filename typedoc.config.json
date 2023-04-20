@@ -1,0 +1,7 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["app/src/Data/Types", "app/src/types"],
+  "entryPointStrategy": "expand",
+  "out": "app/docs",
+  "name": "W101 Wiki API Documentation"
+}
