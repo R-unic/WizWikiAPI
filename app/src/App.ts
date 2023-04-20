@@ -37,7 +37,7 @@ try {
     routes.push(new RouteClass(app));
   }
 } catch (e) {
-  throw new Error(<string | undefined>e);
+  throw new Error(<string>e);
 }
 
 try {

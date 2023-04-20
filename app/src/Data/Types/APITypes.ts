@@ -1,9 +1,5 @@
+import { WikiObject, World } from "./WikiTypes";
 import Worlds = require("../Worlds.json");
-
-/**
- * Generic abstract class for anything that is a valid APIResponse.Results
- */
-export abstract class APIResult {}
 
 /**
  * Generic API response, all routes return JSON that extends from object
@@ -11,7 +7,7 @@ export abstract class APIResult {}
 export class APIResponse {
   public constructor(
     public readonly Success: boolean,
-    public readonly Results: APIResult | APIError | typeof Worlds
+    public readonly Results: WikiObject[] | World | APIError | typeof Worlds
   ) {}
 }
 

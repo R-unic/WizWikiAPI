@@ -1,9 +1,12 @@
-import { APIResult } from "./APITypes";
+/**
+ * Generic abstract class for anything that is returned in a wiki search list.
+ */
+export abstract class WikiObject {}
 
 /**
  * Represents a creature
  */
-export interface Creature {
+export interface Creature extends WikiObject {
   readonly Type: string;
   readonly Rank: number;
   readonly Health: number;
@@ -67,7 +70,7 @@ export interface Creature {
 /**
  * Represents a jewel
  */
-export interface Jewel {
+export interface Jewel extends WikiObject {
   readonly Quality: string;
   readonly Socket: string;
   readonly Type: string;
@@ -106,7 +109,7 @@ export interface PermanentMount extends TemporaryMount<true> {
 /**
  * Represents a mount
  */
-export interface Mount {
+export interface Mount extends WikiObject {
   readonly Dyeable: boolean;
   readonly Passengers: number;
   readonly Description: string;
@@ -119,7 +122,7 @@ export interface Mount {
 /**
  * Represents a spell card
  */
-export interface Spell {
+export interface Spell extends WikiObject {
   readonly School: School;
   readonly PipCost: number;
   readonly ShadowPipCost: number;
@@ -166,7 +169,7 @@ export interface Spell {
 /**
  * Represents a snack
  */
-export interface Snack {
+export interface Snack extends WikiObject {
   readonly Rank: number;
   readonly School: School;
   readonly Class: string;
@@ -247,7 +250,7 @@ export interface QuestGiver {
 /**
  * Represents a quest
  */
-export interface Quest {
+export interface Quest extends WikiObject {
   readonly PreQuests: [Maybe<string>, Maybe<string>, Maybe<string>];
   readonly PostQuests: [Maybe<PostQuest>, Maybe<PostQuest>, Maybe<PostQuest>];
   readonly HandIn: string;
@@ -271,7 +274,7 @@ export interface Quest {
 /**
  * Represents an NPC
  */
-export interface NPC {
+export interface NPC extends WikiObject {
   readonly Title: string;
   readonly Locations: string[];
   readonly Description: string;
@@ -288,7 +291,7 @@ export interface ReagentReward {
 /**
  * Represents a pet talent
  */
-export interface PetAbility {
+export interface PetAbility extends WikiObject {
   readonly Type: string;
   readonly Rarity: string;
   readonly TalentType: string;
@@ -313,8 +316,9 @@ export interface PetAbility {
 
 /**
  * Represents a world, this is not from the wiki.
+ * You also cannot search, world name/abbreviation must be exact.
  */
-export interface World extends APIResult {
+export interface World {
   readonly Name: string;
   readonly Quests: number;
   readonly LevelRange: {
@@ -323,4 +327,8 @@ export interface World extends APIResult {
   };
   readonly Abbreviation: string;
   readonly Areas: string[];
+}
+
+export interface Recipe {
+
 }
