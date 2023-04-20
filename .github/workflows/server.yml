@@ -1,4 +1,4 @@
-name: Express Server
+name: build
 
 on:
   push:
