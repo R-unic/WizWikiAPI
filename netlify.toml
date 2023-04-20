@@ -1,4 +1,3 @@
 [build]
 command = "npm i && npx tsc && npm start -s"
 functions = "functions"
-publish = "public"
