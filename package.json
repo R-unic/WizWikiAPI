@@ -4,7 +4,7 @@
   "description": "A RESTful API for retrieving information about Wizard101 from the public wiki.",
   "main": "app/dist/App.js",
   "scripts": {
-    "start": "npm run docs -s && forever start app/dist/App.js -l forever.log",
+    "start": "npm run docs -s && node app/dist/App.js",
     "dev": "nodemon --exec \"tsc && npm run docs -s && node app/dist/App.js\" -e ts,html,sass",
     "test": "npm run start & sleep 10 && curl http://localhost:3000",
     "docs": "typedoc --options typedoc.config.json"
@@ -46,7 +46,6 @@
     "@types/debug": "^4.1.5",
     "@types/express": "^4.17.12",
     "@types/node-sass": "^4.11.3",
-    "forever": "^4.0.3",
     "node-sass": "^8.0.0",
     "nodemon": "^2.0.22",
     "source-map-support": "^0.5.19",
