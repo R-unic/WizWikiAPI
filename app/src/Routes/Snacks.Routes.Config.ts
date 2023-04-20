@@ -1,31 +1,31 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import { Jewel } from "../Data/Types/WikiTypes";
+import { Snack } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
-interface JewelInternal {
-  readonly quality: string;
-  readonly socket: string;
-  readonly type: string;
-  readonly effect: string;
-  readonly effectval?: string;
-  readonly effectcard?: string;
-  readonly petability?: string;
-  readonly level?: number;
-  readonly petlevel?: string;
-  readonly ultra?: boolean;
+interface SnackInternal {
+  readonly value: number;
+  readonly school: School;
+  readonly class: string;
+  readonly strength?: number;
+  readonly will?: number;
+  readonly agility?: number;
+  readonly intellect?: number;
+  readonly power?: number;
+  readonly sellval: number;
+  readonly auction: boolean;
   readonly fishchestlocations?: string;
 }
 
-export default class JewelRoutes extends CommonRoutesConfig {
+export default class SnackRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
-    super(App, "Jewels");
+    super(App, "Snacks");
   }
 
   protected ConfigureRoutes(): Application {
-    this.App.route("/jewels");
-    this.App.route("/jewels/:npcName")
+    this.App.route("/snacks");
+    this.App.route("/snacks/:npcName")
       .all((_, __, next) => next())
       .get((req, res) => {
         const { npcName } = req.params;
@@ -34,7 +34,7 @@ export default class JewelRoutes extends CommonRoutesConfig {
         let response: Response;
         SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount ?? 1))
           .then(res => res.query.search)
-          .then(results => results.map<Promise<Jewel>>(async page => {
+          .then(results => results.map<Promise<Snack>>(async page => {
             const pageEndpoint = WikiBaseURL + new URLSearchParams({
               action: "query",
               prop: "revisions",
@@ -47,23 +47,25 @@ export default class JewelRoutes extends CommonRoutesConfig {
               .then(res => res.json())
               .then((res: PageResponse) => Object.values(res.query.pages)[0])
               .then(page => page.revisions[0]["*"])
-              .then(DeserializeWikiData<JewelInternal>);
+              .then(DeserializeWikiData<SnackInternal>);
 
             if (!base)
               response = this.NotFound(res);
 
             return {
-              Quality: base.quality,
-              Socket: base.socket,
-              Type: base.type,
-              Effect: base.effect,
-              EffectValue: base.effectval,
-              EffectCard: base.effectcard,
-              PetAbility: base.petability,
-              Level: base.level,
-              PetLevel: base.petlevel,
-              Ultra: base.ultra ?? false,
-              FishChestLocations: base.fishchestlocations
+              Rank: base.value,
+              School: base.school,
+              Class: base.class,
+              SellValue: base.sellval,
+              Auctionable: base.auction,
+              FishChestLocations: base.fishchestlocations,
+              Stats: {
+                Strength: base.strength,
+                Will: base.will,
+                Agility: base.agility,
+                Intellect: base.intellect,
+                Power: base.power,
+              }
             };
           }))
           .then(async results => {

@@ -1,8 +1,8 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { Arrayify, DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import Creature from "../Data/Types/Creature";
-import APIResponse from "../Data/Types/API/Response";
+import { Creature } from "../Data/Types/WikiTypes";
+import { APIResponse } from "../Data/Types/APITypes";
 
 interface CreatureInternal {
   readonly cretype: string;

@@ -1,8 +1,8 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { Arrayify, DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import NPC from "../Data/Types/NPC";
-import APIResponse from "../Data/Types/API/Response";
+import { NPC } from "../Data/Types/WikiTypes";
+import { APIResponse } from "../Data/Types/APITypes";
 
 interface NpcInternal {
   readonly titles: string;
@@ -49,8 +49,8 @@ export default class NpcRoutes extends CommonRoutesConfig {
 
             return {
               Title: base.titles,
-              Locations: Arrayify(base.locations),
               Description: base.descrip,
+              Locations: Arrayify(base.locations),
               GivesQuests: Arrayify(base.givequests),
               QuestGoals: Arrayify(base.questgoals),
               EndsQuests: Arrayify(base.endquests)

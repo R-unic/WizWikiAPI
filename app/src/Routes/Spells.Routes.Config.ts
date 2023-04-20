@@ -1,8 +1,8 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import APIResponse from "../Data/Types/API/Response";
-import Spell from "../Data/Types/Spell";
+import { Spell } from "../Data/Types/WikiTypes";
+import { APIResponse } from "../Data/Types/APITypes";
 
 interface SpellInternal {
   readonly school: School;

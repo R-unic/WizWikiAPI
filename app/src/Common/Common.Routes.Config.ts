@@ -1,6 +1,5 @@
 import { Application, Response } from "express";
-import APIError from "../Data/Types/API/Error";
-import APIResponse from "../Data/Types/API/Response";
+import { APIResponse, APIError } from "../Data/Types/APITypes";
 
 export abstract class CommonRoutesConfig {
   public constructor(

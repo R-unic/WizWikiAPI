@@ -48,6 +48,7 @@
     "node-sass": "^8.0.0",
     "nodemon": "^2.0.22",
     "source-map-support": "^0.5.19",
+    "typedoc": "^0.24.4",
     "typescript": "^4.3.2"
   }
 }

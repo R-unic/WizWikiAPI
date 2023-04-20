@@ -1,9 +1,8 @@
 import { Application } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
+import { World } from "../Data/Types/WikiTypes";
+import { APIResponse, APIError } from "../Data/Types/APITypes";
 import Worlds = require("../Data/Worlds.json");
-import World from "../Data/Types/World";
-import APIResponse from "../Data/Types/API/Response";
-import APIError from "../Data/Types/API/Error";
 
 type WorldName =
   "wizardcity"

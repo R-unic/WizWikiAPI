@@ -1,8 +1,8 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import Mount from "../Data/Types/Mount";
-import APIResponse from "../Data/Types/API/Response";
+import { Mount } from "../Data/Types/WikiTypes";
+import { APIResponse } from "../Data/Types/APITypes";
 
 interface MountInternal {
   readonly dyeable?: boolean;
