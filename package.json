@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app/dist/App.js",
     "dev": "nodemon --exec \"tsc && node app/dist/App.js\" -e ts,html,sass",
-    "test": "npm run start & sleep 5 && curl http://localhost:3000"
+    "test": "npm run start & sleep 5 && curl http://localhost:3000",
+    "docs": "typedoc --entryPointStrategy expand app/src/Data/Types app/src/types --out app/docs"
   },
   "repository": {
     "type": "git",
