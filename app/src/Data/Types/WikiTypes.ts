@@ -280,6 +280,37 @@ export interface NPC {
   readonly EndsQuests: string[];
 }
 
+export interface ReagentReward {
+  readonly Name: string;
+  readonly Cost: number;
+}
+
+/**
+ * Represents a pet talent
+ */
+export interface PetAbility {
+  readonly Type: string;
+  readonly Rarity: string;
+  readonly TalentType: string;
+  readonly School?: School;
+  readonly Card?: string;
+  readonly Trigger?: string;
+  readonly Adventure?: string;
+  readonly Locked?: boolean;
+  readonly UnlockReagents: [Maybe<ReagentReward>, Maybe<ReagentReward>];
+  readonly HappinessCost?: number;
+  readonly Cooldown?: number;
+  readonly Other?: string;
+  readonly Strength?: string;
+  readonly Intellect?: string;
+  readonly Agility?: string;
+  readonly Will?: string;
+  readonly Power?: string;
+  readonly BonusGoldRange?: [number, number];
+  readonly BonusCards: string[];
+  readonly BonusReagents: string[];
+}
+
 /**
  * Represents a world, this is not from the wiki.
  */
