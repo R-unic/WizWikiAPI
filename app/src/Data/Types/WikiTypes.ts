@@ -329,6 +329,17 @@ export interface World {
   readonly Areas: string[];
 }
 
-export interface Recipe {
+export interface RequiredCraftingItem {
+  readonly Name: string;
+  readonly Amount: number;
+}
 
+export interface Recipe {
+  readonly Type: string;
+  readonly MainItem: string;
+  readonly SecondaryItem?: string;
+  readonly CraftingRank: string;
+  readonly CraftingStation: string;
+  readonly Cooldown: string;
+  readonly RequiredItems: RequiredCraftingItem[];
 }

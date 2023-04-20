@@ -113,8 +113,6 @@ interface QuestInternal {
   readonly "goal6-9"?: string;
 }
 
-type OneToNine = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-
 export default class QuestRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
     super(App, "Quests");
@@ -149,15 +147,14 @@ export default class QuestRoutes extends CommonRoutesConfig {
             if (!base)
               response = this.NotFound(res);
 
-            const GetSubGoals = (n: OneToNine): string[] => {
-              const goalKey = <keyof typeof base>("goal" + n);
+            const GetSubGoals = (n: number): string[] => {
+              const goalKey = <keyof QuestInternal>(`goal${n}`);
               const mainGoal = <Maybe<string>>base[goalKey];
               const subGoals: string[] = [];
               if (!mainGoal) return subGoals;
 
               for (let i = 1; i <= 9; i++) {
-                const iStr = <OneToNine>i.toString();
-                const subGoalKey = <keyof typeof base>(goalKey + "-" + iStr);
+                const subGoalKey = <keyof QuestInternal>(`${goalKey}-${i}`);
                 const subGoal = <Maybe<string>>base[subGoalKey];
                 if (subGoal)
                   subGoals.push(subGoal);
@@ -195,27 +192,27 @@ export default class QuestRoutes extends CommonRoutesConfig {
               Goals: [
                 {
                   Description: base.goal1,
-                  SubGoals: GetSubGoals("1")
+                  SubGoals: GetSubGoals(1)
                 },
                 base.goal2 ? {
                   Description: base.goal2,
-                  SubGoals: GetSubGoals("2")
+                  SubGoals: GetSubGoals(2)
                 } : undefined,
                 base.goal3 ? {
                   Description: base.goal3,
-                  SubGoals: GetSubGoals("3")
+                  SubGoals: GetSubGoals(3)
                 } : undefined,
                 base.goal4 ? {
                   Description: base.goal4,
-                  SubGoals: GetSubGoals("4")
+                  SubGoals: GetSubGoals(4)
                 } : undefined,
                 base.goal5 ? {
                   Description: base.goal5,
-                  SubGoals: GetSubGoals("5")
+                  SubGoals: GetSubGoals(5)
                 } : undefined,
                 base.goal6 ? {
                   Description: base.goal6,
-                  SubGoals: GetSubGoals("6")
+                  SubGoals: GetSubGoals(6)
                 } : undefined
               ],
               Rewards: {
