@@ -114,15 +114,15 @@ interface SpellInternal {
   readonly minion14health?: number;
 }
 
-const getMinions = (ic: SpellInternal): SpellMinion[] => {
+const getMinions = (internal: SpellInternal): SpellMinion[] => {
   const getMinionProperty = (minion: keyof SpellInternal, propertyKey: string) => {
     const propKey = <keyof SpellInternal>(minion + propertyKey);
-    return ic[propKey];
+    return internal[propKey];
   }
   const minions: SpellMinion[] = [];
   for (let i = 1; i <= 14; i++) {
     const minionKey = <keyof SpellInternal>("minion" + i);
-    const minion = <Maybe<string>>ic[minionKey];
+    const minion = <Maybe<string>>internal[minionKey];
     if (minion)
       minions.push({
         Name: minion,
@@ -131,7 +131,7 @@ const getMinions = (ic: SpellInternal): SpellMinion[] => {
         Health: <number>getMinionProperty(minionKey, "health"),
       });
   }
-  return minions
+  return minions;
 }
 
 export default class SpellRoutes extends CommonRoutesConfig {

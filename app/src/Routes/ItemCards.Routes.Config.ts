@@ -195,15 +195,15 @@ interface ItemCardInternal {
   readonly var6minion14?: string;
 }
 
-const getMinions = (ic: ItemCardInternal, variation = false): string[] => {
+const getMinions = (internal: ItemCardInternal, variation = false): string[] => {
   const minions: string[] = [];
   for (let i = 1; i <= 14; i++) {
     const minionKey = <keyof ItemCardInternal>((variation ? "var" : "") + "minion" + i);
-    const minion = <Maybe<string>>ic[minionKey];
+    const minion = <Maybe<string>>internal[minionKey];
     if (minion)
       minions.push(minion);
   }
-  return minions
+  return minions;
 }
 
 export default class ItemCardRoutes extends CommonRoutesConfig {

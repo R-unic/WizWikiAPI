@@ -350,8 +350,8 @@ export interface PetAbility extends WikiObject {
 }
 
 /**
- * Represents a world, this is not from the wiki.
- * You also cannot search, world name/abbreviation must be exact.
+ * Represents a world, this is not from the wiki
+ * You also cannot search. World names/abbreviations must be exact
  */
 export interface World {
   readonly Name: string;
@@ -364,11 +364,17 @@ export interface World {
   readonly Areas: string[];
 }
 
+/**
+ * Represents an item required to craft a recipe
+ */
 export interface RequiredCraftingItem {
   readonly Name: string;
   readonly Amount: number;
 }
 
+/**
+ * Represents a crafting recipe
+ */
 export interface Recipe extends WikiObject {
   readonly Type: string;
   readonly MainItem: string;
@@ -379,6 +385,25 @@ export interface Recipe extends WikiObject {
   readonly RequiredItems: RequiredCraftingItem[];
 }
 
+export interface WorldListLocation {
+  readonly WorldName: string;
+  readonly Locations: string[];
+}
+
+/**
+ * Represents a fish (lol)
+ */
 export interface Fish extends WikiObject {
-  
+  readonly School: School;
+  readonly Aquarium: string;
+  readonly Rank: number;
+  readonly SizeRange: [number, number];
+  readonly InitialXP: number;
+  readonly RegularXP: number;
+  readonly Rarity: string;
+  readonly Description: string;
+  readonly SellPriceRange: [number, number];
+  readonly SellSizeRange: [number, number];
+  readonly FoundInHouses: boolean;
+  readonly FoundIn: WorldListLocation[];
 }
