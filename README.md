@@ -13,11 +13,11 @@
 - [x] Snacks
 - [x] Spells
 - [x] Mounts
+- [X] Item Cards
 - [ ] Pets
 - [ ] Castles/House Items
 - [ ] Reagents
 - [ ] Items
-- [ ] Item Cards
 - [ ] Treasure Cards
 - [ ] Polymorphs
 - [ ] Minions
