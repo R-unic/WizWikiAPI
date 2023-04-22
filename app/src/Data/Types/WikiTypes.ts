@@ -315,6 +315,21 @@ export interface ReagentReward {
   readonly Cost: number;
 }
 
+export interface AdventureTalent {
+  readonly Description: string;
+  readonly Cooldown: number;
+}
+
+export interface PetStats {
+  readonly Other?: string;
+  readonly Strength?: string;
+  readonly Intellect?: string;
+  readonly Agility?: string;
+  readonly Will?: string;
+  readonly Power?: string;
+  readonly Adventure?: AdventureTalent
+}
+
 /**
  * Represents a pet talent
  */
@@ -330,12 +345,7 @@ export interface PetAbility extends WikiObject {
   readonly UnlockReagents: [Maybe<ReagentReward>, Maybe<ReagentReward>];
   readonly HappinessCost?: number;
   readonly Cooldown?: number;
-  readonly Other?: string;
-  readonly Strength?: string;
-  readonly Intellect?: string;
-  readonly Agility?: string;
-  readonly Will?: string;
-  readonly Power?: string;
+  readonly Stats: PetStats;
   readonly BonusGoldRange?: [number, number];
   readonly BonusCards: string[];
   readonly BonusReagents: string[];
