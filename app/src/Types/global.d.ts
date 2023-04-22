@@ -7,19 +7,34 @@ const enum ResponseCode {
   WRONG_PATH = 300
 }
 
+interface SearchResult {
+  readonly ns: number;
+  readonly title: string;
+  readonly snippet: string;
+  readonly size: number;
+  readonly wordcount: number;
+  readonly timestamp: string;
+}
+
+interface SearchResponse {
+  readonly query: {
+    readonly search: SearchResult[];
+  };
+}
+
 interface Revision {
-  pageid: number;
-  ns: number;
-  title: string;
-  revisions: { "*": string; }[];
+  readonly pageid: number;
+  readonly ns: number;
+  readonly title: string;
+  readonly revisions: { "*": string; }[];
 }
 
 interface PageResponse {
-  query: {
-    normalized: {
-      from: string;
-      to: string;
+  readonly query: {
+    readonly normalized: {
+      readonly from: string;
+      readonly to: string;
     }[];
-    pages: { [key: string]: Revision };
+    readonly pages: { [key: string]: Revision };
   };
 }

@@ -17,7 +17,25 @@ export const ToTitleCase = (item: string): string => item
   .replace(/_/g, " ")
   .replace(/\b[a-z]/g, t => t.toUpperCase());
 
-export function DeserializeWikiData<R extends object = object>(data: string): R {
+export async function GetInternalType<T extends object>(page: SearchResult) {
+  const pageEndpoint = WikiBaseURL + new URLSearchParams({
+    action: "query",
+    prop: "revisions",
+    rvprop: "content",
+    titles: page.title,
+    format: "json"
+  });
+
+  const base = await fetch(pageEndpoint)
+    .then(res => res.json())
+    .then((res: PageResponse) => Object.values(res.query.pages)[0])
+    .then(page => page.revisions[0]["*"])
+    .then(DeserializeWikiData<T>);
+    
+  return base;
+}
+
+export function DeserializeWikiData<R extends object>(data: string): R {
   const pairs = data.replace(/^\{\{/, "").replace(/\}\}$/, "").split("\n| ").filter(p => p.includes("="));
   const object: { [key: string]: Maybe<string | number | boolean> } = {};
   for (const pair of pairs) {
@@ -45,19 +63,6 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
     object[key.trim()] = trueValue;
   }
   return <R>object;
-}
-
-interface SearchResponse {
-  query: {
-    search: {
-      ns: number;
-      title: string;
-      snippet: string;
-      size: number;
-      wordcount: number;
-      timestamp: string;
-    }[];
-  };
 }
 
 export async function SearchWiki(wikiType: string, searchQuery: string, resultCount = 1): Promise<SearchResponse> {

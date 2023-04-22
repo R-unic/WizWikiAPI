@@ -378,3 +378,7 @@ export interface Recipe extends WikiObject {
   readonly Cooldown: string;
   readonly RequiredItems: RequiredCraftingItem[];
 }
+
+export interface Fish extends WikiObject {
+  
+}
