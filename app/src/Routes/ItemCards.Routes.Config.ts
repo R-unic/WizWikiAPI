@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
+import { SearchWiki, GetInternalType, Logger } from "../Util";
 import { ItemCard, ItemCardBase } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
@@ -223,20 +223,7 @@ export default class ItemCardRoutes extends CommonRoutesConfig {
         SearchWiki(this.Name.slice(0, -1), itemCardName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<ItemCard>>(async page => {
-            const pageEndpoint = WikiBaseURL + new URLSearchParams({
-              action: "query",
-              prop: "revisions",
-              rvprop: "content",
-              titles: page.title,
-              format: "json"
-            });
-
-            const base = await fetch(pageEndpoint)
-              .then(res => res.json())
-              .then((res: PageResponse) => Object.values(res.query.pages)[0])
-              .then(page => page.revisions[0]["*"])
-              .then(DeserializeWikiData<ItemCardInternal>);
-
+            const base = await GetInternalType<ItemCardInternal>(page);
             if (!base)
               response = this.NotFound(res);
 

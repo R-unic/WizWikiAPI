@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { Arrayify, DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
+import { Arrayify, SearchWiki, GetInternalType, Logger } from "../Util";
 import { Creature } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
@@ -80,20 +80,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
         SearchWiki(this.Name.slice(0, -1), creatureName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Creature>>(async page => {
-            const pageEndpoint = WikiBaseURL + new URLSearchParams({
-              action: "query",
-              prop: "revisions",
-              rvprop: "content",
-              titles: page.title,
-              format: "json"
-            });
-
-            const base = await fetch(pageEndpoint)
-              .then(res => res.json())
-              .then((res: PageResponse) => Object.values(res.query.pages)[0])
-              .then(page => page.revisions[0]["*"])
-              .then(DeserializeWikiData<CreatureInternal>);
-
+            const base = await GetInternalType<CreatureInternal>(page);
             if (!base)
               response = this.NotFound(res);
 

@@ -10,19 +10,19 @@ interface FishInternal {
 
 export default class FishRoutes extends CommonRoutesConfig {
   public constructor(App: Application) {
-    super(App, "NPCs");
+    super(App, "Fishs");
   }
 
   protected ConfigureRoutes(): Application {
-    this.App.route("/npcs");
-    this.App.route("/npcs/:npcName")
+    this.App.route("/fish");
+    this.App.route("/fish/:fishName")
       .all((_, __, next) => next())
       .get((req, res) => {
-        const { npcName } = req.params;
+        const { fishName } = req.params;
         const { resultCount } = req.query;
 
         let response: Response;
-        SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount ?? 1))
+        SearchWiki(this.Name.slice(0, -1), fishName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Fish>>(async page => {
             const base = await GetInternalType<FishInternal>(page);
