@@ -12,7 +12,8 @@ export const Arrayify = (s?: string) => (s ?? "")
       .trim()
   ).filter(s => s !== "");
 
-export const ToTitleCase = (item: string): string => item.toLowerCase()
+export const ToTitleCase = (item: string): string => item
+  .toLowerCase()
   .replace(/_/g, " ")
   .replace(/\b[a-z]/g, t => t.toUpperCase());
 
@@ -66,7 +67,10 @@ export async function SearchWiki(wikiType: string, searchQuery: string, resultCo
     srsearch: `${wikiType}:${searchQuery.replace(/\_/g, " ")}`,
     format: "json"
   });
-  return fetch(searchEndpoint).then(res => res.json());
+  
+  const responsePromise = fetch(searchEndpoint).then(res => res.json());
+  responsePromise.catch(e => Logger.Error("Wiki API ratelimiting???"));
+  return responsePromise
 }
 
 export class Logger {

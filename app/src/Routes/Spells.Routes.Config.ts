@@ -6,14 +6,16 @@ import { APIResponse } from "../Data/Types/APITypes";
 
 interface SpellInternal {
   readonly school: School;
-  readonly pipcost: number;
+  readonly pipcost: string;
+  readonly schoolpipcost?: string;
   readonly shadpipcost?: number;
-  readonly accuracy: string;
   readonly shadowenhanced?: boolean;
+  readonly accuracy: string;
   readonly type: string;
   readonly type2?: string;
   readonly subtype?: string;
   readonly noenchant?: string;
+  readonly PvP?: boolean;
   readonly descrip1: string;
   readonly dimage1?: string;
   readonly descrip2: string;
@@ -95,6 +97,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
             return {
               School: base.school,
               PipCost: base.pipcost,
+              SchoolPipCost: base.schoolpipcost,
               ShadowPipCost: base.shadpipcost ?? 0,
               ShadowEnhanced: base.shadowenhanced ?? false,
               Accuracy: base.accuracy,
@@ -103,6 +106,7 @@ export default class SpellRoutes extends CommonRoutesConfig {
               Type: base.type,
               Type2: base.type2,
               Subtype: base.subtype,
+              NoPvP: !(base.PvP ?? true),
               Enchantment1: base.enchantment1,
               Enchantment2: base.enchantment2,
               Enchantment3: base.enchantment3,

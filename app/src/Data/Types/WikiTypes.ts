@@ -124,12 +124,14 @@ export interface Mount extends WikiObject {
  */
 export interface Spell extends WikiObject {
   readonly School: School;
-  readonly PipCost: number;
+  readonly PipCost: string;
+  readonly SchoolPipCost?: string;
   readonly ShadowPipCost: number;
   readonly ShadowEnhanced: boolean;
   readonly Accuracy: string;
   readonly Description: string;
   readonly NoEnchant?: string;
+  readonly NoPvP: boolean;
   readonly Type: string;
   readonly Type2?: string;
   readonly Subtype?: string;
@@ -164,6 +166,31 @@ export interface Spell extends WikiObject {
   readonly Minion3Look?: string;
   readonly Minion3Rank?: number;
   readonly Minion3Health?: number;
+}
+
+/**
+ * Represents item card info excluding variations.
+ */
+export interface ItemCardBase extends WikiObject {
+  readonly School: School;
+  readonly PipCost: string;
+  readonly ShadowPipCost: number;
+  readonly NoPvP: boolean;
+  readonly ShadowEnhanced: boolean;
+  readonly Accuracy: string;
+  readonly Description: string;
+  readonly Type: string;
+  readonly Type2?: string;
+  readonly Subtype?: string;
+  readonly Minion: boolean;
+  readonly Minions?: string[];
+}
+
+/**
+ * Represents an item card and its variations.
+ */
+export interface ItemCard extends ItemCardBase {
+  readonly Variations: ItemCardBase[];
 }
 
 /**
