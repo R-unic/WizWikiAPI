@@ -171,7 +171,7 @@ export interface Spell extends WikiObject {
 /**
  * Represents item card info excluding variations.
  */
-export interface ItemCardBase extends WikiObject {
+export interface ItemCardBase {
   readonly School: School;
   readonly PipCost: string;
   readonly ShadowPipCost: number;
@@ -189,7 +189,7 @@ export interface ItemCardBase extends WikiObject {
 /**
  * Represents an item card and its variations.
  */
-export interface ItemCard extends ItemCardBase {
+export interface ItemCard extends ItemCardBase, WikiObject {
   readonly Variations: ItemCardBase[];
 }
 
