@@ -14,6 +14,7 @@
 - [x] Spells
 - [x] Mounts
 - [X] Item Cards
+- [x] Fish
 - [ ] Pets
 - [ ] Castles/House Items
 - [ ] Reagents
@@ -21,5 +22,4 @@
 - [ ] Treasure Cards
 - [ ] Polymorphs
 - [ ] Minions
-- [ ] Fish
 - [ ] Locations
