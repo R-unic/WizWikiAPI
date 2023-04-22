@@ -120,6 +120,16 @@ export interface Mount extends WikiObject {
 }
 
 /**
+ * Represents a minion summoned from a spell
+ */
+export interface SpellMinion {
+  readonly Name: string;
+  readonly Pips: number;
+  readonly Rank: number;
+  readonly Health: number;
+}
+
+/**
  * Represents a spell card
  */
 export interface Spell extends WikiObject {
@@ -150,22 +160,8 @@ export interface Spell extends WikiObject {
   readonly PreSpell2?: string;
   readonly PreSpell3?: string;
   readonly ReqTrainingPoint: boolean;
-  readonly Minion?: string;
-  readonly Minion1?: string;
-  readonly Minion1Pips?: number;
-  readonly Minion1Look?: string;
-  readonly Minion1Rank?: number;
-  readonly Minion1Health?: number;
-  readonly Minion2?: string;
-  readonly Minion2Pips?: number;
-  readonly Minion2Look?: string;
-  readonly Minion2Rank?: number;
-  readonly Minion2Health?: number;
-  readonly Minion3?: string;
-  readonly Minion3Pips?: number;
-  readonly Minion3Look?: string;
-  readonly Minion3Rank?: number;
-  readonly Minion3Health?: number;
+  readonly Minion: boolean;
+  readonly Minions: SpellMinion[];
 }
 
 /**

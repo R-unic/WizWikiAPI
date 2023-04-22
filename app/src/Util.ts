@@ -26,7 +26,8 @@ export function DeserializeWikiData<R extends object = object>(data: string): R 
       .replace(/\;/g, "")
       .replace(/\'\'/g, "")
       .replace(/\:\'\'/, "")
-      .replace(/<!\-\-.*?\-\->/g, "")
+      .replace(/\<\!\-\-.*?\-\-\>/g, "") // die html comments
+      .replace(/\{\{ImageStub*?\}\}/g, "") // no image stubs
       .trim();
 
     let trueValue: Maybe<string | number | boolean> = value.trim();

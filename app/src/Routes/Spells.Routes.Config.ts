@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { DeserializeWikiData, Logger, SearchWiki, WikiBaseURL } from "../Util";
-import { Spell } from "../Data/Types/WikiTypes";
+import { Spell, SpellMinion } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface SpellInternal {
@@ -41,7 +41,7 @@ interface SpellInternal {
   readonly prespell2?: string;
   readonly prespell3?: string;
   readonly trainpoint?: boolean;
-  readonly minion?: string;
+  readonly minion?: boolean;
   readonly minion1?: string;
   readonly minion1pips?: number;
   readonly minion1look?: string;
@@ -57,6 +57,81 @@ interface SpellInternal {
   readonly minion3look?: string;
   readonly minion3rank?: number;
   readonly minion3health?: number;
+  readonly minion4?: string;
+  readonly minion4pips?: number;
+  readonly minion4look?: string;
+  readonly minion4rank?: number;
+  readonly minion4health?: number;
+  readonly minion5?: string;
+  readonly minion5pips?: number;
+  readonly minion5look?: string;
+  readonly minion5rank?: number;
+  readonly minion5health?: number;
+  readonly minion6?: string;
+  readonly minion6pips?: number;
+  readonly minion6look?: string;
+  readonly minion6rank?: number;
+  readonly minion6health?: number;
+  readonly minion7?: string;
+  readonly minion7pips?: number;
+  readonly minion7look?: string;
+  readonly minion7rank?: number;
+  readonly minion7health?: number;
+  readonly minion8?: string;
+  readonly minion8pips?: number;
+  readonly minion8look?: string;
+  readonly minion8rank?: number;
+  readonly minion8health?: number;
+  readonly minion9?: string;
+  readonly minion9pips?: number;
+  readonly minion9look?: string;
+  readonly minion9rank?: number;
+  readonly minion9health?: number;
+  readonly minion10?: string;
+  readonly minion10pips?: number;
+  readonly minion10look?: string;
+  readonly minion10rank?: number;
+  readonly minion10health?: number;
+  readonly minion11?: string;
+  readonly minion11pips?: number;
+  readonly minion11look?: string;
+  readonly minion11rank?: number;
+  readonly minion11health?: number;
+  readonly minion12?: string;
+  readonly minion12pips?: number;
+  readonly minion12look?: string;
+  readonly minion12rank?: number;
+  readonly minion12health?: number;
+  readonly minion13?: string;
+  readonly minion13pips?: number;
+  readonly minion13look?: string;
+  readonly minion13rank?: number;
+  readonly minion13health?: number;
+  readonly minion14?: string;
+  readonly minion14pips?: number;
+  readonly minion14look?: string;
+  readonly minion14rank?: number;
+  readonly minion14health?: number;
+}
+
+const getMinions = (ic: SpellInternal): SpellMinion[] => {
+  const getMinionProperty = (minion: keyof SpellInternal, propertyKey: string) => {
+    const propKey = <keyof SpellInternal>(minion + propertyKey);
+    return ic[propKey];
+  }
+  const minions: SpellMinion[] = [];
+  for (let i = 1; i <= 14; i++) {
+    const minionKey = <keyof SpellInternal>("minion" + i);
+    const minion = <Maybe<string>>ic[minionKey];
+    if (minion)
+      minions.push({
+        Name: minion,
+        Pips: <number>getMinionProperty(minionKey, "pips"),
+        Rank: <number>getMinionProperty(minionKey, "rank"),
+        Health: <number>getMinionProperty(minionKey, "health"),
+      });
+  }
+  return minions
 }
 
 export default class SpellRoutes extends CommonRoutesConfig {
@@ -122,22 +197,8 @@ export default class SpellRoutes extends CommonRoutesConfig {
               PreSpell2: base.prespell2,
               PreSpell3: base.prespell3,
               ReqTrainingPoint: base.trainpoint ?? false,
-              Minion: base.minion,
-              Minion1: base.minion1,
-              Minion1Pips: base.minion1pips,
-              Minion1Look: base.minion1look,
-              Minion1Rank: base.minion1rank,
-              Minion1Health: base.minion1health,
-              Minion2: base.minion2,
-              Minion2Pips: base.minion2pips,
-              Minion2Look: base.minion2look,
-              Minion2Rank: base.minion2rank,
-              Minion2Health: base.minion2health,
-              Minion3: base.minion3,
-              Minion3Pips: base.minion3pips,
-              Minion3Look: base.minion3look,
-              Minion3Rank: base.minion3rank,
-              Minion3Health: base.minion3health
+              Minion: base.minion ?? false,
+              Minions: getMinions(base)
             };
           }))
           .then(async results => {
