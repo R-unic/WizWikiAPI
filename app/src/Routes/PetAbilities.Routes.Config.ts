@@ -69,18 +69,22 @@ export default class PetAbilityRoutes extends CommonRoutesConfig {
               Rarity: base.rarity,
               TalentType: base.taltype,
               School: base.talschool,
-              Card: base.talcard,
               Trigger: base.trigger,
-              Adventure: base.taladventure,
               Locked: base.locked,
               HappinessCost: base.happcost,
-              Cooldown: base.talcool,
-              Other: base.talother,
-              Strength: base.talstr,
-              Intellect: base.talint,
-              Agility: base.talagil,
-              Will: base.talwill,
-              Power: base.talpow,
+              Stats: {
+                Other: base.talother,
+                Strength: base.talstr,
+                Intellect: base.talint,
+                Agility: base.talagil,
+                Will: base.talwill,
+                Power: base.talpow,
+                Card: base.talcard,
+                Adventure: base.taladventure ? {
+                  Description: base.taladventure,
+                  Cooldown: base.talcool!
+                } : undefined
+              },
               BonusGoldRange:
                 base.bonusgold ?
                 <[number, number]>base.bonusgold.split("-").map(s => Number(s.trim().replace(/\,/, "")))
