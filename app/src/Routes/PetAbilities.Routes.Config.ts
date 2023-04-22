@@ -17,6 +17,10 @@ interface PetAbilityInternal {
   readonly unlockcost1?: number;
   readonly unlockreagent2?: string;
   readonly unlockcost2?: number;
+  readonly unlockreagent3?: string;
+  readonly unlockcost3?: number;
+  readonly unlockreagent4?: string;
+  readonly unlockcost4?: number;
   readonly happcost?: number;
   readonly talcool?: number;
   readonly talother?: string;
@@ -82,26 +86,34 @@ export default class PetAbilityRoutes extends CommonRoutesConfig {
                 Card: base.talcard,
                 Adventure: base.taladventure ? {
                   Description: base.taladventure,
-                  Cooldown: base.talcool!
+                  Cooldown: base.talcool!,
+                  UnlockReagents: [
+                    base.unlockreagent1 ? {
+                      Name: base.unlockreagent1,
+                      Cost: base.unlockcost1!
+                    } : undefined,
+                    base.unlockreagent2 ? {
+                      Name: base.unlockreagent2,
+                      Cost: base.unlockcost2!
+                    } : undefined,
+                    base.unlockreagent3 ? {
+                      Name: base.unlockreagent3,
+                      Cost: base.unlockcost3!
+                    } : undefined,
+                    base.unlockreagent4 ? {
+                      Name: base.unlockreagent4,
+                      Cost: base.unlockcost4!
+                    } : undefined
+                  ]
                 } : undefined
               },
+              
+              BonusCards: Arrayify(base.bonuscards),
+              BonusReagents: Arrayify(base.bonusreagents),
               BonusGoldRange:
                 base.bonusgold ?
                 <[number, number]>base.bonusgold.split("-").map(s => Number(s.trim().replace(/\,/, "")))
                 : undefined,
-
-              BonusCards: Arrayify(base.bonuscards),
-              BonusReagents: Arrayify(base.bonusreagents),
-              UnlockReagents: [
-                base.unlockreagent1 ? {
-                  Name: base.unlockreagent1,
-                  Cost: base.unlockcost1!
-                } : undefined,
-                base.unlockreagent2 ? {
-                  Name: base.unlockreagent2,
-                  Cost: base.unlockcost2!
-                } : undefined
-              ],
             };
           }))
           .then(async results => {

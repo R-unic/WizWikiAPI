@@ -310,17 +310,27 @@ export interface NPC extends WikiObject {
   readonly EndsQuests: string[];
 }
 
+/**
+ * Represents an adventure pet talent
+ */
 export interface ReagentReward {
   readonly Name: string;
   readonly Cost: number;
 }
 
+/**
+ * Represents an adventure pet talent
+ */
 export interface AdventureTalent {
   readonly Description: string;
   readonly Cooldown: number;
+  readonly UnlockReagents: [Maybe<ReagentReward>, Maybe<ReagentReward>, Maybe<ReagentReward>, Maybe<ReagentReward>];
 }
 
-export interface PetStats {
+/**
+ * Represents the stats a pet talent grants
+ */
+export interface PetAbilityStats {
   readonly Other?: string;
   readonly Strength?: string;
   readonly Intellect?: string;
@@ -340,12 +350,10 @@ export interface PetAbility extends WikiObject {
   readonly School?: School;
   readonly Card?: string;
   readonly Trigger?: string;
-  readonly Adventure?: string;
   readonly Locked?: boolean;
-  readonly UnlockReagents: [Maybe<ReagentReward>, Maybe<ReagentReward>];
   readonly HappinessCost?: number;
   readonly Cooldown?: number;
-  readonly Stats: PetStats;
+  readonly Stats: PetAbilityStats;
   readonly BonusGoldRange?: [number, number];
   readonly BonusCards: string[];
   readonly BonusReagents: string[];
