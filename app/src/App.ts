@@ -1,5 +1,3 @@
-import { logger, LoggerOptions } from "express-winston";
-import { format, transports } from "winston";
 import { readdirSync, readFileSync } from "fs";
 import { env } from "process";
 
@@ -7,7 +5,7 @@ import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { Logger } from "./Util";
 import express from "express";
 import cors from "cors";
-import sass from "node-sass";
+import sass from "sass";
 import path from "path";
 
 const app = express();
@@ -19,7 +17,7 @@ function addStyles(...styleNames: string[]): void {
     app.get(`/${style}.css`, (_, res) => {
       const css = sass.renderSync({
         file: path.join(__dirname, "..", "public", style + ".sass")
-      }).css;
+      }).css.toString();
       res.type("text/css");
       res.send(css);
     });

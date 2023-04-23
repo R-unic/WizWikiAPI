@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  "basePath": "./app/src",
   "entryPoints": ["app/src/Data/Types", "app/src/Types"],
   "entryPointStrategy": "expand",
   "out": "app/docs",
