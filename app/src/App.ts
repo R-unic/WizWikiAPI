@@ -1,5 +1,7 @@
 import { readdirSync, readFileSync } from "fs";
 import { env } from "process";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { Logger } from "./Util";
@@ -7,6 +9,19 @@ import express from "express";
 import cors from "cors";
 import sass from "sass";
 import path from "path";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDduykaMBKd1PSF76aETCIr9ikJYJEAszc",
+  authDomain: "wizwikiapi.firebaseapp.com",
+  projectId: "wizwikiapi",
+  storageBucket: "wizwikiapi.appspot.com",
+  messagingSenderId: "1064524649667",
+  appId: "1:1064524649667:web:afa98046ac1fb45053be76",
+  measurementId: "G-8H2FYWDMHJ"
+};
+
+const firebase = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebase);
 
 const app = express();
 const port = env.PORT || 3000; //
