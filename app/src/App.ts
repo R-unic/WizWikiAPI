@@ -1,3 +1,5 @@
+import { logger, LoggerOptions } from "express-winston";
+import { format, transports } from "winston";
 import { readdirSync, readFileSync } from "fs";
 import { env } from "process";
 import { initializeApp } from "firebase/app";
@@ -7,7 +9,7 @@ import { CommonRoutesConfig } from "./Common/Common.Routes.Config";
 import { Logger } from "./Util";
 import express from "express";
 import cors from "cors";
-import sass from "sass";
+import sass from "node-sass";
 import path from "path";
 
 const firebaseConfig = {
