@@ -2,10 +2,10 @@ import { format } from "winston";
 
 export const ImageProviderURL = "https://www.wizard101central.com/wiki/images/d/dc/";
 export const WikiBaseURL = "https://www.wizard101central.com/wiki/api.php?";
-export const Arrayify = (s?: string) => (s ?? "")
+export const Arrayify = (s?: string, sep = /\;/) => (s ?? "")
   .split("\n")
   .map(s =>
-    s.replace(/\;/, "")
+    s.replace(sep, "")
       .replace(/\*F\d+/g, "")
       .replace(/\*WMV/, "")
       .replace(/\*CR/, "")

@@ -407,3 +407,11 @@ export interface Fish extends WikiObject {
   readonly FoundInHouses: boolean;
   readonly FoundIn: WorldListLocation[];
 }
+
+/**
+ * Represents a housing item
+ */
+export interface HousingItem extends WikiObject {
+  readonly BuyValue: number;
+  readonly Notes: string[];
+}
