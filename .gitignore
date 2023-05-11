@@ -1,4 +1,5 @@
 app/dist
 app/.tsbuildinfo
+app/docs
 node_modules
 .env
