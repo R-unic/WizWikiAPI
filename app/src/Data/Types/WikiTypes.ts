@@ -1,4 +1,25 @@
 /**
+ * Represents a location in the spiral.
+ * `parent` refers to the parent location
+ * for example: Wizard City is the parent location of The Commons
+ */
+export class Location {
+  public readonly parent?: Location;
+  public readonly name: string;
+
+  public constructor(locationLexeme: string) {
+    const locations = locationLexeme
+      .split("::", 1)
+      .map(s => s.trim())
+      .reverse();
+
+    this.name = locations[0];
+    if (locations.length > 1)
+      this.parent = new Location(locations[1]);
+  }
+}
+
+/**
  * Generic abstract class for anything that is returned in a wiki search list.
  */
 export abstract class WikiObject {}
@@ -177,7 +198,7 @@ export interface ItemCardBase {
 }
 
 /**
- * Represents an item card and its variations.
+ * Represents an item card and it's variations.
  */
 export interface ItemCard extends ItemCardBase, WikiObject {
   readonly Variations: ItemCardBase[];
