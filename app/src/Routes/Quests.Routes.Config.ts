@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { SearchWiki, GetInternalType, Logger } from "../Util";
-import { Quest } from "../Data/Types/WikiTypes";
+import { Location, Quest } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface QuestInternal {
@@ -169,7 +169,7 @@ export default class QuestRoutes extends CommonRoutesConfig {
               Giver: {
                 Name: base.giver,
                 World: base.giverwld,
-                Location: base.giverloc
+                Location: new Location(base.giverloc)
               },
               Storyline: base.storyline,
               Fishing: base.fishing ?? false,

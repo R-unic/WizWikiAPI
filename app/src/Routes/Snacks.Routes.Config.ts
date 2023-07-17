@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
-import { SearchWiki, GetInternalType, Logger } from "../Util";
-import { Snack } from "../Data/Types/WikiTypes";
+import { SearchWiki, GetInternalType, Logger, Arrayify } from "../Util";
+import { Location, Snack } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface SnackInternal {
@@ -25,14 +25,14 @@ export default class SnackRoutes extends CommonRoutesConfig {
 
   protected ConfigureRoutes(): Application {
     this.App.route("/snacks");
-    this.App.route("/snacks/:npcName")
+    this.App.route("/snacks/:snackName")
       .all((_, __, next) => next())
       .get((req, res) => {
-        const { npcName } = req.params;
+        const { snackName } = req.params;
         const { resultCount } = req.query;
 
         let response: Response;
-        SearchWiki(this.Name.slice(0, -1), npcName, Number(resultCount ?? 1))
+        SearchWiki(this.Name.slice(0, -1), snackName, Number(resultCount ?? 1))
           .then(res => res.query.search)
           .then(results => results.map<Promise<Snack>>(async page => {
             const base = await GetInternalType<SnackInternal>(page);
@@ -45,7 +45,7 @@ export default class SnackRoutes extends CommonRoutesConfig {
               Class: base.class,
               SellValue: base.sellval,
               Auctionable: base.auction,
-              FishChestLocations: base.fishchestlocations,
+              FishChestLocations: Arrayify(base.fishchestlocations).map(lexeme => new Location(lexeme)),
               Stats: {
                 Strength: base.strength,
                 Will: base.will,

@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { SearchWiki, GetInternalType, Logger, Arrayify } from "../Util";
-import { Fish, WorldListLocation } from "../Data/Types/WikiTypes";
+import { Fish, Location, WorldListLocation } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface FishInternal {
@@ -57,7 +57,7 @@ const getWorldLocations = (internal: FishInternal): WorldListLocation[] => {
     if (world && locationList)
       locationLists.push({
         WorldName: world,
-        Locations: Arrayify(locationList)
+        Locations: Arrayify(locationList).map(lexeme => new Location(lexeme))
       });
   }
   return locationLists;

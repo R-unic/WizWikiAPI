@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { Arrayify, SearchWiki, GetInternalType, Logger } from "../Util";
-import { Creature } from "../Data/Types/WikiTypes";
+import { Creature, Location } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface CreatureInternal {
@@ -28,6 +28,7 @@ interface CreatureInternal {
   readonly world: string;
   readonly location: string;
   readonly subloc1?: string;
+  readonly subloc2?: string;
   readonly descrip: string;
   readonly speech?: string;
   readonly monstrotomedescrip: string;
@@ -84,6 +85,10 @@ export default class CreatureRoutes extends CommonRoutesConfig {
             if (!base)
               response = this.NotFound(res);
 
+            const locationLexeme = (base.subloc2 === undefined ? "" : base.subloc2 + " :: ") +
+              (base.subloc1 === undefined ? "" : base.subloc1 + " :: ") +
+              base.location;
+
             return {
               Type: base.cretype,
               Rank: base.rank,
@@ -106,7 +111,7 @@ export default class CreatureRoutes extends CommonRoutesConfig {
               Minion: base.minion,
               Minion2: base.minion2,
               World: base.world,
-              Location: base.location,
+              Location: new Location(locationLexeme),
               Sublocation: base.subloc1,
               Description: base.descrip,
               Speech: base.speech,

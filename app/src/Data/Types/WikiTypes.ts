@@ -1,21 +1,46 @@
+type OmitMethods<T> = {
+  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]: T[K];
+};
+
 /**
  * Represents a location in the spiral.
  * `parent` refers to the parent location
  * for example: Wizard City is the parent location of The Commons
  */
 export class Location {
-  public readonly parent?: Location;
-  public readonly name: string;
+  public readonly Parent?: Location;
+  public readonly Name: string;
 
   public constructor(locationLexeme: string) {
     const locations = locationLexeme
-      .split("::", 1)
+      .split("::")
       .map(s => s.trim())
       .reverse();
 
-    this.name = locations[0];
-    if (locations.length > 1)
-      this.parent = new Location(locations[1]);
+    this.Name = locations.shift()!;
+    if (locations.length > 0)
+      this.Parent = new Location(locations.reverse().join(" :: "));
+  }
+
+  public static FromJSON(json: OmitMethods<Location>): Location {
+    const lexeme = Location.ToString(json);
+    return new Location(lexeme);
+  }
+
+  public static ToString(location: OmitMethods<Location>): string {
+    const parentName = location.Parent?.ToString();
+    return (parentName === undefined ? "" : parentName + " :: ") + location.Name;
+  }
+
+  public ToString(): string {
+    return Location.ToString(this);
+  }
+
+  public ToJSON(): OmitMethods<Location> {
+    return {
+      Parent: this.Parent,
+      Name: this.Name
+    };
   }
 }
 
@@ -49,8 +74,7 @@ export interface Creature extends WikiObject {
   readonly Minion?: string;
   readonly Minion2?: string;
   readonly World: string;
-  readonly Location: string;
-  readonly Sublocation?: string;
+  readonly Location: Location;
   readonly Description: string;
   readonly Speech?: string;
   readonly MonstrotomeDescription: string;
@@ -137,7 +161,7 @@ export interface Mount extends WikiObject {
   readonly OneDay: TemporaryMount;
   readonly SevenDay: TemporaryMount;
   readonly Permanent: PermanentMount;
-  readonly FishChestLocations: [Maybe<string>, Maybe<string>];
+  readonly FishChestLocations: Location[];
 }
 
 /**
@@ -213,7 +237,7 @@ export interface Snack extends WikiObject {
   readonly Class: string;
   readonly SellValue: number;
   readonly Auctionable: boolean;
-  readonly FishChestLocations?: string;
+  readonly FishChestLocations?: Location[];
   readonly Stats: {
     readonly Strength?: number;
     readonly Will?: number;
@@ -282,7 +306,7 @@ export interface QuestRewards {
 export interface QuestGiver {
   readonly Name: string;
   readonly World: string;
-  readonly Location: string;
+  readonly Location: Location;
 }
 
 /**
@@ -314,7 +338,7 @@ export interface Quest extends WikiObject {
  */
 export interface NPC extends WikiObject {
   readonly Title: string;
-  readonly Locations: string[];
+  readonly Locations: Location[];
   readonly Description: string;
   readonly GivesQuests: string[];
   readonly QuestGoals: string[];
@@ -408,7 +432,7 @@ export interface Recipe extends WikiObject {
 
 export interface WorldListLocation {
   readonly WorldName: string;
-  readonly Locations: string[];
+  readonly Locations: Location[];
 }
 
 /**

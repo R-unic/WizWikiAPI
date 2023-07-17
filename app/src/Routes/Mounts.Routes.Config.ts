@@ -1,7 +1,7 @@
 import { Application, Response } from "express";
 import { CommonRoutesConfig } from "../Common/Common.Routes.Config";
 import { SearchWiki, GetInternalType, Logger } from "../Util";
-import { Mount } from "../Data/Types/WikiTypes";
+import { Location, Mount } from "../Data/Types/WikiTypes";
 import { APIResponse } from "../Data/Types/APITypes";
 
 interface MountInternal {
@@ -49,6 +49,13 @@ export default class MountRoutes extends CommonRoutesConfig {
             if (!base)
               response = this.NotFound(res);
 
+
+            const fishChestLocations: string[] = [];
+            if (base.fishchestloc1)
+              fishChestLocations.push(base.fishchestloc1);
+            if (base.fishchestloc2)
+              fishChestLocations.push(base.fishchestloc2);
+
             return {
               Dyeable: base.dyeable ?? false,
               Passengers: base.passengers,
@@ -76,7 +83,7 @@ export default class MountRoutes extends CommonRoutesConfig {
                 StatSchool: base.permanentstatschool,
                 StatBoost: base.permanentstatboost
               },
-              FishChestLocations: [base.fishchestloc1, base.fishchestloc2]
+              FishChestLocations: fishChestLocations.map(lexeme => new Location(lexeme))
             };
           }))
           .then(async results => {
