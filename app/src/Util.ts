@@ -1,6 +1,6 @@
 import { format } from "winston";
 
-export const ImageProviderURL = "https://www.wizard101central.com/wiki/images/d/dc/";
+// export const ImageProviderURL = "https://www.wizard101central.com/wiki/images/d/dc/";
 export const WikiBaseURL = "https://www.wizard101central.com/wiki/api.php?";
 export const Arrayify = (s?: string, sep = /\;/) => (s ?? "")
   .split("\n")
@@ -31,7 +31,7 @@ export async function GetInternalType<T extends object>(page: SearchResult) {
     .then((res: PageResponse) => Object.values(res.query.pages)[0])
     .then(page => page.revisions[0]["*"])
     .then(DeserializeWikiData<T>);
-    
+
   return base;
 }
 
@@ -73,9 +73,9 @@ export async function SearchWiki(wikiType: string, searchQuery: string, resultCo
     srsearch: `${wikiType}:${searchQuery.replace(/\_/g, " ")}`,
     format: "json"
   });
-  
+
   const responsePromise = fetch(searchEndpoint).then(res => res.json());
-  responsePromise.catch(e => Logger.Error("Wiki API ratelimiting???"));
+  responsePromise.catch(e => Logger.Error(`Wiki API ratelimiting???\nError message:\n${e}`));
   return responsePromise
 }
 
