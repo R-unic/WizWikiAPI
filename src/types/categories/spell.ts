@@ -14,7 +14,7 @@ export interface SpellInfobox extends Infobox {
   readonly PvP?: boolean;
   readonly PvPlevel?: string;
   readonly maxcopies?: number;
-  readonly descrip: string;
+  readonly descrip?: string;
   readonly descrip1?: string;
   readonly dimage1?: string;
   readonly descrip2?: string;

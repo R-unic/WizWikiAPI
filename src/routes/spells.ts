@@ -69,7 +69,10 @@ function createSpell(base: SpellInfobox): Spell {
 }
 
 function createDescriptions(base: SpellInfobox): SpellDescription[] {
-  const descriptions: SpellDescription[] = [{ text: base.descrip }];
+  const descriptions: SpellDescription[] = [];
+  if (base.descrip !== undefined)
+    descriptions.push({ text: base.descrip })
+
   for (let i = 1; i <= 5; i++) {
     const text = base[`descrip${i}` as const] as string;
     const image = base[`dimage${i}` as const] as Maybe<string>;
