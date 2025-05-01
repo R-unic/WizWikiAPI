@@ -34,15 +34,42 @@ export function parsePercent(percent: string): number {
 }
 
 export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T | APIError> {
-  const rawInfobox = await getInfoboxRaw(page);
-  if (rawInfobox === undefined)
+  const result = await getInfoboxRaw(page);
+  if (result === undefined)
     return null!;
 
-  if (isError(rawInfobox))
-    return rawInfobox;
+  if (isError(result))
+    return result;
 
-  const [kind] = page.split(":");
-  return parseInfobox(rawInfobox, kind) as T;
+  const rawInfoboxes = matchInfoboxes(result);
+  const infoboxes = rawInfoboxes!.map(parseInfobox);
+  return infoboxes.reduce((final, infobox) => Object.assign({}, final, infobox), {}) as T;
+}
+
+function matchInfoboxes(input: string): string[] {
+  const infoboxes: string[] = [];
+  let i = 0;
+  let start = -1;
+  let bracesLevel = 0;
+
+  while (i < input.length)
+    if (input[i] === '{' && input[i + 1] === '{') {
+      if (bracesLevel === 0)
+        start = i;
+
+      bracesLevel++;
+      i += 2;
+    } else if (input[i] === '}' && input[i + 1] === '}') {
+      bracesLevel--;
+      if (bracesLevel === 0 && start !== -1) {
+        infoboxes.push(input.slice(start, i + 2));
+        start = -1;
+      }
+      i += 2;
+    } else
+      i++;
+
+  return infoboxes;
 }
 
 async function getInfoboxRaw(page: string): Promise<string | APIError> {
@@ -63,9 +90,9 @@ async function getInfoboxRaw(page: string): Promise<string | APIError> {
   }
 }
 
-function parseInfobox(raw: string, infoboxKind: string): Infobox {
+function parseInfobox(raw: string): Infobox {
   const content = raw
-    .replace(new RegExp(`^\\{\\{${infoboxKind}Infobox\\n?|\\}\\}$`, "g"), "")
+    .replace(new RegExp(`^\\{\\{\w+Infobox$\\n?|\\}\\}$`, "g"), "")
     .trim()
     .split("\n");
 
