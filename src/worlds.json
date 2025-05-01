@@ -1,0 +1,302 @@
+{
+  "wizardcity": {
+    "name": "Wizard City",
+    "questCount": 39,
+    "levelRange": [0, 5],
+    "abbreviation": "wc",
+    "areas": [
+      "Unicorn Way",
+      "Cyclops Lane",
+      "Firecat Alley",
+      "Triton Avenue"
+    ]
+  },
+  "krokotopia": {
+    "name": "Krokotopia",
+    "questCount": 65,
+    "levelRange": [5, 15],
+    "abbreviation": "kt",
+    "areas": [
+      "Royal Hall",
+      "Chamber of Fire",
+      "Palace of Fire",
+      "Hall of Champions",
+      "Grand Arena",
+      "Entrance Hall",
+      "Tomb of Storms"
+    ]
+  },
+  "marleybone": {
+    "name": "Marleybone",
+    "questCount": 50,
+    "levelRange": [15, 20],
+    "abbreviation": "mb",
+    "areas": [
+      "Hyde Park",
+      "Chelsea Court",
+      "Ironworks",
+      "Newgate Prison",
+      "Knight's Court",
+      "Katzenstein's Lab",
+      "Royal Museum"
+    ]
+  },
+  "mooshu": {
+    "name": "MooShu",
+    "questCount": 88,
+    "levelRange": [20, 30],
+    "abbreviation": "ms",
+    "areas": [
+      "Jade Palace",
+      "Hametsu Village",
+      "Tatakai Outpost",
+      "Crimson Fields",
+      "Cave of Solitude",
+      "Kishibe Village",
+      "Shirataki Temple",
+      "Ancient Burial Grounds",
+      "Village of Sorrow",
+      "Yoshihito Temple",
+      "Emperor's Throne Room"
+    ]
+  },
+  "dragonspyre": {
+    "name": "Dragonspyre",
+    "questCount": 106,
+    "levelRange": [30, 40],
+    "abbreviation": "ds",
+    "areas": [
+      "The Tower Archives",
+      "Plaza of Conquests",
+      "The Drake Hatchery",
+      "The Crucible",
+      "The Labyrinth",
+      "Dragonspyre Academy",
+      "Crystal Grove",
+      "The Forum",
+      "Dragon's Roost"
+    ]
+  },
+  "celestia": {
+    "name": "Celestia",
+    "questCount": 95,
+    "levelRange": [40, 50],
+    "abbreviation": "cl",
+    "areas": [
+      "Survey Camp",
+      "The Grotto",
+      "District of the Stars",
+      "The Floating Land",
+      "Stormriven",
+      "Science Center",
+      "Crustacean Empire",
+      "The Chancel",
+      "Sanctum of the Sun"
+    ]
+  },
+  "zafaria": {
+    "name": "Zafaria",
+    "questCount": 148,
+    "levelRange": [50, 60],
+    "abbreviation": "zf",
+    "areas": [
+      "Baobab Crossroads",
+      "Baobab Crown",
+      "Savannah",
+      "Zamunda Outskirts",
+      "Zamunda",
+      "Stone Town",
+      "Waterfront",
+      "Drum Jungle",
+      "Elephant Graveyard",
+      "Mirror Lake"
+    ]
+  },
+  "avalon": {
+    "name": "Avalon",
+    "questCount": 161,
+    "levelRange": [60, 70],
+    "abbreviation": "av",
+    "areas": [
+      "High Road",
+      "Caer Lyon",
+      "The Wild",
+      "The Wyrd",
+      "Dun Dara",
+      "Outer Yard",
+      "Lake Shore",
+      "Deepwater",
+      "The Catacombs",
+      "Crystal Caves"
+    ]
+  },
+  "azteca": {
+    "name": "Azteca",
+    "questCount": 197,
+    "levelRange": [70, 80],
+    "abbreviation": "at",
+    "areas": [
+      "The Zocalo",
+      "Three Points",
+      "Cenote",
+      "Mangrove Marsh",
+      "Saltmeadow Swamp",
+      "Zultun Dock",
+      "Cloudburst Forest",
+      "Alto Alto",
+      "Tierra de Brea",
+      "Pitch Black Lake",
+      "Floating Mountains",
+      "Twin Giants",
+      "Xibalba"
+    ]
+  },
+  "khrysalis": {
+    "name": "Khrysalis",
+    "questCount": 277,
+    "levelRange": [80, 100],
+    "abbreviation": "kr",
+    "areas": [
+      "Bastion",
+      "Silent Market",
+      "Moon Cliffs",
+      "Last Wood",
+      "Tyrian Gorge",
+      "Fort Rachias",
+      "Crescent Beach",
+      "Ruined Alcazar",
+      "Radiance Reborn",
+      "Sardonyx",
+      "Kondha Desert",
+      "Solar Arc",
+      "The Hive",
+      "Shadow Palace"
+    ]
+  },
+  "polaris": {
+    "name": "Polaris",
+    "questCount": 99,
+    "levelRange": [100, 110],
+    "abbreviation": "pl",
+    "areas": [
+      "Walruskberg",
+      "Walruskberg Harbor",
+      "Forlorn Tayg",
+      "River of Frozen Tears",
+      "Urville Station",
+      "Frigid Maw",
+      "The Arcanum",
+      "Kataba IceBlock",
+      "Borealis Peaks",
+      "Horizon Hold"
+    ]
+  },
+  "mirage": {
+    "name": "Mirage",
+    "questCount": 115,
+    "levelRange": [110, 120],
+    "abbreviation": "mr",
+    "areas": [
+      "Caravan",
+      "Alkali Barrows",
+      "Aggrobah",
+      "Caterwaul Canyons",
+      "Rubal Wastes",
+      "Istanboa",
+      "Yakhal Mountain",
+      "Thieve's Den",
+      "Eerem Palace",
+      "Chronoverge"
+    ]
+  },
+  "empyrea": {
+    "name": "Empyrea",
+    "questCount": 149,
+    "levelRange": [120, 130],
+    "abbreviation": "em",
+    "areas": [
+      "Aerial Shores",
+      "Aerial Jungle",
+      "Zanadu",
+      "Zanadu Sewers",
+      "Outer Athanor",
+      "Inner Athanor",
+      "Sepidious",
+      "Samsara Village",
+      "Mandalla",
+      "Nexus (Reverie)",
+      "Nimbus Citadel",
+      "Port Aero",
+      "Southwest Aeroplains",
+      "Velo City",
+      "Northeast Aeroplains",
+      "Chaos Jungle",
+      "Husk",
+      "Storm Titan's Wake"
+    ]
+  },
+  "karamelle": {
+    "name": "Karamelle",
+    "questCount": 80,
+    "levelRange": [130, 140],
+    "abbreviation": "ka",
+    "areas": [
+      "Karamelle City",
+      "Rock Candy Mountains",
+      "Gumdrop Forest",
+      "Sweetzburg",
+      "Nibbleheim",
+      "Gutenstadt",
+      "Gobblerton",
+      "Licorice Forest",
+      "Cavity Chamber"
+    ]
+  },
+  "lemuria": {
+    "name": "Lemuria",
+    "questCount": 101,
+    "levelRange": [140, 150],
+    "abbreviation": "la",
+    "areas": [
+      "Telos",
+      "Wildlands",
+      "Ursai Village",
+      "Night Forest",
+      "Badlands",
+      "Mandoria",
+      "Sky City",
+      "Heap"
+    ]
+  },
+  "novus": {
+    "name": "Novus",
+    "questCount": 88,
+    "levelRange": [150, 160],
+    "abbreviation": "nv",
+    "areas": [
+      "Catmandu",
+      "Conatus",
+      "Puerto Nuovo",
+      "New Vicorgia",
+      "Stone of Heaven",
+      "La Ville Rose",
+      "Nucleus Gallery",
+      "Doom Moon"
+    ]
+  },
+  "wallaru": {
+    "name": "Wallaru",
+    "questCount": 83,
+    "levelRange": [160, 170],
+    "abbreviation": "wa",
+    "areas": [
+      "Hope Springs", 
+      "Kingsland",
+      "Outback",
+      "Wobbegong Territory",
+      "Collie Ranch",
+      "Eucalyptus Forest",
+      "Billabong Resort"
+    ]
+  }
+}

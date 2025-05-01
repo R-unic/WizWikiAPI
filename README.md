@@ -6,7 +6,7 @@ This is an API (pretty much an API wrapper) for retrieving Wizard101 game data (
 ## To-do
 - [x] Creatures
 - [x] NPCs
-- [ ] Worlds
+- [x] Worlds
 - [ ] Mounts
 - [ ] Pet Abilities
 - [ ] Quests

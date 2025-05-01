@@ -1,6 +1,6 @@
 import { getInfobox, parsePercent } from "../parsing";
 import { isError } from "../utility";
-import { APIResponse } from "../types/common";
+import { APIResponse, ResponseCode } from "../types/common";
 import type { FusionBase, Minion, Spell, SpellDescription, Spellement, SpellInfobox } from "../types/categories/spells";
 import app from "../app";
 
@@ -11,7 +11,9 @@ app.get("/spells/:spellName", async (req, res) => {
   const errored = isError(infobox);
   const result = errored ? infobox : createSpell(infobox);
 
-  res.json(infobox);
+  res
+    .status(errored ? infobox.code : ResponseCode.Success)
+    .json(new APIResponse(!errored, result));
 });
 
 function createSpell(base: SpellInfobox): Spell {

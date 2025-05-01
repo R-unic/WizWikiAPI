@@ -2,7 +2,7 @@ import { getInfobox } from "../parsing";
 import { isError } from "../utility";
 import { createVendor } from "../types/categories/base/vendor";
 import { createTrainer } from "../types/categories/base/trainer";
-import { APIResponse, Location } from "../types/common";
+import { APIResponse, Location, ResponseCode } from "../types/common";
 import type { NPC, NPCInfobox } from "../types/categories/npcs";
 import app from "../app";
 
@@ -20,7 +20,9 @@ app.get("/npcs/:npcName", async (req, res) => {
   if ("trainer" in infobox)
     result = Object.assign(result, createTrainer(infobox as never));
 
-  res.json(new APIResponse(!errored, result));
+  res
+    .status(errored ? infobox.code : ResponseCode.Success)
+    .json(new APIResponse(!errored, result));
 });
 
 function createNPC(base: NPCInfobox): NPC {

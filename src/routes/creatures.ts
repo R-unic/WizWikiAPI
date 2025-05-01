@@ -1,6 +1,6 @@
 import { getInfobox, parsePercent, parsePerSchoolStat } from "../parsing";
 import { isError } from "../utility";
-import { APIResponse, Location } from "../types/common";
+import { APIResponse, Location, ResponseCode } from "../types/common";
 import type { Creature, CreatureInfobox } from "../types/categories/creatures";
 import app from "../app";
 
@@ -11,7 +11,9 @@ app.get("/creatures/:creatureName", async (req, res) => {
   const errored = isError(infobox);
   const result = errored ? infobox : createCreature(infobox);
 
-  res.json(result);
+  res
+    .status(errored ? infobox.code : ResponseCode.Success)
+    .json(new APIResponse(!errored, result));
 });
 
 function createCreature(base: CreatureInfobox): Creature {
