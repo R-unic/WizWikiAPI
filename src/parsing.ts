@@ -1,18 +1,36 @@
-import type { Infobox, InfoboxValue, PageParseResult } from "./types/common";
+import { getErrorResponseCode, isError, isErrorResult } from "./utility";
+import { Log } from "./log";
+import type { APIError, ErrorResult, Infobox, InfoboxValue, PageParseResult } from "./types/common";
 
 const baseURL = "https://wiki.wizard101central.com/wiki/api.php?";
 
-export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T> {
+export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T | APIError> {
   const rawInfobox = await getInfoboxRaw(page);
+  if (rawInfobox === undefined)
+    return undefined!;
+
+  if (isError(rawInfobox))
+    return rawInfobox;
+
   const [kind] = page.split(":");
   return parseInfobox(rawInfobox, kind) as T;
 }
 
-async function getInfoboxRaw(page: string): Promise<string> {
+async function getInfoboxRaw(page: string): Promise<string | APIError> {
   const endpoint = baseURL + `action=parse&page=${page}&prop=wikitext&format=json`;
-  return fetch(endpoint)
-    .then(res => res.json())
-    .then((result: PageParseResult) => result.parse.wikitext["*"]);
+  try {
+    const res = await fetch(endpoint);
+    const data: PageParseResult | ErrorResult = await res.json();
+
+    return !isErrorResult(data)
+      ? data.parse.wikitext["*"]
+      : {
+        code: getErrorResponseCode(data.error.code),
+        message: data.error.info
+      };
+  } catch (e) {
+    Log.error(`Failed to fetch '${page}'! Error message:\n${e}`);
+  }
 }
 
 function parseInfobox(raw: string, infoboxKind: string): Infobox {

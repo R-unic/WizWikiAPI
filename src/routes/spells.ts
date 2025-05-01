@@ -1,5 +1,7 @@
 import { getInfobox } from "../parsing";
+import { isError } from "../utility";
 import type { FusionBase, Minion, Spell, SpellDescription, Spellement, SpellInfobox } from "../types/categories/spell";
+import type { BaseAPIResponse } from "../types/common";
 import app from "../app";
 
 app.get("/spells");
@@ -7,9 +9,13 @@ app.get("/spells/:spellName", async (req, res) => {
   const { spellName } = req.params;
   const page = `Spell:${spellName}`;
   const infobox = await getInfobox<SpellInfobox>(page);
-  const spell = createSpell(infobox);
+  const errored = isError(infobox);
+  const result = errored ? infobox : createSpell(infobox);
 
-  res.json(spell);
+  res.json({
+    success: !errored,
+    result
+  } satisfies BaseAPIResponse);
 });
 
 function createSpell(base: SpellInfobox): Spell {
