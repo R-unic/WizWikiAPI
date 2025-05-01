@@ -1,21 +1,17 @@
-import { getInfobox } from "../parsing";
+import { getInfobox, parsePercent } from "../parsing";
 import { isError } from "../utility";
-import type { FusionBase, Minion, Spell, SpellDescription, Spellement, SpellInfobox } from "../types/categories/spell";
-import type { BaseAPIResponse } from "../types/common";
+import { APIResponse } from "../types/common";
+import type { FusionBase, Minion, Spell, SpellDescription, Spellement, SpellInfobox } from "../types/categories/spells";
 import app from "../app";
 
 app.get("/spells");
 app.get("/spells/:spellName", async (req, res) => {
   const { spellName } = req.params;
-  const page = `Spell:${spellName}`;
-  const infobox = await getInfobox<SpellInfobox>(page);
+  const infobox = await getInfobox<SpellInfobox>(`Spell:${spellName}`);
   const errored = isError(infobox);
   const result = errored ? infobox : createSpell(infobox);
 
-  res.json({
-    success: !errored,
-    result
-  } satisfies BaseAPIResponse);
+  res.json(infobox);
 });
 
 function createSpell(base: SpellInfobox): Spell {
@@ -24,24 +20,19 @@ function createSpell(base: SpellInfobox): Spell {
   const spellements = createSpellements(base);
   const fusionBases = createFusionBases(base);
 
-  const enchantments = [
-    base.enchantment1,
-    base.enchantment2,
-    base.enchantment3
-  ].filter((e): e is string => e !== undefined);
-  const prequests = [
-    base.prequest1,
-    base.prequest2,
-    base.prequest3
-  ].filter((p): p is string => p !== undefined);
+  const enchantments = base.enchantment1 !== false
+    ? [base.enchantment1, base.enchantment2, base.enchantment3]
+      .filter((e): e is string => e !== undefined)
+    : [];
+  const prequests = [base.prequest1, base.prequest2, base.prequest3]
+    .filter(e => e !== undefined);
 
-  const parsedAccuracy = parseFloat(base.accuracy.slice(0, -1));
   return {
     school: base.school,
     pipCost: base.pipcost,
     schoolPipCost: base.schoolpipcost,
     shadowPipCost: base.shadpipcost,
-    accuracy: !isNaN(parsedAccuracy) ? parsedAccuracy : 0,
+    accuracy: parsePercent(base.accuracy),
     type: base.type,
     type2: base.type2,
     type3: base.type3,
@@ -64,7 +55,7 @@ function createSpell(base: SpellInfobox): Spell {
     wrightingTiers: base.wrightingtiers,
     tiersBranchAt: base.tiersbranchat,
     spellements: spellements.length > 0 ? spellements : undefined,
-    fusionBases
+    fusionBases: fusionBases.length > 0 ? fusionBases : undefined
   };
 }
 
@@ -74,8 +65,8 @@ function createDescriptions(base: SpellInfobox): SpellDescription[] {
     descriptions.push({ text: base.descrip })
 
   for (let i = 1; i <= 5; i++) {
-    const text = base[`descrip${i}` as const] as string;
-    const image = base[`dimage${i}` as const] as Maybe<string>;
+    const text = base[`descrip${i}`] as string;
+    const image = base[`dimage${i}`] as Maybe<string>;
     if (text === undefined) continue;
 
     descriptions.push({ text, image });
@@ -87,13 +78,13 @@ function createDescriptions(base: SpellInfobox): SpellDescription[] {
 function createMinions(base: SpellInfobox): Minion[] {
   const minions: Minion[] = [];
   for (let i = 1; i <= 14; i++) {
-    const name = base[`minion${i}` as const] as Maybe<string>;
+    const name = base[`minion${i}`] as Maybe<string>;
     if (name === undefined) continue;
 
-    const pips = base[`minion${i}pips` as const] as Maybe<number>;
-    const look = base[`minion${i}look` as const] as Maybe<string>;
-    const rank = base[`minion${i}rank` as const] as Maybe<number>;
-    const health = base[`minion${i}health` as const] as Maybe<number>;
+    const pips = base[`minion${i}pips`] as Maybe<number>;
+    const look = base[`minion${i}look`] as Maybe<string>;
+    const rank = base[`minion${i}rank`] as Maybe<number>;
+    const health = base[`minion${i}health`] as Maybe<number>;
     const hasExtraInfo = pips !== undefined
       && look !== undefined
       && rank !== undefined

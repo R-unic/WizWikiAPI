@@ -11,15 +11,15 @@ export class Log {
     }
   });
 
-  public static info(msg: string): never {
+  public static info(msg: string): void {
     this.log(this.info.name, msg);
   }
 
-  public static warn(msg: string): never {
+  public static warn(msg: string): void {
     this.log(this.warn.name, msg);
   }
 
-  public static error(msg: string): never {
+  public static error(msg: string): void {
     this.log(this.error.name, msg);
   }
 
@@ -29,6 +29,6 @@ export class Log {
 
   private static log(kind: string, msg: string): never {
     console.log(`[${this.colorizer.colorize(kind.toLowerCase(), kind.toUpperCase())}]: ${msg}`);
-    return undefined!;
+    return null!;
   }
 }
