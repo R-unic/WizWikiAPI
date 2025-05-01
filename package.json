@@ -1,0 +1,26 @@
+{
+  "name": "wiz-wiki-api",
+  "version": "1.0.0",
+  "description": "Web-scraper version of WizWikiAPI",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R-unic/WizWikiAPI.git"
+  },
+  "keywords": [
+    "wizard101",
+    "w101",
+    "wiz",
+    "wiki",
+    "api"
+  ],
+  "author": "runicly",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/R-unic/WizWikiAPI/issues"
+  },
+  "homepage": "https://github.com/R-unic/WizWikiAPI#readme"
+}
