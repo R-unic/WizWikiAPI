@@ -2,7 +2,7 @@ import type { Infobox, InfoboxValue, PageParseResult } from "./types/common";
 
 const baseURL = "https://wiki.wizard101central.com/wiki/api.php?";
 
-export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<Infobox> {
+export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T> {
   const rawInfobox = await getInfoboxRaw(page);
   const [kind] = page.split(":");
   return parseInfobox(rawInfobox, kind) as T;

@@ -1,21 +1,20 @@
-import type { School } from "../common";
+import type { Infobox, School, WikiObject } from "../common";
 
-export interface SpellInfobox {
+export interface SpellInfobox extends Infobox {
   readonly school: School;
-  readonly pipcost: string;
-  readonly schoolpipcost?: string;
+  readonly pipcost: number | "X";
+  readonly schoolpipcost?: number;
   readonly shadpipcost?: number;
-  readonly shadowenhanced?: boolean;
   readonly accuracy: string;
   readonly type: string;
   readonly type2?: string;
   readonly type3?: string;
   readonly subtype?: string;
-  readonly noenchant?: string;
+  readonly mutatename?: string;
   readonly PvP?: boolean;
   readonly PvPlevel?: string;
   readonly maxcopies?: number;
-  readonly descrip?: string;
+  readonly descrip: string;
   readonly descrip1?: string;
   readonly dimage1?: string;
   readonly descrip2?: string;
@@ -26,7 +25,7 @@ export interface SpellInfobox {
   readonly dimage4?: string;
   readonly descrip5?: string;
   readonly dimage5?: string;
-  readonly enchantment1?: string;
+  readonly enchantment1?: false | string;
   readonly enchantment2?: string;
   readonly enchantment3?: string;
   readonly enchantable?: boolean;
@@ -115,6 +114,10 @@ export interface SpellInfobox {
   readonly wrightingtiers?: number;
   readonly tiersbranchat?: number;
   readonly spellements1?: number;
+  readonly spellements2?: number;
+  readonly spellements3?: number;
+  readonly spellements4?: number;
+  readonly spellements5?: number;
   readonly spellements2a?: number;
   readonly level2a?: string;
   readonly spellements2b?: number;
@@ -139,6 +142,67 @@ export interface SpellInfobox {
   readonly fusionbase3b?: string;
 }
 
-export interface Spell {
+export interface SpellDescription {
+  readonly text: string;
+  readonly image?: string;
+}
 
+export interface MinionInfo {
+  readonly name: string;
+}
+
+export interface ExtraMinionInfo {
+  readonly pips: number;
+  readonly look: string;
+  readonly rank: number;
+  readonly health: number;
+}
+
+export type Minion = MinionInfo | (MinionInfo & ExtraMinionInfo);
+
+export interface SimpleSpellement {
+  readonly cost: number;
+}
+
+export interface TieredSpellement {
+  readonly costA: number;
+  readonly costB: number;
+}
+
+export type Spellement = SimpleSpellement | TieredSpellement;
+
+export interface FusionBase {
+  readonly a: string;
+  readonly b: string;
+}
+
+export interface Spell extends WikiObject {
+  readonly school: School;
+  readonly pipCost: number | "X";
+  readonly schoolPipCost?: number;
+  readonly shadowPipCost?: number;
+  readonly accuracy: number;
+  readonly type: string;
+  readonly type2?: string;
+  readonly type3?: string;
+  readonly subtype?: string;
+  readonly pvp?: boolean;
+  readonly pvpLevel?: string;
+  readonly maxCopies?: number;
+  readonly descriptions: SpellDescription[];
+  readonly enchantments?: string[];
+  readonly enchantable?: boolean;
+  readonly creatureOnly?: boolean;
+  readonly polymorph?: string;
+  readonly requiredSpell?: string;
+  readonly prequests?: string[];
+  readonly requiresTrainingPoint?: boolean;
+  readonly minion?: boolean;
+  readonly minions?: Minion[];
+  readonly spellwrightingLearnable?: boolean;
+  readonly spellwrighting?: boolean;
+  readonly wrightingTiers?: number;
+  readonly tiersBranchAt?: number;
+  readonly spellements?: Spellement[];
+  readonly fusionBases?: FusionBase[];
 }

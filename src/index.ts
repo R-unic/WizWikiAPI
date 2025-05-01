@@ -1,15 +1,18 @@
-import express from "express";
-import { getInfobox } from "./utility";
+import { join } from "path";
+import { readdirSync } from "fs";
+
+import app from "./app";
 
 const port = process.env["PORT"] ?? 3000;
-const app = express();
 
 app.get("/");
-app.get("/spells");
-app.get("/spells/:spellName", async (req, res) => {
-  const { spellName } = req.params;
-  const page = `Spell:${spellName}`;
-  res.json(await getInfobox(page));
-});
+try {
+  const routesPath = join(__dirname, "..", "dist", "routes");
+  const routeFiles = readdirSync(routesPath).filter(file => file.endsWith(".js"));
+  for (const filePath of routeFiles)
+    require(`${routesPath}/${filePath}`);
+} catch (e) {
+  throw new Error(e as string);
+}
 
 app.listen(port, () => console.log(`Local server running @ https://localhost:${port}`));

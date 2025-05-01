@@ -14,3 +14,4 @@ export interface Infobox {
 }
 
 export type School = "Fire" | "Ice" | "Storm" | "Life" | "Death" | "Myth" | "Balance" | "Star" | "Moon" | "Sun" | "Shadow";
+export interface WikiObject { }
