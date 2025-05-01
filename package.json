@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/R-unic/WizWikiAPI/issues"
   },
-  "homepage": "https://github.com/R-unic/WizWikiAPI#readme"
+  "homepage": "https://github.com/R-unic/WizWikiAPI#readme",
+  "dependencies": {
+    "infobox-parser": "^3.6.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }
