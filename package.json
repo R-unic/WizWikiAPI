@@ -29,7 +29,8 @@
   "dependencies": {
     "express": "^5.1.0",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
