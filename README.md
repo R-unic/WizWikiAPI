@@ -9,9 +9,9 @@ This is an API (pretty much an API wrapper) for retrieving Wizard101 game data (
 - [x] Worlds
 - [ ] Mounts
 - [ ] Pet Abilities
-- [ ] Quests
+- [x] Quests
 - [ ] Recipes
-- [ ] Snacks
+- [x] Snacks
 - [x] Spells
 - [ ] Mounts
 - [ ] Item Cards

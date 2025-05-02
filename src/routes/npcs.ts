@@ -2,7 +2,7 @@ import { getInfobox } from "../parsing";
 import { isError } from "../utility";
 import { createVendor } from "../types/categories/base/vendor";
 import { createTrainer } from "../types/categories/base/trainer";
-import { APIResponse, Location, ResponseCode, School } from "../types/common";
+import { APIResponse, Location, ResponseCode, type School } from "../types/common";
 import { MAX_BONUSES, type NPC, type NPCBonus, type NPCInfobox } from "../types/categories/npcs";
 import app from "../app";
 

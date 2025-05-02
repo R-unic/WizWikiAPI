@@ -134,11 +134,6 @@ export interface SpellInfobox extends Infobox,
   readonly fusionbase3b?: string;
 }
 
-export interface SpellDescription {
-  readonly text: string;
-  readonly image?: string;
-}
-
 export interface MinionInfo {
   readonly name: string;
 }

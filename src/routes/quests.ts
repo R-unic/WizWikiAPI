@@ -1,7 +1,7 @@
 import { getInfobox } from "../parsing";
 import { isError } from "../utility";
 import { APIResponse, Location, ResponseCode } from "../types/common";
-import { MAX_GOALS, MAX_POSTQUESTS, MAX_PREQUESTS, MAX_SUB_GOALS, Postquest, QuestGoal, type Quest, type QuestInfobox } from "../types/categories/quests";
+import { MAX_GOALS, MAX_POSTQUESTS, MAX_PREQUESTS, MAX_SUB_GOALS, type Postquest, type QuestGoal, type Quest, type QuestInfobox } from "../types/categories/quests";
 import app from "../app";
 
 app.get("/quests");

@@ -1,7 +1,7 @@
 import { getInfobox, parsePercent, parsePerSchoolStat } from "../parsing";
 import { isError } from "../utility";
 import { APIResponse, InfoboxValue, ResponseCode } from "../types/common";
-import { BranchedSpellement, MAX_BACKLASH_ACTIONS, MAX_ENCHANTMENTS, MAX_MINIONS, SpellType, type FusionBase, type Minion, type Spell, type SpellDescription, type Spellement, type SpellInfobox } from "../types/categories/spells";
+import { MAX_BACKLASH_ACTIONS, MAX_ENCHANTMENTS, MAX_MINIONS, type BranchedSpellement, type SpellType, type FusionBase, type Minion, type Spell, type Spellement, type SpellInfobox } from "../types/categories/spells";
 import app from "../app";
 
 app.get("/spells");
