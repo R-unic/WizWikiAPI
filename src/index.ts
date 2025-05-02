@@ -15,7 +15,7 @@ try {
     require(`${routesPath}/${filePath}`);
 
   const server = app.listen(port, () => {
-    routeFiles.forEach(path => Log.info(`Configured ${capitalize(path.split(".js").slice(0, -1).join(""))} route`));
+    routeFiles.forEach(path => Log.info(`Configured ${path.split(".js")[0].split("-").map(capitalize).join(" ")} route`));
     Log.info(`Local server running @ http://localhost:${port}`);
   });
 

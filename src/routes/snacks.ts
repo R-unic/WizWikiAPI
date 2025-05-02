@@ -9,7 +9,7 @@ app.get("/snacks/:snackName", async (req, res) => {
   const { snackName } = req.params;
   const infobox = await getInfobox<SnackInfobox>(`Snack:${snackName}`);
   const errored = isError(infobox);
-  const result = errored ? infobox : createSnack(infobox)
+  const result = errored ? infobox : createSnack(infobox);
 
   res
     .status(errored ? infobox.code : ResponseCode.Success)
