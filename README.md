@@ -8,13 +8,19 @@ This is an API (pretty much an API wrapper) for retrieving Wizard101 game data (
 - [x] NPCs
 - [x] Worlds
 - [x] Mounts
-- [x] Pet Abilities
+- [x] Pet abilities
 - [x] Quests
 - [x] Recipes
 - [x] Snacks
 - [x] Spells
-- [ ] Item Cards
+- [ ] Item cards
+- [ ] Treasure cards
 - [ ] Fish
 - [ ] Pets
 - [x] Reagents
-- [ ] Castles/House Items
+- [ ] Castles / Housing items
+- [ ] Gear sets
+- [ ] Polymorphs
+- [ ] Minions
+- [ ] Items
+- [ ] Beastmoon forms
