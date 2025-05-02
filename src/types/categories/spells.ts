@@ -1,33 +1,65 @@
-import type { Infobox, School, WikiObject } from "../common";
+import type { Infobox, PerSchoolStat, School, WikiObject } from "../common";
 
-export interface SpellInfobox extends Infobox {
+type WithEnchantmentFields<N extends number> = {
+  readonly [K in NumberTypeRange<N> as `enchantment${K}`]?: string;
+};
+
+type WithTrainingPointVaryFields<N extends number> = {
+  readonly [K in NumberTypeRange<N> as `tpvary${K}`]?: School;
+};
+
+type WithMinionFields<N extends number> = {
+  readonly [K in NumberTypeRange<N> as `minion${K}`]?: string;
+} & {
+  readonly [K in NumberTypeRange<N> as `minion${K}pips`]?: number;
+} & {
+  readonly [K in NumberTypeRange<N> as `minion${K}look`]?: string;
+} & {
+  readonly [K in NumberTypeRange<N> as `minion${K}rank`]?: number;
+} & {
+  readonly [K in NumberTypeRange<N> as `minion${K}health`]?: number;
+};
+
+type WithBacklashFields<N extends number> = {
+  readonly [K in NumberTypeRange<N> as `posbacklash${K}`]?: string;
+} & {
+  readonly [K in NumberTypeRange<N> as `negbacklash${K}`]?: string;
+};
+
+export const MAX_ENCHANTMENTS = 10;
+export const MAX_TP_VARIES = 4;
+export const MAX_MINIONS = 15;
+export const MAX_BACKLASH_ACTIONS = 10;
+export interface SpellInfobox extends Infobox,
+  WithEnchantmentFields<typeof MAX_ENCHANTMENTS>,
+  WithTrainingPointVaryFields<typeof MAX_TP_VARIES>,
+  WithMinionFields<typeof MAX_MINIONS>,
+  WithBacklashFields<typeof MAX_BACKLASH_ACTIONS> {
   readonly school: School;
   readonly pipcost: number | "X";
-  readonly schoolpipcost?: number;
+  readonly schoolpipcost?: string[];
   readonly shadpipcost?: number;
+  readonly cooldown?: number,
   readonly accuracy: string;
   readonly type: string;
   readonly type2?: string;
   readonly type3?: string;
   readonly subtype?: string;
+  readonly subtype2?: string;
+  readonly subtype3?: string;
   readonly mutatename?: string;
   readonly PvP?: boolean;
   readonly PvPlevel?: string;
   readonly maxcopies?: number;
+  readonly pestrank?: number;
+  readonly retired?: boolean;
+  readonly discard?: boolean;
+  readonly reshuffle?: boolean;
+  readonly disabled?: boolean;
+  readonly beastmoon?: boolean;
+  readonly givenspell?: boolean;
+  readonly trainpoint?: boolean | "Vary" | "Bought";
   readonly descrip?: string;
-  readonly descrip1?: string;
-  readonly dimage1?: string;
-  readonly descrip2?: string;
-  readonly dimage2?: string;
-  readonly descrip3?: string;
-  readonly dimage3?: string;
-  readonly descrip4?: string;
-  readonly dimage4?: string;
-  readonly descrip5?: string;
-  readonly dimage5?: string;
-  readonly enchantment1?: false | string;
-  readonly enchantment2?: string;
-  readonly enchantment3?: string;
   readonly enchantable?: boolean;
   readonly creatureonly?: boolean;
   readonly polymorph?: string;
@@ -35,105 +67,65 @@ export interface SpellInfobox extends Infobox {
   readonly trainer2?: string;
   readonly reqspell?: string;
   readonly prequest1?: string;
-  readonly prequest2?: string;
-  readonly prequest3?: string;
-  readonly trainpoint?: boolean;
-  readonly minion?: boolean;
-  readonly minion1?: string;
-  readonly minion1pips?: number;
-  readonly minion1look?: string;
-  readonly minion1rank?: number;
-  readonly minion1health?: number;
-  readonly minion2?: string;
-  readonly minion2pips?: number;
-  readonly minion2look?: string;
-  readonly minion2rank?: number;
-  readonly minion2health?: number;
-  readonly minion3?: string;
-  readonly minion3pips?: number;
-  readonly minion3look?: string;
-  readonly minion3rank?: number;
-  readonly minion3health?: number;
-  readonly minion4?: string;
-  readonly minion4pips?: number;
-  readonly minion4look?: string;
-  readonly minion4rank?: number;
-  readonly minion4health?: number;
-  readonly minion5?: string;
-  readonly minion5pips?: number;
-  readonly minion5look?: string;
-  readonly minion5rank?: number;
-  readonly minion5health?: number;
-  readonly minion6?: string;
-  readonly minion6pips?: number;
-  readonly minion6look?: string;
-  readonly minion6rank?: number;
-  readonly minion6health?: number;
-  readonly minion7?: string;
-  readonly minion7pips?: number;
-  readonly minion7look?: string;
-  readonly minion7rank?: number;
-  readonly minion7health?: number;
-  readonly minion8?: string;
-  readonly minion8pips?: number;
-  readonly minion8look?: string;
-  readonly minion8rank?: number;
-  readonly minion8health?: number;
-  readonly minion9?: string;
-  readonly minion9pips?: number;
-  readonly minion9look?: string;
-  readonly minion9rank?: number;
-  readonly minion9health?: number;
-  readonly minion10?: string;
-  readonly minion10pips?: number;
-  readonly minion10look?: string;
-  readonly minion10rank?: number;
-  readonly minion10health?: number;
-  readonly minion11?: string;
-  readonly minion11pips?: number;
-  readonly minion11look?: string;
-  readonly minion11rank?: number;
-  readonly minion11health?: number;
-  readonly minion12?: string;
-  readonly minion12pips?: number;
-  readonly minion12look?: string;
-  readonly minion12rank?: number;
-  readonly minion12health?: number;
-  readonly minion13?: string;
-  readonly minion13pips?: number;
-  readonly minion13look?: string;
-  readonly minion13rank?: number;
-  readonly minion13health?: number;
-  readonly minion14?: string;
-  readonly minion14pips?: number;
-  readonly minion14look?: string;
-  readonly minion14rank?: number;
-  readonly minion14health?: number;
+  readonly battlecardimage?: boolean;
+  readonly altani?: boolean;
   readonly wrightinglearnable?: boolean;
   readonly spellwrighting?: boolean;
   readonly wrightingtiers?: number;
   readonly tiersbranchat?: number;
+  readonly firstbranch?: number;
+  readonly upgradeof?: string;
   readonly spellements1?: number;
   readonly spellements2?: number;
   readonly spellements3?: number;
   readonly spellements4?: number;
   readonly spellements5?: number;
+  readonly level1?: string;
+  readonly level2?: string;
+  readonly level3?: string;
+  readonly level4?: string;
+  readonly level5?: string;
+  readonly copies1?: string;
+  readonly copies2?: string;
+  readonly copies3?: string;
+  readonly copies4?: string;
+  readonly copies5?: string;
   readonly spellements2a?: number;
   readonly level2a?: string;
+  readonly copies2a?: string;
   readonly spellements2b?: number;
   readonly level2b?: string;
+  readonly copies2b?: string;
+  readonly spellements2c?: number;
+  readonly level2c?: string;
+  readonly copies2c?: string;
   readonly spellements3a?: number;
   readonly level3a?: string;
+  readonly copies3a?: string;
   readonly spellements3b?: number;
   readonly level3b?: string;
+  readonly copies3b?: string;
+  readonly spellements3c?: number;
+  readonly level3c?: string;
+  readonly copies3c?: string;
   readonly spellements4a?: number;
   readonly level4a?: string;
+  readonly copies4a?: string;
   readonly spellements4b?: number;
   readonly level4b?: string;
+  readonly copies4b?: string;
+  readonly spellements4c?: number;
+  readonly level4c?: string;
+  readonly copies4c?: string;
   readonly spellements5a?: number;
   readonly level5a?: string;
+  readonly copies5a?: string;
   readonly spellements5b?: number;
   readonly level5b?: string;
+  readonly copies5b?: string;
+  readonly spellements5c?: number;
+  readonly level5c?: string;
+  readonly copies5c?: string;
   readonly fusionbase1a?: string;
   readonly fusionbase1b?: string;
   readonly fusionbase2a?: string;
@@ -162,47 +154,66 @@ export type Minion = MinionInfo | (MinionInfo & ExtraMinionInfo);
 
 export interface SimpleSpellement {
   readonly cost: number;
+  readonly requiredLevel?: number;
+  readonly copies?: number;
 }
 
-export interface TieredSpellement {
-  readonly costA: number;
-  readonly costB: number;
+export interface BranchedSpellement {
+  readonly a: SimpleSpellement;
+  readonly b: SimpleSpellement;
+  readonly c?: SimpleSpellement;
 }
 
-export type Spellement = SimpleSpellement | TieredSpellement;
+export type Spellement = SimpleSpellement | BranchedSpellement;
 
 export interface FusionBase {
   readonly a: string;
   readonly b: string;
 }
 
+export interface SpellType {
+  readonly name: string;
+  readonly subType?: string;
+}
+
 export interface Spell extends WikiObject {
   readonly school: School;
   readonly pipCost: number | "X";
-  readonly schoolPipCost?: number;
+  readonly schoolPipCost?: PerSchoolStat;
   readonly shadowPipCost?: number;
   readonly accuracy: number;
-  readonly type: string;
-  readonly type2?: string;
-  readonly type3?: string;
-  readonly subtype?: string;
+  readonly types: SpellType[];
+  readonly cooldown?: number;
+  readonly pestRank?: number;
   readonly pvp?: boolean;
   readonly pvpLevel?: string;
   readonly maxCopies?: number;
-  readonly descriptions: SpellDescription[];
+  readonly description?: string;
+  readonly mutateName?: string;
   readonly enchantments?: string[];
   readonly enchantable?: boolean;
   readonly creatureOnly?: boolean;
+  readonly retired?: boolean;
+  readonly canDiscard?: boolean;
+  readonly canReshuffle?: boolean;
+  readonly disabled?: boolean;
+  readonly beastmoon?: boolean;
+  readonly given?: boolean;
   readonly polymorph?: string;
   readonly requiredSpell?: string;
-  readonly prequests?: string[];
-  readonly requiresTrainingPoint?: boolean;
+  readonly prequest?: string;
+  readonly requiresTrainingPoint?: boolean | "Vary" | "Bought";
   readonly minion?: boolean;
   readonly minions?: Minion[];
+  readonly altAnimation?: boolean;
+  readonly battleCardImage?: boolean;
   readonly spellwrightingLearnable?: boolean;
   readonly spellwrighting?: boolean;
   readonly wrightingTiers?: number;
   readonly tiersBranchAt?: number;
+  readonly firstBranch?: number;
   readonly spellements?: Spellement[];
   readonly fusionBases?: FusionBase[];
+  readonly positiveBacklashActions?: string[];
+  readonly negativeBacklashActions?: string[];
 }
