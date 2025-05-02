@@ -1,8 +1,4 @@
-import type { Infobox, Location, School, WikiObject } from "../common";
-
-type WithFishingChestLocations<N extends number> = {
-  [K in NumberTypeRange<N> as `fishchestloc${K}`]?: string;
-};
+import type { Infobox, Location, School, WikiObject, WithFishingChestLocations } from "../common";
 
 type MountTimeLimit = "1day" | "7day" | "15day" | "permanent" | "other";
 
@@ -65,6 +61,17 @@ export interface MountInfobox extends Infobox,
   readonly otherstatschool?: School;
 }
 
+interface MountVariant {
+  readonly exists: boolean;
+  readonly crownsOnly?: boolean;
+  readonly crowns?: number | string;
+  readonly tickets?: number | string;
+  readonly gold?: number | string;
+  readonly speed: number;
+  readonly statName?: string;
+  readonly statSchool?: School;
+}
+
 export interface Mount extends WikiObject {
   readonly retired?: boolean;
   readonly dyeable?: boolean;
@@ -75,15 +82,5 @@ export interface Mount extends WikiObject {
   readonly otherTime?: string;
   readonly requiredBadges?: string[];
   readonly fishingChestLocations?: Location[];
-
-  readonly timeVariants: Partial<Record<MountTimeLimit, {
-    readonly exists: boolean;
-    readonly crownsOnly?: boolean;
-    readonly crowns?: number | string;
-    readonly tickets?: number | string;
-    readonly gold?: number | string;
-    readonly speed: number;
-    readonly statName?: string;
-    readonly statSchool?: School;
-  }>>;
+  readonly timeVariants: Partial<Record<MountTimeLimit, MountVariant>>;
 }

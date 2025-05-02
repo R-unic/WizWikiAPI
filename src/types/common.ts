@@ -1,5 +1,9 @@
 import worlds from "../worlds.json";
 
+export type WithFishingChestLocations<N extends number> = {
+  [K in NumberTypeRange<N> as `fishchestloc${K}`]?: string;
+};
+
 export interface WikiObject { }
 export type School =
   | "Fire"

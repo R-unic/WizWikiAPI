@@ -33,7 +33,7 @@ export interface Snack extends WikiObject {
   readonly stats: Partial<SnackStats>;
   readonly auctionable?: boolean;
   readonly fishingChestLocations?: Location[];
-  readonly altAcquisition?: string[];
+  readonly altAcquisitions?: string[];
   readonly altCategories?: string[];
   readonly canSell: boolean;
   readonly sellPrice?: number;

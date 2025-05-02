@@ -33,7 +33,7 @@ function createSnack(base: SnackInfobox): Snack {
     auctionable: base.auction,
     canSell: base.sell ?? true,
     sellPrice: base.sellval,
-    altAcquisition: base.altacquire,
+    altAcquisitions: base.altacquire,
     altCategories: base.altcategory,
     fishingChestLocations
   };
