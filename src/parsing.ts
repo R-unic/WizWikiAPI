@@ -1,6 +1,6 @@
 import { getErrorResponseCode, isError, isErrorResult } from "./utility";
 import { Log } from "./log";
-import type { APIError, ErrorResult, Infobox, InfoboxValue, PageParseResult, PerSchoolStat } from "./types/common";
+import { ResponseCode, type APIError, type ErrorResult, type Infobox, type InfoboxValue, type PageParseResult, type PerSchoolStat } from "./types/common";
 
 const baseURL = "https://wiki.wizard101central.com/wiki/api.php?";
 
@@ -85,8 +85,13 @@ async function getInfoboxRaw(page: string): Promise<string | APIError> {
         message: data.error.info
       };
   } catch (e) {
-    Log.error(`Failed to fetch '${page}'! Error message:\n${e}`);
-    return "";
+    const apiError: APIError = {
+      code: ResponseCode.Unknown,
+      message: `Failed to fetch '${page}'! Error message:\n${e}`
+    };
+
+    Log.error(apiError.message);
+    return apiError;
   }
 }
 
@@ -109,7 +114,7 @@ function parseInfobox(raw: string): Infobox {
       currentLine += "\n" + line;
   }
 
-  if (currentLine)
+  if (currentLine !== "")
     lines.push(currentLine);
 
   const parsed: Infobox = {};

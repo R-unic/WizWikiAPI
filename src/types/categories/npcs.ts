@@ -1,4 +1,3 @@
-import type { Trainer, TrainerInfobox } from "./base/trainer";
 import type { Infobox, Location, WikiObject } from "../common";
 
 export interface NPCInfobox extends Infobox {

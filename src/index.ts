@@ -14,10 +14,12 @@ try {
   for (const filePath of routeFiles)
     require(`${routesPath}/${filePath}`);
 
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     routeFiles.forEach(path => Log.info(`Configured ${capitalize(path.split(".js").slice(0, -1).join(""))} route`));
-    Log.info(`Local server running @ https://localhost:${port}`);
+    Log.info(`Local server running @ http://localhost:${port}`);
   });
+
+  server.on("error", e => Log.fatal(`Server error: ${e.message}`));
 } catch (e) {
-  throw new Error(e as string);
+  Log.fatal(e as string);
 }
