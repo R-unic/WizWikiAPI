@@ -2,17 +2,20 @@ import type { Infobox, Location, PerSchoolStat, School, WikiObject } from "../co
 
 type CreatureType = "Boss" | "Elite";
 
+// TODO: monstrology info
 export interface CreatureInfobox extends Infobox {
+  readonly retired?: boolean;
   readonly cretype?: CreatureType;
   readonly rank: number;
   readonly heal: number;
   readonly crecla: string;
   readonly school: School;
-  readonly masteries: School[];
+  readonly masteries?: School[];
   readonly startpips: number;
   readonly powerpips: boolean;
+  readonly schoolpips?: School[];
   readonly cheats?: boolean;
-  readonly shadowslots?: number;
+  readonly shadowslots?: number | "??";
   readonly outpierce?: string[];
   readonly outboost: string[];
   readonly incboost?: string[];
@@ -23,9 +26,18 @@ export interface CreatureInfobox extends Infobox {
   readonly inchealing?: [string];
   readonly stunable: boolean;
   readonly beguilable: boolean;
+  readonly summons?: string[];
   readonly minion?: string;
   readonly minion2?: string;
   readonly minion3?: string;
+  readonly minions?: string[];
+  readonly randomminions?: string[];
+  readonly totalminions?: number;
+  readonly petname?: string;
+  readonly petbreed?: string;
+  readonly cheatnotes?: string;
+  readonly questseparator?: string;
+  readonly altimage?: string;
   readonly world: string;
   readonly location: string;
   readonly location2?: string;
@@ -35,6 +47,8 @@ export interface CreatureInfobox extends Infobox {
   readonly location6?: string;
   readonly location7?: string;
   readonly location8?: string;
+  readonly location9?: string;
+  readonly location10?: string;
   readonly subloc1?: string;
   readonly subloc2?: string;
   readonly subloc3?: string;
@@ -43,6 +57,9 @@ export interface CreatureInfobox extends Infobox {
   readonly subloc6?: string;
   readonly subloc7?: string;
   readonly subloc8?: string;
+  readonly subloc9?: string;
+  readonly subloc10?: string;
+  readonly badge?: string;
   readonly descrip?: string;
   readonly speech?: string;
   readonly monstrotomedescrip?: string;
@@ -103,16 +120,24 @@ interface CreatureDrops {
   readonly spells: string[];
 }
 
+interface CreaturePetInfo {
+  readonly name: string;
+  readonly breed: string;
+}
+
 export interface Creature extends WikiObject {
-  readonly type?: string;
+  readonly retired?: boolean;
+  readonly type?: CreatureType;
   readonly rank: number;
   readonly health: number;
   readonly classification: string;
   readonly school: School;
-  readonly masteries: School[],
-  readonly cheats: boolean,
+  readonly masteries?: School[];
+  readonly schoolPips?: School[];
   readonly startPips: number;
   readonly powerPips: boolean;
+  readonly cheats: boolean;
+  readonly altImage?: string;
   readonly pierce?: PerSchoolStat;
   readonly resist?: PerSchoolStat;
   readonly outgoingBoost?: PerSchoolStat;
@@ -121,13 +146,19 @@ export interface Creature extends WikiObject {
   readonly criticalBlockRating?: PerSchoolStat;
   readonly outgoingHealing?: number;
   readonly incomingHealing?: number;
-  readonly shadowPipSlots?: number;
+  readonly shadowPipSlots?: number | "??";
   readonly stunable: boolean;
   readonly beguilable: boolean;
-  readonly minions: string[];
+  readonly minions?: string[];
+  readonly randomMinions?: string[];
+  readonly totalMinions?: number;
+  readonly summons?: string[];
   readonly locations: Location[];
+  readonly lootChest?: string;
+  readonly badge?: string[];
   readonly description?: string;
   readonly speech?: string;
+  readonly pet?: CreaturePetInfo;
   readonly monstrotomeDescription?: string;
   readonly summonAnimus: number;
   readonly summonGold: number;
@@ -137,6 +168,7 @@ export interface Creature extends WikiObject {
   readonly expelAnimus?: number;
   readonly expelGold?: number;
   readonly spellNotes?: string;
+  readonly cheatNotes?: string;
   readonly casts: string[];
   readonly goldRange: NumberRange;
   readonly drops: Partial<CreatureDrops>;

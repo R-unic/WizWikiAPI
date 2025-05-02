@@ -18,10 +18,11 @@ app.get("/creatures/:creatureName", async (req, res) => {
 
 function createCreature(base: CreatureInfobox): Creature {
   const locations = createLocations(base);
-  const minions = [base.minion, base.minion2, base.minion3]
+  const minions = base.minions ?? [base.minion, base.minion2, base.minion3]
     .filter(e => e !== undefined);
 
   return {
+    retired: base.retired,
     type: base.cretype,
     rank: base.rank,
     health: base.heal,
@@ -48,7 +49,10 @@ function createCreature(base: CreatureInfobox): Creature {
     stunable: base.stunable,
     beguilable: base.beguilable,
     locations,
-    minions,
+    minions: minions.length > 0 ? minions : undefined,
+    totalMinions: base.totalminions,
+    randomMinions: base.randomminions,
+    summons: base.summons,
     description: base.descrip,
     monstrotomeDescription: base.monstrotomedescrip,
     summonAnimus: base.summon_animus,
@@ -60,6 +64,13 @@ function createCreature(base: CreatureInfobox): Creature {
     expelGold: base.expel_gold,
     casts: base.casts,
     spellNotes: base.spellnotes,
+    cheatNotes: base.cheatnotes,
+    pet: base.petname !== undefined
+      ? {
+        name: base.petname,
+        breed: base.petbreed!
+      }
+      : undefined,
     goldRange: base.gold,
     drops: {
       hats: base.hats,
