@@ -138,15 +138,7 @@ function parseInfobox(raw: string): Infobox {
     else if (isListLike(rawValue))
       value = rawValue.split(";")
         .filter(l => l !== "None")
-        .map(l =>
-          l.replace(/\*F\d+/g, "")
-            .replace(/\*WMV/, "")
-            .replace(/\*CR/, "")
-            .replace(/\*BR/, "")
-            .replace(/\*HOL/, "")
-            .replace(/\*PERM/, "")
-            .trim()
-        )
+        .map(l => l.trim())
         .filter(s => s !== "")
         .map(parseInfoboxValue);
     else

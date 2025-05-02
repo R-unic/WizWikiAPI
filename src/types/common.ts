@@ -1,5 +1,19 @@
+import worlds from "../worlds.json";
+
 export interface WikiObject { }
-export type School = "Fire" | "Ice" | "Storm" | "Life" | "Death" | "Myth" | "Balance" | "Star" | "Moon" | "Sun" | "Shadow";
+export type School =
+  | "Fire"
+  | "Ice"
+  | "Storm"
+  | "Life"
+  | "Death"
+  | "Myth"
+  | "Balance"
+  | "Star"
+  | "Moon"
+  | "Sun"
+  | "Shadow";
+
 export type PerSchoolStat = number | Partial<Record<School, number>>;
 
 /**
@@ -80,7 +94,7 @@ export interface APIError {
   readonly message: string;
 }
 
-type SuccessResult = WikiObject; // | World | typeof Worlds
+type SuccessResult = WikiObject | typeof worlds;
 export class APIResponse<Success extends boolean = boolean> {
   public constructor(
     public readonly success: Success,

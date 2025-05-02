@@ -1,4 +1,6 @@
-export interface World {
+import type { WikiObject } from "../common";
+
+export interface World extends WikiObject {
   readonly name: string;
   readonly questCount: number;
   readonly levelRange: NumberRange;
