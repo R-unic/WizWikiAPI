@@ -10,13 +10,17 @@ export function createTrainer(base: TrainerInfobox): Trainer {
   };
 }
 
-const MAX_SPELLS = 50;
+const MAX_SPELLS = 40;
 function createSpells(base: TrainerInfobox): TrainerSpellInfo[] {
   const spellInfos: TrainerSpellInfo[] = [];
   for (let i = 1; i <= MAX_SPELLS; i++) {
     const prefix = `spell${i}`;
     const name = base[prefix] as Maybe<string>;
     const school = base[prefix + "school"] as Maybe<School>;
+    const schoolRequirement = base[prefix + "schoolreq"] as Maybe<School>;
+    const weavingSchool = base[prefix + "weavingsch"] as Maybe<School>;
+    const weavingRank = base[prefix + "weavingrank"] as Maybe<number>;
+    const subclass = base[prefix + "subclass"] as Maybe<string>;
     const level = base[prefix + "level"] as Maybe<number>;
     const cost = base[prefix + "cost"] as Maybe<number>;
     const skip = name === undefined
@@ -24,7 +28,7 @@ function createSpells(base: TrainerInfobox): TrainerSpellInfo[] {
       || level === undefined;
 
     if (skip) continue;
-    spellInfos.push({ name, school, level, cost });
+    spellInfos.push({ name, school, schoolRequirement, weavingSchool, weavingRank, subclass, level, cost });
   }
 
   return spellInfos;
@@ -35,19 +39,33 @@ type WithSpellFields<N extends number> = {
 } & {
   [K in NumberTypeRange<N> as `spell${K}school`]?: School;
 } & {
+  [K in NumberTypeRange<N> as `spell${K}schoolreq`]?: School;
+} & {
+  [K in NumberTypeRange<N> as `spell${K}weavingsch`]?: School;
+} & {
+  [K in NumberTypeRange<N> as `spell${K}weavingrank`]?: School;
+} & {
   [K in NumberTypeRange<N> as `spell${K}level`]?: number;
 } & {
   [K in NumberTypeRange<N> as `spell${K}cost`]?: number;
+} & {
+  [K in NumberTypeRange<N> as `spell${K}subclass`]?: string;
 };
 
 export interface TrainerInfobox extends Infobox, WithSpellFields<typeof MAX_SPELLS> {
   readonly world: string | string[];
   readonly location?: string;
+  readonly arenarank?: boolean;
+
 }
 
 interface TrainerSpellInfo {
   readonly name: string;
   readonly school: School;
+  readonly schoolRequirement?: School;
+  readonly weavingSchool?: School;
+  readonly weavingRank?: number;
+  readonly subclass?: string;
   readonly level: number;
   readonly cost?: number;
 }
