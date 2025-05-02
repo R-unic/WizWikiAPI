@@ -2,8 +2,8 @@ import { getInfobox } from "../parsing";
 import { isError } from "../utility";
 import { createVendor } from "../types/categories/base/vendor";
 import { createTrainer } from "../types/categories/base/trainer";
-import { APIResponse, Location, ResponseCode } from "../types/common";
-import type { NPC, NPCInfobox } from "../types/categories/npcs";
+import { APIResponse, Location, ResponseCode, School } from "../types/common";
+import { MAX_BONUSES, type NPC, type NPCBonus, type NPCInfobox } from "../types/categories/npcs";
 import app from "../app";
 
 app.get("/npcs");
@@ -26,6 +26,8 @@ app.get("/npcs/:npcName", async (req, res) => {
 });
 
 function createNPC(base: NPCInfobox): NPC {
+  const bonuses = createBonuses(base);
+
   return {
     titles: base.titles,
     images: base.images,
@@ -33,6 +35,27 @@ function createNPC(base: NPCInfobox): NPC {
     locations: base.locations.map(lexeme => new Location(lexeme)),
     givesQuests: base.givequests ?? [],
     questGoals: base.questgoals ?? [],
-    endsQuests: base.endquests ?? []
+    endsQuests: base.endquests ?? [],
+    holidays: base.holidays,
+    trainer: base.trainer,
+    vendor: base.vendor,
+    ally: base.ally,
+    bonuses
   };
+}
+
+function createBonuses(base: NPCInfobox): NPCBonus[] {
+  const bonuses: NPCBonus[] = [];
+  for (let i = 1; i <= MAX_BONUSES; i++) {
+    const type = base[`bonustype${i}`] as Maybe<string>;
+    const school = base[`bonusschool${i}`] as Maybe<string>;
+    const value = base[`bonusvalue${i}`] as string | number;
+    const itemCardNumber = base[`bonusicnum${i}`] as Maybe<number>;
+    const note = base[`bonusnote${i}`] as Maybe<string>;
+    if (type === undefined) break;
+
+    bonuses.push({ type, school: school === "Any" ? undefined : school as School, value, itemCardNumber, note });
+  }
+
+  return bonuses;
 }

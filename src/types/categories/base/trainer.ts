@@ -4,7 +4,6 @@ export function createTrainer(base: TrainerInfobox): Trainer {
   const spells = createSpells(base);
 
   return {
-    trainer: base.trainer,
     world: base.world,
     location: base.location,
     spells: spells.length > 0 ? spells : undefined
@@ -42,7 +41,6 @@ type WithSpellFields<N extends number> = {
 };
 
 export interface TrainerInfobox extends Infobox, WithSpellFields<typeof MAX_SPELLS> {
-  readonly trainer?: boolean;
   readonly world: string | string[];
   readonly location?: string;
 }
@@ -55,7 +53,6 @@ interface TrainerSpellInfo {
 }
 
 export interface Trainer extends WikiObject {
-  readonly trainer?: boolean;
   readonly world: string | string[];
   readonly location?: string;
   readonly spells?: TrainerSpellInfo[];
