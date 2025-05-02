@@ -44,7 +44,7 @@ function createNPC(base: NPCInfobox): NPC {
   };
 }
 
-function createBonuses(base: NPCInfobox): NPCBonus[] {
+function createBonuses(base: NPCInfobox): Maybe<NPCBonus[]> {
   const bonuses: NPCBonus[] = [];
   for (let i = 1; i <= MAX_BONUSES; i++) {
     const type = base[`bonustype${i}`] as Maybe<string>;
@@ -57,5 +57,5 @@ function createBonuses(base: NPCInfobox): NPCBonus[] {
     bonuses.push({ type, school: school === "Any" ? undefined : school as School, value, itemCardNumber, note });
   }
 
-  return bonuses;
+  return bonuses.length > 0 ? bonuses : undefined;
 }

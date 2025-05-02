@@ -41,7 +41,7 @@ export interface NPC extends WikiObject {
   readonly description: string;
   readonly images: string[];
   readonly locations: Location[];
-  readonly bonuses: NPCBonus[];
+  readonly bonuses?: NPCBonus[];
   readonly holidays?: string[];
   readonly titles?: string[];
   readonly givesQuests: string[];
