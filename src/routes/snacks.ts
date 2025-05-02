@@ -1,6 +1,6 @@
 import { getInfobox } from "../parsing";
 import { isError } from "../utility";
-import { APIResponse, Location, ResponseCode, type School } from "../types/common";
+import { APIResponse, Location, ResponseCode } from "../types/common";
 import type { Snack, SnackInfobox } from "../types/categories/snacks";
 import app from "../app";
 

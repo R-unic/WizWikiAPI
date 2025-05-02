@@ -1,17 +1,17 @@
 import type { Infobox, InfoboxValue, Location, School, WikiObject } from "../common";
 
 type WithPrequestFields<N extends number> = {
-  [K in NumberTypeRange<N> as `prequest${K}`]?: string;
+  readonly [K in NumberTypeRange<N> as `prequest${K}`]?: string;
 };
 
 type WithPostquestFields<N extends number> = {
-  [K in NumberTypeRange<N> as `postquest${K}`]?: string;
+  readonly [K in NumberTypeRange<N> as `postquest${K}`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `postquest${K}mod`]?: string;
+  readonly [K in NumberTypeRange<N> as `postquest${K}mod`]?: string;
 };
 
 type WithGoalFields<N1 extends number, N2 extends number> = {
-  [K1 in NumberTypeRange<N1> as K1 extends number
+  readonly [K1 in NumberTypeRange<N1> as K1 extends number
   ? (
     NumberTypeRange<N2> extends infer K2Union
     ? K2Union extends number
@@ -23,27 +23,27 @@ type WithGoalFields<N1 extends number, N2 extends number> = {
 };
 
 type WithRewardFields<N extends number> = {
-  [K in NumberTypeRange<N> as `reward${K}`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}type`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}type`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}amount`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}amount`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}ice`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}ice`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}fire`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}fire`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}storm`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}storm`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}life`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}life`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}death`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}death`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}myth`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}myth`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `reward${K}balance`]?: string;
+  readonly [K in NumberTypeRange<N> as `reward${K}balance`]?: string;
 } & {
-  [K in NumberTypeRange<N> as `vary${K}`]?: boolean;
+  readonly [K in NumberTypeRange<N> as `vary${K}`]?: boolean;
 };
 
 export const MAX_PREQUESTS = 5;
