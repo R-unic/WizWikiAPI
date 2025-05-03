@@ -15,7 +15,7 @@ This is an API (pretty much an API wrapper) for retrieving Wizard101 game data (
 - [x] Spells
 - [ ] Item cards
 - [ ] Treasure cards
-- [ ] Fish
+- [x] Fish
 - [ ] Pets
 - [x] Reagents
 - [ ] Castles / Housing items
