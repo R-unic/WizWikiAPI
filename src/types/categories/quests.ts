@@ -98,6 +98,7 @@ interface QuestRewards {
   readonly trainingPoints?: number;
   readonly potions?: number;
   readonly craftingSlots?: number;
+  readonly perSchool?: Record<School, string>;
 }
 
 export interface Postquest {

@@ -5,18 +5,11 @@ export type WithFishingChestLocations<N extends number> = {
 };
 
 export interface WikiObject { }
-export type School =
-  | "Fire"
-  | "Ice"
-  | "Storm"
-  | "Life"
-  | "Death"
-  | "Myth"
-  | "Balance"
-  | "Star"
-  | "Moon"
-  | "Sun"
-  | "Shadow";
+
+export const playableSchools = ["Fire", "Ice", "Storm", "Life", "Death", "Myth", "Balance"] as const;
+export const schools = [...playableSchools, "Star", "Moon", "Sun", "Shadow"] as const;
+export type School = typeof schools[number];
+export type PlayableSchool = typeof playableSchools[number];
 
 export type PerSchoolStat = number | Partial<Record<School, number>>;
 

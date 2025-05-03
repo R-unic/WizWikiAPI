@@ -1,7 +1,7 @@
 import { getInfobox } from "../parsing";
 import { isError } from "../utility";
-import { APIResponse, Location, ResponseCode } from "../types/common";
-import { MAX_GOALS, MAX_POSTQUESTS, MAX_PREQUESTS, MAX_SUB_GOALS, type Postquest, type QuestGoal, type Quest, type QuestInfobox } from "../types/categories/quests";
+import { APIResponse, Location, playableSchools, ResponseCode, School, schools } from "../types/common";
+import { MAX_GOALS, MAX_POSTQUESTS, MAX_PREQUESTS, MAX_SUB_GOALS, type Postquest, type QuestGoal, type Quest, type QuestInfobox, MAX_REWARDS } from "../types/categories/quests";
 import app from "../app";
 
 app.get("/quests");
@@ -20,6 +20,7 @@ function createQuest(base: QuestInfobox): Quest {
   const prequests = createPrequests(base);
   const postquests = createPostquests(base);
   const goals = createGoals(base);
+  const schoolRewards = createSchoolRewards(base);
 
   return {
     levelRequirement: base.prelevel,
@@ -34,7 +35,8 @@ function createQuest(base: QuestInfobox): Quest {
       gold: base.rewgold,
       xp: base.rewxp,
       trainingPoints: base.rewtp,
-      potions: base.rewpot
+      potions: base.rewpot,
+      perSchool: schoolRewards
     },
     imageNumber: base.imagenum,
     prequests,
@@ -91,4 +93,23 @@ function createSubGoals(base: QuestInfobox, i: number): Maybe<string[]> {
   }
 
   return subGoals.length > 0 ? subGoals : undefined;
+}
+
+function createSchoolRewards(base: QuestInfobox): Maybe<Record<School, string>> {
+  const schoolRewards: Partial<Record<School, string>> = {};
+  for (let i = 1; i <= MAX_REWARDS; i++) {
+    const variesPerSchool = base[`vary${i}`];
+    if (variesPerSchool === undefined) continue;
+
+    for (const school of playableSchools) {
+      const reward = base[`reward${i}${school.toLowerCase()}`];
+      if (reward === undefined) break;
+
+      schoolRewards[school] = reward;
+    }
+  }
+
+  return Object.values(schoolRewards).length > 0
+    ? schoolRewards as never // poo
+    : undefined;
 }
