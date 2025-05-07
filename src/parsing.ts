@@ -28,9 +28,13 @@ export function parsePerSchoolStat(entries: string[]): PerSchoolStat {
   return Object.keys(result).length > 0 ? result : (anyValue ?? 0);
 }
 
-export function parsePercent(percent: string): number {
+export function tryParsePercent(percent: string): Maybe<number> {
   const parsed = parseFloat(percent.slice(0, -1));
-  return isNaN(parsed) ? 0 : parsed;
+  return isNaN(parsed) ? undefined : parsed;
+}
+
+export function parsePercent(percent: string): number {
+  return tryParsePercent(percent) ?? 0;
 }
 
 export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T | APIError> {

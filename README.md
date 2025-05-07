@@ -19,7 +19,7 @@ This is an API (pretty much an API wrapper) for retrieving Wizard101 game data (
 - [ ] Pets
 - [x] Reagents
 - [ ] Castles / Housing items
-- [ ] Gear sets
+- [x] Gear sets
 - [ ] Polymorphs
 - [ ] Minions
 - [ ] Items
