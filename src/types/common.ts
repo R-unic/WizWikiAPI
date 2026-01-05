@@ -15,7 +15,7 @@ export type PerSchoolStat = number | Partial<Record<School, number>>;
 
 /**
  * Represents a location in the spiral. `parent` refers to the parent location.
- * 
+ *
  * For example: Wizard City is the parent location of The Commons
  */
 export class Location {
@@ -64,14 +64,27 @@ export interface ErrorResult {
   }
 }
 
-export interface PageParseResult {
-  readonly parse: PageInfo;
-}
-
 export interface PageInfo {
   readonly title: string;
   readonly pageid: number;
-  readonly wikitext: { readonly "*": string };
+}
+
+export interface RevisionInfo {
+  readonly "*": string;
+}
+
+export interface PageParseResult {
+  readonly parse: PageInfo & {
+    wikitext: { readonly "*": string };
+  };
+}
+
+export interface QueryResult {
+  readonly query: {
+    readonly pages: Record<string, PageInfo & {
+      readonly revisions: RevisionInfo[];
+    }>;
+  };
 }
 
 export type InfoboxValue = Maybe<string | number | boolean | InfoboxValue[]>;

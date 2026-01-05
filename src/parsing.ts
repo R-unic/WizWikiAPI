@@ -1,8 +1,16 @@
 import { getErrorResponseCode, isError, isErrorResult } from "./utility";
 import { Log } from "./log";
-import { ResponseCode, type APIError, type ErrorResult, type Infobox, type InfoboxValue, type PageParseResult, type PerSchoolStat } from "./types/common";
+import { QueryResult, ResponseCode, type APIError, type ErrorResult, type Infobox, type InfoboxValue, type PageParseResult, type PerSchoolStat } from "./types/common";
 
-const baseURL = "https://wiki.wizard101central.com/wiki/api.php?";
+const DEFAULT_METHOD = FetchInfoboxMethod.Query;
+const BASE_URL = "https://wiki.wizard101central.com/wiki/api.php?";
+const REQUEST_INIT: RequestInit = {
+  headers: {
+    "User-Agent": "Wizard101API/1.0",
+    "Accept": "application/json",
+    "Accept-Language": "en-US,en;q=0.9"
+  }
+};
 
 export function parsePerSchoolStat(entries: string[]): PerSchoolStat {
   const result: Record<string, number> = {};
@@ -38,7 +46,7 @@ export function parsePercent(percent: string): number {
 }
 
 export async function getInfobox<T extends Infobox = Infobox>(page: string): Promise<T | APIError> {
-  const result = await getInfoboxRaw(page);
+  const result = await getInfoboxRaw(page, DEFAULT_METHOD);
   if (result === undefined)
     return null!;
 
@@ -76,27 +84,86 @@ function matchInfoboxes(input: string): string[] {
   return infoboxes;
 }
 
-async function getInfoboxRaw(page: string): Promise<string | APIError> {
-  const endpoint = baseURL + `action=parse&page=${page}&prop=wikitext&format=json`;
-  try {
-    const res = await fetch(endpoint);
-    const data: PageParseResult | ErrorResult = await res.json();
+async function fetchTextData(page: string, method: FetchInfoboxMethod): Promise<string | APIError> {
+  const endpoint = BASE_URL + (method === FetchInfoboxMethod.AutoParse // temp
+    ? `action=parse&page=${page}&prop=wikitext&format=json`
+    : `action=query&titles=${page}&prop=revisions&rvprop=content&format=json`);
 
-    return !isErrorResult(data)
-      ? data.parse.wikitext["*"]
-      : {
-        code: getErrorResponseCode(data.error.code),
-        message: data.error.info
-      };
+  let response: Response;
+  try {
+    response = await fetch(endpoint, REQUEST_INIT);
   } catch (e) {
     const apiError: APIError = {
       code: ResponseCode.Unknown,
-      message: `Failed to fetch '${page}'! Error message:\n${e}`
+      message: `Failed to fetch '${page}'!\nError message: ${e}`
     };
 
     Log.error(apiError.message);
     return apiError;
   }
+
+  return await response.text();
+}
+
+function tryDeserialize<T>(page: string, deserialize: () => T): T | APIError {
+  try {
+    return deserialize();
+  } catch (e) {
+    const apiError: APIError = {
+      code: ResponseCode.Unknown,
+      message: `Failed to deserialize '${page}'!\nError message: ${e}`
+    };
+
+    Log.error(apiError.message);
+    return apiError;
+  }
+}
+
+async function autoParse(page: string): Promise<string | APIError> {
+  const textData = await fetchTextData(page, FetchInfoboxMethod.AutoParse);
+  if (typeof textData !== "string")
+    return textData;
+
+  return tryDeserialize(page, () => {
+    const data = JSON.parse(textData) as PageParseResult | ErrorResult;
+    return !isErrorResult(data)
+      ? data.parse.wikitext["*"]
+      : {
+        code: getErrorResponseCode(data.error.code),
+        message: data.error.info
+      } satisfies APIError;
+  });
+}
+
+async function queryParse(page: string): Promise<string | APIError> {
+  const textData = await fetchTextData(page, FetchInfoboxMethod.Query);
+  if (typeof textData !== "string")
+    return textData;
+
+  return tryDeserialize(page, () => {
+    const data = JSON.parse(textData) as QueryResult;
+    return data.query.pages["-1"] === undefined
+      ? Object.values(data.query.pages)[0].revisions[0]["*"]
+      : {
+        code: ResponseCode.NotFound,
+        message: `Page '${page}' not found!`
+      } satisfies APIError;
+  });
+}
+
+export const enum FetchInfoboxMethod {
+  AutoParse,
+  Query
+}
+
+type ParseMethod = typeof autoParse;
+const methodMap: Record<FetchInfoboxMethod, ParseMethod> = {
+  [FetchInfoboxMethod.AutoParse]: autoParse,
+  [FetchInfoboxMethod.Query]: queryParse
+}
+
+async function getInfoboxRaw(page: string, method: FetchInfoboxMethod): Promise<string | APIError> {
+  return await methodMap[method](page);
 }
 
 function parseInfobox(raw: string): Infobox {
